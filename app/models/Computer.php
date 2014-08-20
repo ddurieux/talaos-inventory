@@ -11,4 +11,10 @@ class Computer extends Eloquent {
 	 */
 	protected $table = 'glpi_computers';
 
+
+   public function operatingsystems()
+   {
+      return $this->belongsTo('OperatingSystem');
+   }
+
 }

@@ -11,4 +11,10 @@ class OperatingSystem extends Eloquent {
 	 */
 	protected $table = 'glpi_operatingsystems';
 
+
+   public function computers()
+      {
+         return $this->has_many('Computer');
+      }
+
 }
