@@ -12,7 +12,7 @@ class OperatingSystemMigration {
         Capsule::schema()->create('glpi_operatingsystems', function($table) {
             $table->increments('id');
             $table->string('name')->nullable();
-            $table->text('comment');
+            $table->text('comment')->nullable();
         });
     }
 }

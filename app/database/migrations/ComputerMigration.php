@@ -19,7 +19,7 @@ class ComputerMigration {
             $table->string('contact_num')->nullable();
             $table->integer('users_id_tech')->default('0');
             $table->integer('groups_id_tech')->default('0');
-            $table->text('comment');
+            $table->text('comment')->nullable();
             $table->date('date_mod')->nullable();
             $table->integer('operatingsystems_id')->default('0');
             $table->integer('operatingsystemversions_id')->default('0');
@@ -42,6 +42,7 @@ class ComputerMigration {
             $table->integer('states_id')->default('0');
             $table->decimal('ticket_tco', 20, 4)->default('0.0000');
             $table->string('uuid')->nullable();
+            $table->timestamps();
         });
     }
 }

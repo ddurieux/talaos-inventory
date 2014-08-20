@@ -22,8 +22,20 @@ $app->get('/computers/:id', function ($id) {
 });
 
 // POST
-$app->post('/computers', function () {
-   //Create computers
+$app->post('/computers', function () use($app) {
+   $app->response()->header("Content-Type", "application/json");
+   $request = $app->request();
+   $body = $request->getBody();
+   $input = json_decode($body, true);
+//   $result = Computer::insert($input);
+//   echo json_encode(array("id" => $result["id"]));
+   $computer = new Computer();
+   foreach($input as $key=>$value) {
+      $computer->$key = $value;
+   }
+   $computer->save();
+   echo json_encode(array("id" => $computer->id));
+
 });
 
 // PUT
