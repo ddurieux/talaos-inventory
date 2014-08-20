@@ -37,13 +37,21 @@ $app->post('/computers', function () use($app) {
 });
 
 // PUT
-$app->put('/computers/:id', function ($id) {
-   //Update computer identified by $id
+$app->put('/computers/:id', function ($id) use ($app) {
+   $app->response()->header("Content-Type", "application/json");
+   $request = $app->request();
+   $body = $request->getBody();
+   $input = json_decode($body, true);
+   $computer = Computer::find($id);
+   foreach($input as $key=>$value) {
+      $computer->$key = $value;
+   }
+   $computer->save();
 });
 
 // DELETE
-$app->get('/computers/:id', function ($id) {
-   //Delete computer identified by $id
+$app->delete('/computers/:id', function ($id) {
+   Computer::destroy($id);
 });
 
 $app->run();
