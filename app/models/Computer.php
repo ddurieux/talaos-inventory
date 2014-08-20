@@ -9,6 +9,6 @@ class Computer extends Eloquent {
 	 *
 	 * @var string
 	 */
-	protected $table = 'computers';
+	protected $table = 'glpi_computers';
 
 }

@@ -8,8 +8,8 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 class ComputerMigration {
     function run()
     {
-        Capsule::schema()->dropIfExists('computers');
-        Capsule::schema()->create('computers', function($table) {
+        Capsule::schema()->dropIfExists('glpi_computers');
+        Capsule::schema()->create('glpi_computers', function($table) {
             $table->increments('id');
             $table->integer('entities_id')->default('0');
             $table->string('name')->nullable();
