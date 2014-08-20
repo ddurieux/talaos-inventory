@@ -6,4 +6,9 @@ composer install
 
 composer update
 
+==== Install GLPI
+
+php glpi migrate
+
+
 
