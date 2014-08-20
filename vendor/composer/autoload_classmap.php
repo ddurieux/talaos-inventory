@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Computer' => $baseDir . '/app/models/Computer.php',
+    'OperatingSystem' => $baseDir . '/app/models/OperatingSystem.php',
 );

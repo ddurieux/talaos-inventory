@@ -11,4 +11,9 @@ composer update
 php glpi migrate
 
 
+==== When add new file in app/models, run in root directory : 
+
+composer update
+
+
 
