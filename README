@@ -2,4 +2,8 @@
 
 composer install
 
+==== For update slim and eloquent:
+
+composer update
+
 
