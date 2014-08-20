@@ -1,6 +1,10 @@
 {
     "require": {
-        "slim/slim": "*",
+        "slim/slim": "2.*",
         "illuminate/database": "*"
+    },
+    "autoload": {
+        "files": [ "app/config.php" ],
+        "classmap": [ "app/models" ]
     }
 }
