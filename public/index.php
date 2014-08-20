@@ -27,8 +27,6 @@ $app->post('/computers', function () use($app) {
    $request = $app->request();
    $body = $request->getBody();
    $input = json_decode($body, true);
-//   $result = Computer::insert($input);
-//   echo json_encode(array("id" => $result["id"]));
    $computer = new Computer();
    foreach($input as $key=>$value) {
       $computer->$key = $value;
