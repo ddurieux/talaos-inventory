@@ -15,4 +15,4 @@ manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 
 # Create API endpoints, which will be available at /api/<tablename> by
 # default. Allowed HTTP methods can be specified as well.
-manager.create_api(glpi_computer.Computer, methods=['GET', 'POST', 'DELETE'])
+manager.create_api(glpi_computer.Computer, methods=['GET', 'POST', 'DELETE'], results_per_page=-1)
