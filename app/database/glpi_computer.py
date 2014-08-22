@@ -14,7 +14,7 @@ class Computer(db.Model):
     groups_id_tech = db.Column(db.Integer, nullable=False, server_default="0")
     comment = db.Column(db.Text)
     date_mod = db.Column(db.Date)
-    operatingsystems_id = db.Column(db.Integer, nullable=False, server_default="0")
+    operatingsystems_id = db.Column(db.Integer, db.ForeignKey('glpi_operatingsystems.id'))
     operatingsystemversions_id = db.Column(db.Integer, nullable=False, server_default="0")
     operatingsystemservicepacks_id = db.Column(db.Integer, nullable=False, server_default="0")
     os_license_number = db.Column(db.String(255, None, True))
