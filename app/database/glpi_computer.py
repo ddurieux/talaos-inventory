@@ -1,6 +1,6 @@
 from app import db
 
-class Computer(db.Model):
+class DBComputer(db.Model):
     __tablename__ = 'glpi_computers'
     __table_args__ = { 'mysql_charset': 'utf8', 'mysql_collate': 'utf8_general_ci' }
     id = db.Column(db.Integer, primary_key=True)

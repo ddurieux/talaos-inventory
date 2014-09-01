@@ -1,13 +1,14 @@
 from flask import Flask
-#from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.sqlalchemy import SQLAlchemy
-import flask.ext.restless
 
 app = Flask(__name__)
-app.config.from_object('app.config')
+app.debug = True #used for debug to have trace
+
+app.config.from_object('config')
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 db = SQLAlchemy(app)
 
 from app.database import *
+from app.object import *
 
-
-
+from app import glpi

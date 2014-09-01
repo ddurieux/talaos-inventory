@@ -1,18 +1,87 @@
 #!flask/bin/python
 from datetime import timedelta
 from flask import Flask, jsonify, abort, request, make_response, url_for, current_app
-import flask.ext.restless
 from functools import update_wrapper
-from app import db
 import sys
 
 #import all modules in glpi.objects
 from app.database import *
+from app.object.computer import *
 
-app = Flask(__name__, static_url_path = "")
+from app import app
 
-manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
+def crossdomain(origin=None, methods=None, headers=None,
+                max_age=21600, attach_to_all=True,
+                automatic_options=True):
+    if methods is not None:
+        methods = ', '.join(sorted(x.upper() for x in methods))
+    if headers is not None and not isinstance(headers, str):
+        headers = ', '.join(x.upper() for x in headers)
+    if not isinstance(origin, str):
+        origin = ', '.join(origin)
+    if isinstance(max_age, timedelta):
+        max_age = max_age.total_seconds()
 
-# Create API endpoints, which will be available at /api/<tablename> by
-# default. Allowed HTTP methods can be specified as well.
-manager.create_api(glpi_computer.Computer, methods=['GET', 'POST', 'DELETE'], results_per_page=-1)
+    def get_methods():
+        if methods is not None:
+            return methods
+
+        options_resp = current_app.make_default_options_response()
+        return options_resp.headers['allow']
+
+    def decorator(f):
+        def wrapped_function(*args, **kwargs):
+            if automatic_options and request.method == 'OPTIONS':
+                resp = current_app.make_default_options_response()
+            else:
+                resp = make_response(f(*args, **kwargs))
+            if not attach_to_all and request.method != 'OPTIONS':
+                return resp
+
+            h = resp.headers
+            h['Access-Control-Allow-Origin'] = origin
+            h['Access-Control-Allow-Methods'] = get_methods()
+            h['Access-Control-Max-Age'] = str(max_age)
+            h['Access-Control-Allow-Credentials'] = 'true'
+            h['Access-Control-Allow-Headers'] = \
+                "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+            if headers is not None:
+                h['Access-Control-Allow-Headers'] = headers
+            return resp
+
+        f.provide_automatic_options = False
+        f.required_methods = ['OPTIONS']
+        return update_wrapper(wrapped_function, f)
+    return decorator
+
+#app = Flask(__name__, static_url_path = "")
+
+@app.errorhandler(400)
+def not_found(error):
+    return make_response(jsonify( { 'error': 'Bad request' } ), 400)
+
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify( { 'error': 'Not found' } ), 404)
+
+@app.route('/')
+@crossdomain(origin='*')
+def index():
+    return "<span style='color:red'>I am app 1</span>"
+
+@app.route('/computers', methods=['GET'])
+@crossdomain(origin='*')
+def list_computers():
+    item = Computer()
+    all_items = item.getall()
+    return jsonify( all_items )
+
+@app.route('/computers/<int:id>', methods = ['GET'])
+@crossdomain(origin='*')
+def get_id(id):
+    item = Computer()
+    return jsonify( item.getid(id) )
+
+if __name__ == '__main__':
+    app.run(debug = True)
+
