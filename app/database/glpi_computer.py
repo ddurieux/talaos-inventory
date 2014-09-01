@@ -35,5 +35,6 @@ class DBComputer(db.Model):
     states_id = db.Column(db.Integer, nullable=False, server_default="0")
     ticket_tco = db.Column(db.Numeric(precision="20,4", asdecimal=True), nullable=False, server_default="0.0000")
     uuid = db.Column(db.String(255, None, True))
-
+    
+    operatingsystems = db.relationship('DBOperatingSystem', backref=db.backref('glpi_computers', lazy='dynamic'))
     

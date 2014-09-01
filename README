@@ -4,6 +4,8 @@ POC in python 3 (not work on python 2.x)
 
 pip install flask
 pip install Flask-SQLAlchemy
+pip install Flask-Restless
+pip install simplejson
 
 == Configuration of webserser ==
 With nginx + uwsgi 

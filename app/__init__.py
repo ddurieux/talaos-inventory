@@ -9,6 +9,5 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 
 from app.database import *
-from app.object import *
 
 from app import glpi
