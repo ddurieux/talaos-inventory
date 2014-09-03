@@ -28,11 +28,26 @@ add in config:
     }
 
 
-=== uwsgi ===
+==== uwsgi ====
 
 update the chdir if not use /www in uwsgi.ini file
 
 run uwsgi with: 
 uwsgi /www/uwsgi.ini
 
+=== Apache ===
+With mod_wsgi
+
+<VirtualHost *>
+
+    WSGIDaemonProcess glpingpy user=www group=www threads=5
+    WSGIScriptAlias / /www/glpingpy/wsgi_apache.py
+
+    <Directory /www/glping_py>
+        WSGIProcessGroup glpingpy
+        WSGIApplicationGroup %{GLOBAL}
+        Order deny,allow
+        Allow from all
+    </Directory>
+</VirtualHost>
 
