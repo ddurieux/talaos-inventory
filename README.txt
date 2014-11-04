@@ -16,7 +16,13 @@ composer update
 
 First create a glping DB accessing to user glping with glping password (or update app/config.php)
 
-php glpi migrate
+php glpi install
+
+
+==== Procedure to update GLPI + plugins
+1. extract new glpi archive
+2. extract new plugins archives (for update existant plugins)
+3. migrate glpi (plugins will be migrated in same time)
 
 
 

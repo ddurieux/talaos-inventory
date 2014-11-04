@@ -5,6 +5,7 @@ require __DIR__.'/vendor/autoload.php';
 
 define("MIGRATIONS_PATH", __DIR__."/app/database/migrations");
 define("SEEDS_PATH", __DIR__."/app/database/seeds");
+define("INSTALL_PATH", __DIR__."/app/database");
 
 /**
  * Script for creating, destroying, and seeding the app's database
@@ -33,6 +34,9 @@ class Glpi {
                         break;
                 case "seed":
                     $this->runSeed();
+                    break;
+                case "install":
+                    $this->runInstall();
                     break;
                 case "help":
                 case "--help":
@@ -70,6 +74,16 @@ class Glpi {
             $migration->run();
         }
     }
+
+
+    function runInstall() {
+
+        require_once(INSTALL_PATH.'/install.php');
+
+        $item = new GLPIInstallation();
+        $item->run();
+    }
+
 }
 
 $glpi = new Glpi($argv);

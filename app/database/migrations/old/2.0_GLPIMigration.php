@@ -12,6 +12,23 @@ class GLPIMigration {
         $table->text('comment')->nullable();
         $table->timestamps();
 
+        $tables = array();
+        $tables['name'] = 'glpi_assettypes';
+        $tables['fields'] = array(
+            'id' => array(
+                'type' => 'increments'
+            ),
+            'name' => array(
+                'type'    => 'string',
+                'visible' => true
+            ),
+            'comment' => array(
+                'type'    => 'text',
+                'visible' => true
+            )
+        );
+
+
         // Get all in plugins
         $this->findPlugin(__FUNCTION__, $table);
     }

@@ -1,0 +1,95 @@
+<?php
+
+use Illuminate\Database\Capsule\Manager as Capsule;
+
+class GLPIInstallation {
+
+    var $currentVersion = '2.0';
+    var $tablefields = array();
+
+    function run() {
+        if (Capsule::schema()->hasTable('glpi_computers')) {
+
+            // Call update
+        } else if (Capsule::schema()->hasTable('glpi_assets')) {
+            // Get version
+            // Call right update
+
+
+        } else {
+            // call install
+
+            $tables = $this->getTables($this->currentVersion);
+            $this->ConvertPHPTableORM($tables);
+        }
+    }
+
+
+
+    function getTables($version) {
+        require_once __DIR__.'/installations/'.$version.'/'.$version.'.php';
+        $classname = 'glpi'.str_replace('.', '', $version);
+        $item = new $classname();
+        $tables = $item->tables();
+
+        // Load plugins
+        foreach (glob(__DIR__.'/installations/plugins/*') as $plugindir) {
+            $split = explode('/', $plugindir);
+            $pluginName = $split[(count($split) - 1)];
+            $versions = array();
+            foreach (glob($plugindir.'/2.0/*.php') as $file) {
+                $file = str_replace('.php', '', $file);
+                $split = explode('/', $file);
+                $versions[] = $split[(count($split) - 1)];
+            }
+            natsort($versions);
+
+            // use only last version
+            $pluginVersion = $versions[(count($versions) - 1)];
+            require_once $plugindir.'/2.0/'.$pluginVersion.'.php';
+
+            $classname = $pluginName.'_'.str_replace('.', '', $pluginVersion);
+            $item = new $classname();
+
+            $item->tables($tables);
+        }
+        return $tables;
+    }
+
+
+
+    function ConvertPHPTableORM($tables) {
+
+        foreach ($tables as $tablename => $data) {
+            $this->tablefields = $data['fields'];
+            Capsule::schema()->create($tablename, function($table) {
+                foreach ($this->tablefields as $fieldname=>$data) {
+                    switch ($data['type']) {
+
+                        case 'increment':
+                            $table->increments($fieldname);
+                            break;
+
+                        case 'string':
+                            $table->string($fieldname)->nullable();
+                            break;
+
+                        case 'text':
+                            $table->text($fieldname)->nullable();
+                            break;
+
+                        case 'integer':
+                            $table->integer($fieldname)->unsigned()->default('0');
+                            break;
+
+                        case 'boolean':
+                            $table->boolean($fieldname)->default('0');
+                            break;
+
+                    }
+                }
+                $table->timestamps();
+            });
+        }
+    }
+}
