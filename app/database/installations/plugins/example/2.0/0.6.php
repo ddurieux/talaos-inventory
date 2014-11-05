@@ -12,7 +12,11 @@ class example_06 {
 
         // Add a new table
         // ** glpi_plugin_example_test ** //
-        $table = array();
+        $table = array(
+            'fields'         => array(),
+            'index'         => array(),
+            'relationships' => array()
+        );
         $table['fields'] = array(
             'id'      => GLPIInstallation::type('increments'),
             'name'    => GLPIInstallation::type('string'),

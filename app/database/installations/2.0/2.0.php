@@ -6,7 +6,11 @@ class glpi20 {
         $tables = array();
 
         // ** glpi_assettypes ** //
-        $table = array();
+        $table = array(
+            'fields'         => array(),
+            'index'         => array(),
+            'relationships' => array()
+        );
         $table['fields'] = array(
             'id'      => GLPIInstallation::type('increments'),
             'name'    => GLPIInstallation::type('string'),
@@ -15,7 +19,11 @@ class glpi20 {
         $tables['glpi_assettypes'] = $table;
 
         // ** glpi_manufacturers ** //
-        $table = array();
+        $table = array(
+            'fields'         => array(),
+            'index'         => array(),
+            'relationships' => array()
+        );
         $table['fields'] = array(
             'id'      => GLPIInstallation::type('increments'),
             'name'    => GLPIInstallation::type('string'),
@@ -24,7 +32,11 @@ class glpi20 {
         $tables['glpi_manufacturers'] = $table;
 
         // ** glpi_assets ** //
-        $table = array();
+        $table = array(
+            'fields'         => array(),
+            'index'         => array(),
+            'relationships' => array()
+        );
         $table['fields'] = array(
             'id'               => GLPIInstallation::type('increments'),
             'name'             => GLPIInstallation::type('string'),
@@ -41,7 +53,11 @@ class glpi20 {
         $tables['glpi_assets'] = $table;
 
         // ** glpi_configs ** //
-        $table = array();
+        $table = array(
+            'fields'         => array(),
+            'index'         => array(),
+            'relationships' => array()
+        );
         $table['fields'] = array(
             'id'      => GLPIInstallation::type('increments'),
             'version' => GLPIInstallation::type('string')
