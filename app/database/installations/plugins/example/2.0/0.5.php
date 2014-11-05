@@ -6,14 +6,9 @@ class example_05 {
 
         // ** glpi_manufacturers ** //
         // Add new field 'country'
-        $tables['glpi_manufacturers'] = array(
-            'country' => array(
-                'type'    => 'string',
-                'visible' => true
-            ),
-        );
+        $tables['glpi_manufacturers']['fields']['country'] = GLPIInstallation::type('string');
         // make comment hidden in front end
-        $tables['glpi_manufacturers']['comment']['visible'] = false;
+        $tables['glpi_manufacturers']['fields']['comment']['visible'] = false;
 
     }
 }

@@ -8,92 +8,43 @@ class glpi20 {
         // ** glpi_assettypes ** //
         $table = array();
         $table['fields'] = array(
-            'id' => array(
-                'type' => 'increments'
-            ),
-            'name' => array(
-                'type'    => 'string',
-                'visible' => true
-            ),
-            'comment' => array(
-                'type'    => 'text',
-                'visible' => true
-            )
+            'id'      => GLPIInstallation::type('increments'),
+            'name'    => GLPIInstallation::type('string'),
+            'comment' => GLPIInstallation::type('text'),
         );
         $tables['glpi_assettypes'] = $table;
 
         // ** glpi_manufacturers ** //
         $table = array();
         $table['fields'] = array(
-            'id' => array(
-                'type' => 'increments'
-            ),
-            'name' => array(
-                'type'    => 'string',
-                'visible' => true
-            ),
-            'comment' => array(
-                'type'    => 'text',
-                'visible' => true
-            )
+            'id'      => GLPIInstallation::type('increments'),
+            'name'    => GLPIInstallation::type('string'),
+            'comment' => GLPIInstallation::type('text'),
         );
         $tables['glpi_manufacturers'] = $table;
 
         // ** glpi_assets ** //
         $table = array();
         $table['fields'] = array(
-            'id' => array(
-                'type' => 'increments'
-            ),
-            'name' => array(
-                'type'    => 'string',
-                'visible' => true
-            ),
-            'assettypes_id' => array(
-                'type'    => 'integer',
-                'visible' => true
-            ),
-            'entities_id' => array(
-                'type'    => 'integer',
-                'visible' => true
-            ),
-            'is_recursive' => array(
-                'type'    => 'is_deleted',
-                'visible' => false
-            ),
-            'serial' => array(
-                'type'    => 'string',
-                'visible' => true
-            ),
-            'inventory_number' => array(
-                'type'    => 'string',
-                'visible' => true
-            ),
-            'manufacturers_id' => array(
-                'type'    => 'integer',
-                'visible' => true
-            ),
-            'states_id' => array(
-                'type'    => 'integer',
-                'visible' => true
-            ),
-            'comment' => array(
-                'type'    => 'text',
-                'visible' => true
-            )
+            'id'               => GLPIInstallation::type('increments'),
+            'name'             => GLPIInstallation::type('string'),
+            'assettypes_id'    => GLPIInstallation::type('integer'),
+            'entities_id'      => GLPIInstallation::type('integer'),
+            'is_recursive'     => GLPIInstallation::type('boolean', false),
+            'is_deleted'       => GLPIInstallation::type('boolean', false),
+            'serial'           => GLPIInstallation::type('string'),
+            'inventory_number' => GLPIInstallation::type('string'),
+            'manufacturers_id' => GLPIInstallation::type('integer'),
+            'states_id'        => GLPIInstallation::type('integer'),
+            'comment'          => GLPIInstallation::type('text'),
         );
         $tables['glpi_assets'] = $table;
 
         // ** glpi_configs ** //
         $table = array();
         $table['fields'] = array(
-            'id' => array(
-                'type' => 'increments'
-            ),
-            'version' => array(
-                'type'    => 'string',
-                'visible' => true
-            )
+            'id'      => GLPIInstallation::type('increments'),
+            'version' => GLPIInstallation::type('string')
         );
         $tables['glpi_configs'] = $table;
 
