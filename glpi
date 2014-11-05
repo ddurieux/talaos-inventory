@@ -5,7 +5,7 @@ require __DIR__.'/vendor/autoload.php';
 
 define("MIGRATIONS_PATH", __DIR__."/app/database/migrations");
 define("SEEDS_PATH", __DIR__."/app/database/seeds");
-define("INSTALL_PATH", __DIR__."/app/database");
+define("INSTALL_PATH", __DIR__."/app/install");
 
 /**
  * Script for creating, destroying, and seeding the app's database
@@ -80,7 +80,7 @@ class Glpi {
 
         require_once(INSTALL_PATH.'/install.php');
 
-        $item = new GLPIInstallation();
+        $item = new GLPIInstall();
         $item->run();
     }
 
