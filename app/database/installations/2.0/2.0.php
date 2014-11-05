@@ -83,6 +83,21 @@ class glpi20 {
             )
         );
         $tables['glpi_assets'] = $table;
+
+        // ** glpi_configs ** //
+        $table = array();
+        $table['fields'] = array(
+            'id' => array(
+                'type' => 'increments'
+            ),
+            'version' => array(
+                'type'    => 'string',
+                'visible' => true
+            )
+        );
+        $tables['glpi_configs'] = $table;
+
+
         return $tables;
     }
 }

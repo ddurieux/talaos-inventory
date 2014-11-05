@@ -7,7 +7,9 @@
 
 class glpi_migration_20 {
 
-
+    function run() {
+        
+    }
 
 
 }
