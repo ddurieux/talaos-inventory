@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class Config extends Eloquent {
+class Config extends CommonGLPI {
 
         /**
          * The database table used by the model.
