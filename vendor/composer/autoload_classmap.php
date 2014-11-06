@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Asset' => $baseDir . '/app/models/Asset.php',
+    'AssetType' => $baseDir . '/app/models/AssetType.php',
     'CommonGLPI' => $baseDir . '/app/models/CommonGLPI.php',
     'Config' => $baseDir . '/app/models/Config.php',
     'Manufacturer' => $baseDir . '/app/models/Manufacturer.php',
