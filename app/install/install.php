@@ -58,6 +58,15 @@ class GLPIInstall {
                             $table->boolean($fieldname)->default('0');
                             break;
 
+                        case 'date':
+                            $table->date($fieldname)->default('0000-00-00');
+                            break;
+
+                        case 'datetime':
+                            $table->dateTime($fieldname)->default('0000-00-00 00:00:00');
+                            break;
+
+
                     }
                 }
                 $table->timestamps();
