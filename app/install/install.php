@@ -51,21 +51,40 @@ class GLPIInstall {
                             break;
 
                         case 'integer':
-                            $table->integer($fieldname)->unsigned()->default('0');
+                            $default = '0';
+                            if (isset($data['default'])
+                                && !empty($data['default'])) {
+                                $default = $data['default'];
+                            }
+                            $table->integer($fieldname)->unsigned()->default($default);
                             break;
 
                         case 'boolean':
-                            $table->boolean($fieldname)->default('0');
+                            $default = '0';
+                            if (isset($data['default'])
+                                && !empty($data['default'])) {
+                                $default = $data['default'];
+                            }
+                            $table->boolean($fieldname)->default($default);
                             break;
 
                         case 'date':
-                            $table->date($fieldname)->default('0000-00-00');
+                            $default = '0000-00-00';
+                            if (isset($data['default'])
+                                && !empty($data['default'])) {
+                                $default = $data['default'];
+                            }
+                            $table->date($fieldname)->default($default);
                             break;
 
                         case 'datetime':
-                            $table->dateTime($fieldname)->default('0000-00-00 00:00:00');
+                            $default = '0000-00-00 00:00:00';
+                            if (isset($data['default'])
+                                && !empty($data['default'])) {
+                                $default = $data['default'];
+                            }
+                            $table->dateTime($fieldname)->default($default);
                             break;
-
 
                     }
                 }
