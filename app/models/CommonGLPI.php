@@ -32,7 +32,7 @@ class CommonGLPI extends Eloquent {
         $fields = array();
         foreach ($table['fields'] as $field=>$data) {
             if ($data['visible']) {
-                $fields[] = $field;
+                $fields[$field] = $data['type'];
             }
         }
         return $fields;
