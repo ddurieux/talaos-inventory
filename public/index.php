@@ -12,10 +12,10 @@ $app->get('/hello/:name', function ($name) {
 });
 
 
-$app->get('/:item', function ($item) {
-   $a = $item::all();
+$app->get('/:item(/:param+)', function ($item, $param=array()) {
+   $a = $item::with($param)->get();
    echo $a->toJson(JSON_PRETTY_PRINT);
-});
+})->conditions(array('param' => '[a-zA-Z]+'));
 
 
 /**
@@ -25,7 +25,7 @@ $app->get('/:item/:id(/:param+)', function ($item, $id, $param = array()) {
    $a = $item::find($id);
    $a->load($param);
    echo $a->toJson(JSON_PRETTY_PRINT);
-});
+})->conditions(array('id' => '\d+'));
 
 /*
 $app->get('/computers/:id', function ($id) {
