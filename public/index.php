@@ -12,6 +12,15 @@ $app->get('/hello/:name', function ($name) {
 });
 
 
+/**
+ * Get all rows of item
+ *
+ * @apirest
+ * @HTTPmethod GET
+ *
+ * @uses /Itemname will get all rows of item 'Itemname'
+ * @uses /Itemname/relat will get all rows of item 'Itemname' + relationship 'relat'
+ */
 $app->get('/:item(/:param+)', function ($item, $param=array()) {
    $a = $item::with($param)->get();
    echo $a->toJson(JSON_PRETTY_PRINT);
@@ -19,7 +28,13 @@ $app->get('/:item(/:param+)', function ($item, $param=array()) {
 
 
 /**
- * GET
+ * Get one row of item
+ *
+ * @apirest
+ * @HTTPmethod GET
+ *
+ * @uses /Itemname/idnum will get the row of item 'Itemname' have id=idnum (idnum is integer)
+ * @uses /Itemname/idnum/relat will get the row of item 'Itemname' + relationship 'relat' have id=idnum (idnum is integer)
  */
 $app->get('/:item/:id(/:param+)', function ($item, $id, $param = array()) {
    $a = $item::find($id);
@@ -42,7 +57,12 @@ $app->get('/operatingsystems/:id', function ($id) {
 
 
 /**
- * POST
+ * Add a new row of item
+ *
+ * @apirest
+ * @HTTPmethod POST
+ *
+ * @uses /Itemname will add new row of item 'Itemname' with array in $_POST variable
  */
 $app->post('/Asset', function () use($app) {
    $app->response()->header("Content-Type", "application/json");
@@ -58,8 +78,14 @@ $app->post('/Asset', function () use($app) {
 
 });
 
+
 /**
- * PUT
+ * update a row of item
+ *
+ * @apirest
+ * @HTTPmethod PUT
+ *
+ * @uses /Itemname/idnum will update the row of item 'Itemname' with id=idnum (idnum is integer)
  */
 $app->put('/Asset/:id', function ($id) use ($app) {
    $app->response()->header("Content-Type", "application/json");
@@ -71,14 +97,19 @@ $app->put('/Asset/:id', function ($id) use ($app) {
       $asset->$key = $value;
    }
    $asset->save();
-});
+})->conditions(array('id' => '\d+'));
 
 /**
- * DELETE
+ * delete a row of item
+ *
+ * @apirest
+ * @HTTPmethod DELETE
+ *
+ * @uses /Itemname/idnum will delete the row of item 'Itemname' with id=idnum (idnum is integer)
  */
 $app->delete('/Asset/:id', function ($id) {
    Asset::destroy($id);
-});
+})->conditions(array('id' => '\d+'));
 
 
 $app->run();
