@@ -12,6 +12,32 @@ $app->get('/hello/:name', function ($name) {
 });
 
 
+
+/**
+ * Get all items you can see / fields you can see
+ *
+ * @apirest
+ * @HTTPmethod GET
+ *
+ * @uses /item will get all items you can see
+ * @uses /item/itemname will get all fields of item 'Itemname' use can see
+ */
+$app->get('/item(/:param?)', function ($param='') {
+    $a = array();
+    if (empty($param)) {
+        $a = array(
+            'Asset',
+            'Manufacturer',
+            'AssetType');
+    } else {
+        $item = new $param;
+        $a = $item->getFields();
+    }
+    echo json_encode($a);
+});
+
+
+
 /**
  * Get all rows of item
  *

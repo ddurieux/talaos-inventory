@@ -25,4 +25,16 @@ class CommonGLPI extends Eloquent {
         return parent::__call($name, $arguments);
     }
 
+
+    public function getFields() {
+        require __DIR__.'/../dbmodels/'.$this->table.'.php';
+
+        $fields = array();
+        foreach ($table['fields'] as $field=>$data) {
+            if ($data['visible']) {
+                $fields[] = $field;
+            }
+        }
+        return $fields;
+    }
 }
