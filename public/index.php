@@ -44,45 +44,45 @@ $app->get('/operatingsystems/:id', function ($id) {
 /**
  * POST
  */
-$app->post('/computers', function () use($app) {
+$app->post('/Asset', function () use($app) {
    $app->response()->header("Content-Type", "application/json");
    $request = $app->request();
    $body = $request->getBody();
    $input = json_decode($body, true);
-   $computer = new Computer();
+   $asset = new Asset();
    foreach($input as $key=>$value) {
-      $computer->$key = $value;
+      $asset->$key = $value;
    }
-   $computer->save();
-   echo json_encode(array("id" => $computer->id));
+   $asset->save();
+   echo json_encode(array("id" => $asset->id));
 
 });
 
 /**
  * PUT
  */
-$app->put('/computers/:id', function ($id) use ($app) {
+$app->put('/Asset/:id', function ($id) use ($app) {
    $app->response()->header("Content-Type", "application/json");
    $request = $app->request();
    $body = $request->getBody();
    $input = json_decode($body, true);
-   $computer = Computer::find($id);
+   $asset = Asset::find($id);
    foreach($input as $key=>$value) {
-      $computer->$key = $value;
+      $asset->$key = $value;
    }
-   $computer->save();
+   $asset->save();
 });
 
 /**
  * DELETE
  */
-$app->delete('/computers/:id', function ($id) {
-   Computer::destroy($id);
+$app->delete('/Asset/:id', function ($id) {
+   Asset::destroy($id);
 });
 
 
 $app->run();
-if (isset($sqllog)) {
-   echo $sqllog;
-}
-echo "Memory : ".(memory_get_usage() / 1000000)." Mo";
+//if (isset($sqllog)) {
+//   echo $sqllog;
+//}
+//echo "Memory : ".(memory_get_usage() / 1000000)." Mo";
