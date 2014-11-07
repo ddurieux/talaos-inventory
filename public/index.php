@@ -15,7 +15,7 @@ $app->get('/hello/:name', function ($name) {
 $app->get('/:item(/:param+)', function ($item, $param=array()) {
    $a = $item::with($param)->get();
    echo $a->toJson(JSON_PRETTY_PRINT);
-})->conditions(array('param' => '[a-zA-Z]+'));
+})->conditions(array('param' => '[a-z]+'));
 
 
 /**
