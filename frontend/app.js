@@ -19,7 +19,7 @@ angular.module('asset', ['restangular', 'ngRoute']).
       
 //      RestangularProvider.setBaseUrl('https://api.mongolab.com/api/1/databases/angularjs/collections');
 //      RestangularProvider.setDefaultRequestParams({ apiKey: '4f847ad3e4b08a2eed5f3b54' })
-      RestangularProvider.setBaseUrl('../public/');
+      RestangularProvider.setBaseUrl('../public/index.php');
       
       RestangularProvider.setRequestInterceptor(function(elem, operation, what) {
         
