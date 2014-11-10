@@ -64,6 +64,9 @@
           <th>ID</th>
           <th>Name</th>
           <th>Serial number</th>
+          <span ng-if="item.route == 'Asset'">
+            <th>Assettype</th>
+          </span>
           <th><a href="#/{{list.route}}/new"><i class="glyphicon glyphicon-plus-sign"></i></a></th>
         </tr>
         </thead>
@@ -72,6 +75,9 @@
           <td>{{item.id}}</td>
           <td>{{item.name}}</td>
           <td>{{item.serial}}</td>
+          <span ng-if="item.route == 'Asset'">
+            <td>{{item.assettypes.name}}</td>
+          </span>
           <td>
             <a href="#/{{list.route}}/edit/{{item.id}}"><i class="glyphicon glyphicon-pencil"></i></a>
           </td>
@@ -92,6 +98,14 @@
           <span ng-show="myForm.name.$error.required" class=".help-block">
               Required</span>
         </div>
+
+        <span ng-if="item.route == 'Asset'">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Asset type</label>
+              <select name="assettypes_id" ng-model="item.assettypes_id" 
+                    ng-options="assettype.id as assettype.name for assettype in assettypes"></select>
+            </div>
+        </span>
 
         <br>
         <a href="#/{{item.route}}" class="btn btn-default">Cancel</a>

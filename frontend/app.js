@@ -7,7 +7,11 @@ angular.module('asset', ['restangular', 'ngRoute']).
         templateUrl:'list.html',
         resolve: {
           item: function(Restangular, $route){
-            return Restangular.all($route.current.params.item).getList();
+            var custom = '';
+            if ($route.current.params.item == 'Asset') {
+                custom = 'assettypes';
+            }
+            return Restangular.all($route.current.params.item).customGET(custom);
           }
         }
       }).
@@ -68,7 +72,10 @@ function CreateCtrl($scope, $location, Restangular, item) {
 function EditCtrl($scope, $location, Restangular, item) {
   var original = item;
   $scope.item = Restangular.copy(original); 
-  
+  if ($scope.item.route == 'Asset') {
+      $scope.assettypes = Restangular.all("AssetType").getList().$object;
+  }
+    
   $scope.isClean = function() {
     return angular.equals(original, $scope.item);
   }
