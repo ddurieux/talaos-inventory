@@ -26,9 +26,12 @@ $app->get('/item(/:param?)', function ($param='') {
     $a = array();
     if (empty($param)) {
         $a = array(
-            'Asset',
-            'Manufacturer',
-            'AssetType');
+            array('item' => 'Asset',
+                  'name' => 'Asset'),
+            array('item' => 'Manufacturer',
+                  'name' => 'Manufacturer'),
+            array('item' => 'AssetType',
+                  'name' => 'Type of assets'));
     } else {
         $item = new $param;
         $a = $item->getFields();

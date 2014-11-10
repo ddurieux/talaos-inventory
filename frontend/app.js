@@ -1,67 +1,88 @@
 angular.module('asset', ['restangular', 'ngRoute']).
+        
   config(function($routeProvider, RestangularProvider) {
     $routeProvider.
-      when('/', {
+      when('/:item', {
         controller:ListCtrl, 
-        templateUrl:'list.html'
-      }).
-      when('/edit/:assetId', {
-        controller:EditCtrl, 
-        templateUrl:'detail.html',
+        templateUrl:'list.html',
         resolve: {
-          asset: function(Restangular, $route){
-            return Restangular.one('Asset', $route.current.params.assetId).get();
+          item: function(Restangular, $route){
+            return Restangular.all($route.current.params.item).getList();
           }
         }
       }).
-      when('/new', {controller:CreateCtrl, templateUrl:'detail.html'}).
-      otherwise({redirectTo:'/'});
+      when('/:item/edit/:itemId', {
+        controller:EditCtrl, 
+        templateUrl:'detail.html',
+        resolve: {
+          item: function(Restangular, $route){
+            return Restangular.one($route.current.params.item, $route.current.params.itemId).get();
+          }
+        }
+      }).
+      when('/:item/new', {
+          controller:CreateCtrl, 
+          templateUrl:'detail.html',
+          resolve: {
+          item: function(Restangular, $route){
+              return $route.current.params.item;
+          }
+        }
+      }).
+      otherwise({redirectTo:'/Asset'});
       
-//      RestangularProvider.setBaseUrl('https://api.mongolab.com/api/1/databases/angularjs/collections');
-//      RestangularProvider.setDefaultRequestParams({ apiKey: '4f847ad3e4b08a2eed5f3b54' })
       RestangularProvider.setBaseUrl('../public/index.php');
+//      RestangularProvider.setDefaultRequestParams({ apiKey: '4f847ad3e4b08a2eed5f3b54' })
       
       RestangularProvider.setRequestInterceptor(function(elem, operation, what) {
-        
+       
         if (operation === 'put') {
           elem._id = undefined;
           return elem;
         }
         return elem;
       })
+
+      RestangularProvider.setResponseExtractor(function(response, operation) {
+         return response;
+      });
+      
   });
 
 
-function ListCtrl($scope, Restangular) {
-   $scope.assets = Restangular.all("Asset").getList().$object;
+function ListCtrl($scope, Restangular, item) {
+   $scope.list = item;
+   $scope.items = Restangular.all("item").getList().$object;
 }
 
 
-function CreateCtrl($scope, $location, Restangular) {
+function CreateCtrl($scope, $location, Restangular, item) {
+  var original = item;
   $scope.save = function() {
-    Restangular.all('Asset').post($scope.asset).then(function(asset) {
-      $location.path('/list');
+    Restangular.all(item).post($scope.item).then(function(item) {
+      $location.path('/' + original);
     });
   }
 }
 
-function EditCtrl($scope, $location, Restangular, asset) {
-  var original = asset;
-  $scope.asset = Restangular.copy(original); 
-
+function EditCtrl($scope, $location, Restangular, item) {
+  var original = item;
+  $scope.item = Restangular.copy(original); 
+  
   $scope.isClean = function() {
-    return angular.equals(original, $scope.asset);
+    return angular.equals(original, $scope.item);
   }
 
   $scope.destroy = function() {
     original.remove().then(function() {
-      $location.path('/');
+      $location.path('/' + $scope.item.route);
     });
   };
 
   $scope.save = function() {
-    $scope.asset.put().then(function() {
-      $location.path('/');
+    $scope.item.put().then(function() {
+      $location.path('/' + $scope.item.route);
     });
   };
 }
+
