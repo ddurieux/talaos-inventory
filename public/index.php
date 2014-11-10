@@ -90,17 +90,17 @@ $app->get('/operatingsystems/:id', function ($id) {
  *
  * @uses /Itemname will add new row of item 'Itemname' with array in $_POST variable
  */
-$app->post('/Asset', function () use($app) {
+$app->post('/:itemtype', function ($itemtype) use($app) {
    $app->response()->header("Content-Type", "application/json");
    $request = $app->request();
    $body = $request->getBody();
    $input = json_decode($body, true);
-   $asset = new Asset();
+   $item = new $itemtype();
    foreach($input as $key=>$value) {
-      $asset->$key = $value;
+      $item->$key = $value;
    }
-   $asset->save();
-   echo json_encode(array("id" => $asset->id));
+   $item->save();
+   echo json_encode(array("id" => $item->id));
 
 });
 
@@ -113,16 +113,16 @@ $app->post('/Asset', function () use($app) {
  *
  * @uses /Itemname/idnum will update the row of item 'Itemname' with id=idnum (idnum is integer)
  */
-$app->put('/Asset/:id', function ($id) use ($app) {
+$app->put('/:itemtype/:id', function ($itemtype, $id) use ($app) {
    $app->response()->header("Content-Type", "application/json");
    $request = $app->request();
    $body = $request->getBody();
    $input = json_decode($body, true);
-   $asset = Asset::find($id);
+   $item = $itemtype::find($id);
    foreach($input as $key=>$value) {
-      $asset->$key = $value;
+      $item->$key = $value;
    }
-   $asset->save();
+   $item->save();
 })->conditions(array('id' => '\d+'));
 
 /**
@@ -133,8 +133,8 @@ $app->put('/Asset/:id', function ($id) use ($app) {
  *
  * @uses /Itemname/idnum will delete the row of item 'Itemname' with id=idnum (idnum is integer)
  */
-$app->delete('/Asset/:id', function ($id) {
-   Asset::destroy($id);
+$app->delete('/:item/:id', function ($item, $id) {
+   $item::destroy($id);
 })->conditions(array('id' => '\d+'));
 
 
