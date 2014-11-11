@@ -13,9 +13,13 @@ class CommonGLPI extends Eloquent {
             switch ($table['relationships'][$name]['type']) {
 
                 case 'belongsTo' :
+                    $field = NULL;
+                    if (isset($table['relationships'][$name]['field'])) {
+                        $field = $table['relationships'][$name]['field'];
+                    }
                     return($this->belongsTo(
                         $table['relationships'][$name]['item'],
-                        $table['relationships'][$name]['field'],
+                        NULL,
                         'id',
                         $name));
                     break;

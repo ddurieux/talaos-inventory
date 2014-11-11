@@ -24,10 +24,8 @@ $table['fields'] = array(
 $table['relationships'] = array(
     'assettypes'    => array(
         'type'  => 'belongsTo',
-        'item'  => 'AssetType',
-        'field' => 'assettypes_id'),
+        'item'  => 'AssetType'),
     'manufacturers' => array(
         'type' => 'belongsTo',
-        'item' => 'Manufacturer',
-        'field' => 'manufacturers_id')
+        'item' => 'Manufacturer')
 );
