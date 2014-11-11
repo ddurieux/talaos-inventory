@@ -27,8 +27,8 @@ class CommonGLPI extends Eloquent {
                 case 'hasMany' :
                     return($this->hasMany(
                         $table['relationships'][$name]['item'],
-                        'id',
                         $field,
+                        'id',
                         $name));
                     break;
 

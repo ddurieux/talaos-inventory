@@ -85,7 +85,11 @@ $app->get('/:item(/:param+)', function ($item, $param=array()) {
  * @uses /Itemname/idnum/relat will get the row of item 'Itemname' + relationship 'relat' have id=idnum (idnum is integer)
  */
 $app->get('/:item/:id(/:param+)', function ($item, $id, $param = array()) {
-   $a = $item::find($id);
+   if ($item == 'Asset') {
+       $a = $item::with('assetschild')->find($id);
+   } else {
+       $a = $item::find($id);
+   }
    $a->load($param);
    echo $a->toJson(JSON_PRETTY_PRINT);
 })->conditions(array('id' => '\d+'));
