@@ -24,8 +24,12 @@ $table['fields'] = array(
     'assets_id'        => DBModels::type('integer'),
 );
 $table['relationships'] = array(
-    'assets'    => array(
+    'assets'        => array(
         'type'  => 'belongsTo',
+        'item'  => 'Asset',
+        'field' => 'assets_id'),
+    'assetschild'   => array(
+        'type'  => 'hasMany',
         'item'  => 'Asset',
         'field' => 'assets_id'),
     'assettypes'    => array(
