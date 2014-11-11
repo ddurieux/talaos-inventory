@@ -10,17 +10,25 @@ class CommonGLPI extends Eloquent {
         require __DIR__.'/../dbmodels/'.$this->table.'.php';
 
         if (isset($table['relationships'][$name])) {
+            $field = NULL;
+            if (isset($table['relationships'][$name]['field'])) {
+                $field = $table['relationships'][$name]['field'];
+            }
             switch ($table['relationships'][$name]['type']) {
 
                 case 'belongsTo' :
-                    $field = NULL;
-                    if (isset($table['relationships'][$name]['field'])) {
-                        $field = $table['relationships'][$name]['field'];
-                    }
                     return($this->belongsTo(
                         $table['relationships'][$name]['item'],
-                        NULL,
+                        $field,
                         'id',
+                        $name));
+                    break;
+
+                case 'hasMany' :
+                    return($this->hasMany(
+                        $table['relationships'][$name]['item'],
+                        'id',
+                        $field,
                         $name));
                     break;
 

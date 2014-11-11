@@ -21,8 +21,13 @@ $table['fields'] = array(
     'manufacturers_id' => DBModels::type('integer'),
     'states_id'        => DBModels::type('integer'),
     'comment'          => DBModels::type('text'),
+    'assets_id'        => DBModels::type('integer'),
 );
 $table['relationships'] = array(
+    'assets'    => array(
+        'type'  => 'belongsTo',
+        'item'  => 'Asset',
+        'field' => 'assets_id'),
     'assettypes'    => array(
         'type'  => 'belongsTo',
         'item'  => 'AssetType'),
