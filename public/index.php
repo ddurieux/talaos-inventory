@@ -27,11 +27,22 @@ $app->get('/item(/:param?)', function ($param='') {
     if (empty($param)) {
         $a = array(
             array('item' => 'Asset',
-                  'name' => 'Asset'),
+                  'name' => 'Asset',
+                  'menu' => 'Asset'),
             array('item' => 'Manufacturer',
-                  'name' => 'Manufacturer'),
+                  'name' => 'Manufacturer',
+                  'menu' => 'Configuration'),
             array('item' => 'AssetType',
-                  'name' => 'Type of assets'));
+                  'name' => 'Type of assets',
+                  'menu' => 'Configuration'));
+        $assettypes = AssetType::get();
+        foreach ($assettypes as $data) {
+            $a[] = array(
+                'item' => 'Asset__'.$data['id'],
+                'name' => $data['name'],
+                'menu' => 'Asset'
+            );
+        }
     } else {
         $item = new $param;
         $a = $item->getFields();
@@ -53,7 +64,20 @@ $app->get('/item(/:param?)', function ($param='') {
 $app->get('/:item(/:param+)', function ($item, $param=array()) {
    $a = $item::with($param)->get();
    echo $a->toJson(JSON_PRETTY_PRINT);
-})->conditions(array('param' => '[a-z]+'));
+})->conditions(array('param' => '[a-z]+', 'item' => '[a-z]+'));
+
+
+/**
+ * Special get all rows for asset with assettypes
+ */
+$app->get('/:item(/:param+)', function ($item, $param=array()) {
+   $split = explode('__', $item);
+   $assettypes_id = $split[1];
+   $item = $split[0];
+   $a = $item::with($param)->where('assettypes_id', '=', $assettypes_id)->get();
+   echo $a->toJson(JSON_PRETTY_PRINT);
+})->conditions(array('param' => '([a-z]+)__\d+'));
+
 
 
 /**

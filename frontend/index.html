@@ -36,7 +36,7 @@
               <a href="#" role="button" class="navbar-brand">
                   GLPI 2.0
               </a>
-          <li ng-repeat="item in items" ng-show="item.name">
+          <li ng-repeat="item in items | orderBy:'menu':'name'" ng-show="item.name">
               <a href="#{{item.item}}">{{item.name}}</a>
           </li>
           </ul>
