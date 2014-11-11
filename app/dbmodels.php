@@ -31,8 +31,7 @@ class DBModels {
      */
     static function type($type, $visibility=true, $options=array()) {
         $data = array(
-            'type'    => $type,
-            'visible' => $visibility
+            'type'    => $type
         );
         return array_merge($data, $options);
     }
