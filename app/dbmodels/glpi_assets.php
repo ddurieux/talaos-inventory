@@ -22,6 +22,12 @@ $table['fields'] = array(
     'comment'          => DBModels::type('text'),
 );
 $table['relationships'] = array(
-    'assettypes'    => array('belongsTo', 'AssetType', 'assettypes_id'),
-    'manufacturers' => array('belongsTo', 'Manufacturer', 'manufacturers_id')
+    'assettypes'    => array(
+        'type'  => 'belongsTo',
+        'item'  => 'AssetType',
+        'field' => 'assettypes_id'),
+    'manufacturers' => array(
+        'type' => 'belongsTo',
+        'item' => 'Manufacturer',
+        'field' => 'manufacturers_id')
 );

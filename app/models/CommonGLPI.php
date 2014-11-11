@@ -10,12 +10,12 @@ class CommonGLPI extends Eloquent {
         require __DIR__.'/../dbmodels/'.$this->table.'.php';
 
         if (isset($table['relationships'][$name])) {
-            switch ($table['relationships'][$name][0]) {
+            switch ($table['relationships'][$name]['type']) {
 
                 case 'belongsTo' :
                     return($this->belongsTo(
-                        $table['relationships'][$name][1],
-                        $table['relationships'][$name][2],
+                        $table['relationships'][$name]['item'],
+                        $table['relationships'][$name]['field'],
                         'id',
                         $name));
                     break;
