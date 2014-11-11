@@ -62,21 +62,16 @@ $app->get('/item(/:param?)', function ($param='') {
  * @uses /Itemname/relat will get all rows of item 'Itemname' + relationship 'relat'
  */
 $app->get('/:item(/:param+)', function ($item, $param=array()) {
-   $a = $item::with($param)->get();
+   if (strstr($item, '__')) {
+       $split = explode('__', $item);
+       $assettypes_id = $split[1];
+       $itemname = $split[0];
+       $a = $itemname::with($param)->where('assettypes_id', '=', $assettypes_id)->get();
+   } else {
+       $a = $item::with($param)->get();
+   }
    echo $a->toJson(JSON_PRETTY_PRINT);
-})->conditions(array('param' => '[a-z]+', 'item' => '[a-z]+'));
-
-
-/**
- * Special get all rows for asset with assettypes
- */
-$app->get('/:item(/:param+)', function ($item, $param=array()) {
-   $split = explode('__', $item);
-   $assettypes_id = $split[1];
-   $item = $split[0];
-   $a = $item::with($param)->where('assettypes_id', '=', $assettypes_id)->get();
-   echo $a->toJson(JSON_PRETTY_PRINT);
-})->conditions(array('param' => '([a-z]+)__\d+'));
+})->conditions(array('param' => '[a-z]+'));
 
 
 
