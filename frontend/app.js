@@ -39,7 +39,7 @@ angular.module('asset', ['restangular', 'ngRoute']).
 //      RestangularProvider.setDefaultRequestParams({ apiKey: '4f847ad3e4b08a2eed5f3b54' })
       
       RestangularProvider.setRequestInterceptor(function(elem, operation, what) {
-       
+          
         if (operation === 'put') {
           elem._id = undefined;
           return elem;
@@ -47,8 +47,19 @@ angular.module('asset', ['restangular', 'ngRoute']).
         return elem;
       })
 
-      RestangularProvider.setResponseExtractor(function(response, operation) {
-         return response;
+      RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response) {
+         data.meta = [];
+         var link = [];
+         if (response.headers('Link')) {
+             link = parse_link_header(response.headers('Link'));
+         }
+         data.meta.Link = link;
+         data.meta.total = response.headers('X-Pagination-Total-Count');
+         data.meta.perpage = response.headers('X-Pagination-Per-Page');
+         data.meta.totalpage = response.headers('X-Pagination-Page-Count');
+         data.meta.currentpage = response.headers('X-Pagination-Current-Page');
+        
+         return data;
       });
       
   });
@@ -57,6 +68,26 @@ angular.module('asset', ['restangular', 'ngRoute']).
 function ListCtrl($scope, Restangular, item) {
    $scope.list = item;
    $scope.items = Restangular.all("item").getList().$object;
+   $scope.meta = item.meta;
+
+    $scope.loadPage = function() {
+        $scope.list = Restangular.all(item.route).getList({'page':$scope.meta.currentpage}).$object;
+    };
+
+    $scope.nextPage = function() {
+        if ($scope.meta.currentpage < $scope.meta.totalpage) {
+            $scope.meta.currentpage++;
+            $scope.loadPage();
+        }
+    };
+
+    $scope.previousPage = function() {
+        if ($scope.meta.currentpage > 1) {
+            $scope.meta.currentpage--;
+            $scope.loadPage();
+        }
+    };
+
 }
 
 
@@ -93,3 +124,29 @@ function EditCtrl($scope, $location, Restangular, item) {
   };
 }
 
+/*
+ * parse_link_header()
+ *
+ * Parse the Github Link HTTP header used for pageination
+ * http://developer.github.com/v3/#pagination
+ */
+function parse_link_header(header) {
+  if (header.length == 0) {
+    throw new Error("input must not be of zero length");
+  }
+  // Split parts by comma
+  var parts = header.split(',');
+  var links = {};
+  // Parse each part into a named link
+  _.each(parts, function(p) {
+    var section = p.split(';');
+    if (section.length != 2) {
+      throw new Error("section could not be split on ';'");
+    }
+    var url = section[0].replace(/<(.*)>/, '$1').trim();
+    var name = section[1].replace(/rel="(.*)"/, '$1').trim();
+    links[name] = url;
+  });
+ 
+  return links;
+}
