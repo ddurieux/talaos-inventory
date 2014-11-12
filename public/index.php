@@ -61,15 +61,65 @@ $app->get('/item(/:param?)', function ($param='') {
  * @uses /Itemname will get all rows of item 'Itemname'
  * @uses /Itemname/relat will get all rows of item 'Itemname' + relationship 'relat'
  */
-$app->get('/:item(/:param+)', function ($item, $param=array()) {
+$app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
+    $page = 0;
+    if (isset($_GET['page'])) {
+        $page = $_GET['page'];
+    }
+    $per_page = 10;
+    if (isset($_GET['per_page'])) {
+        $per_page = $_GET['per_page'];
+    }
+    $offset = $page * $per_page;
    if (strstr($item, '__')) {
        $split = explode('__', $item);
        $assettypes_id = $split[1];
        $itemname = $split[0];
-       $a = $itemname::with($param)->where('assettypes_id', '=', $assettypes_id)->get();
+       $a = $itemname::take($per_page)->offset($offset)->with($param)->where('assettypes_id', '=', $assettypes_id)->get();
    } else {
-       $a = $item::with($param)->get();
+       $a = $item::take($per_page)->offset($offset)->with($param)->get();
    }
+   // Define total in header
+   $total = $item::take($per_page)->offset($offset)->with($param)->count();
+   $app->response->headers->set('X-Pagination-Total-Count', $total);
+
+   $app->response->headers->set('X-Pagination-Per-Page', $per_page);
+
+   $app->response->headers->set('X-Pagination-Page-Count', ceil($total / $per_page));
+
+   $app->response->headers->set('X-Pagination-Current-Page', $page);
+
+   // Define links
+   $links = array();
+   $linkBaseURL = $app->request->getUrl()
+    . $app->request->getRootUri()
+    . $app->request->getResourceUri()
+    . "?";
+   $query_string = $_GET;
+   $query_string['page'] = $page++;
+   $query_string['per_page'] = $per_page;
+   $output = implode('&', array_map(function ($v, $k) { return $k . '=' . $v; }, $query_string, array_keys($query_string)));
+   $next = $linkBaseURL.$output;
+   $links[] = sprintf('<%s>; rel="next"', $next);
+
+   $query_string['page'] = ceil($total / $per_page);
+   $output = implode('&', array_map(function ($v, $k) { return $k . '=' . $v; }, $query_string, array_keys($query_string)));
+   $last = $linkBaseURL.$output;
+   $links[] = sprintf('<%s>; rel="last"', $last);
+
+   $query_string['page'] = 0;
+   $output = implode('&', array_map(function ($v, $k) { return $k . '=' . $v; }, $query_string, array_keys($query_string)));
+   $first = $linkBaseURL.$output;
+   $links[] = sprintf('<%s>; rel="first"', $first);
+
+   $query_string['page'] = $page--;
+   $output = implode('&', array_map(function ($v, $k) { return $k . '=' . $v; }, $query_string, array_keys($query_string)));
+   $prev = $linkBaseURL.$output;
+   $links[] = sprintf('<%s>; rel="prev"', $prev);
+
+   $app->response->headers->set('Link', implode(', ', $links));
+
+   // Display json with data
    echo $a->toJson(JSON_PRETTY_PRINT);
 })->conditions(array('param' => '[a-z]+'));
 
