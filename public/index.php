@@ -62,7 +62,7 @@ $app->get('/item(/:param?)', function ($param='') {
  * @uses /Itemname/relat will get all rows of item 'Itemname' + relationship 'relat'
  */
 $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
-    $page = 0;
+    $page = 1;
     if (isset($_GET['page'])) {
         $page = $_GET['page'];
     }
@@ -70,7 +70,7 @@ $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
     if (isset($_GET['per_page'])) {
         $per_page = $_GET['per_page'];
     }
-    $offset = $page * $per_page;
+    $offset = ($page * $per_page) - $per_page;
    if (strstr($item, '__')) {
        $split = explode('__', $item);
        $assettypes_id = $split[1];
