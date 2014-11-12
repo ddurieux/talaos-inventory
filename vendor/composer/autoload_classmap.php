@@ -7,8 +7,14 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Asset' => $baseDir . '/app/models/Asset.php',
+    'AssetDisplay' => $baseDir . '/app/models/AssetDisplay.php',
+    'AssetPower' => $baseDir . '/app/models/AssetPower.php',
     'AssetType' => $baseDir . '/app/models/AssetType.php',
     'CommonGLPI' => $baseDir . '/app/models/CommonGLPI.php',
     'Config' => $baseDir . '/app/models/Config.php',
+    'DisplayModel' => $baseDir . '/app/models/DisplayModel.php',
+    'DisplayType' => $baseDir . '/app/models/DisplayType.php',
+    'EnergyType' => $baseDir . '/app/models/EnergyType.php',
     'Manufacturer' => $baseDir . '/app/models/Manufacturer.php',
+    'PowerType' => $baseDir . '/app/models/PowerType.php',
 );
