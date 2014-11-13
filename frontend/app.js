@@ -88,6 +88,11 @@ function ListCtrl($scope, Restangular, item) {
 
 function CreateCtrl($scope, $location, Restangular, item) {
   var original = item;
+  $scope.itemtypename = item;
+  Restangular.all("AssetType").customGET().then(function(data) {
+     $scope.assettypes = data.data;
+  });
+  
   $scope.save = function() {
     Restangular.all(item).post($scope.item).then(function(item) {
       $location.path('/' + original);
@@ -98,6 +103,7 @@ function CreateCtrl($scope, $location, Restangular, item) {
 function EditCtrl($scope, $location, Restangular, item) {
   var original = item;
   $scope.item = Restangular.copy(original); 
+  $scope.itemtypename = item.route;
   delete $scope.item['assetschild'];
   if ($scope.item.route == 'Asset') {
       Restangular.all("AssetType").customGET().then(function(data) {
