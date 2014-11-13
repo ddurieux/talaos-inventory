@@ -155,18 +155,6 @@ $app->get('/:item/:id(/:param+)', function ($item, $id, $param = array()) {
    echo $a->toJson(JSON_PRETTY_PRINT);
 })->conditions(array('id' => '\d+'));
 
-/*
-$app->get('/computers/:id', function ($id) {
-   $computer = Computer::with('operatingsystems','monitors')->where('id', '=', $id)->get();
-   //$computer = Computer::where('id', '=', $id)->get();
-   echo $computer->toJson(JSON_PRETTY_PRINT);
-});
-
-$app->get('/operatingsystems/:id', function ($id) {
-   $os = OperatingSystem::where('id', '=', $id)->get();
-   echo $os->toJson(JSON_PRETTY_PRINT);
-});
-*/
 
 
 /**
