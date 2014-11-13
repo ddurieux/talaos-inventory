@@ -26,9 +26,9 @@ $app->get('/item(/:param?)', function ($param='') {
     $a = array();
     if (empty($param)) {
         $a = array(
-            array('item' => 'Asset',
-                  'name' => 'Asset',
-                  'menu' => 'Asset'),
+//            array('item' => 'Asset',
+//                  'name' => 'Asset',
+//                  'menu' => 'Asset'),
             array('item' => 'Manufacturer',
                   'name' => 'Manufacturer',
                   'menu' => 'Configuration'),
@@ -39,7 +39,7 @@ $app->get('/item(/:param?)', function ($param='') {
         foreach ($assettypes as $data) {
             $a[] = array(
                 'item' => 'Asset__'.$data['id'],
-                'name' => $data['name'],
+                'name' => '[A]'.$data['name'],
                 'menu' => 'Asset'
             );
         }

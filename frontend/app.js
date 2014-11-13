@@ -2,6 +2,10 @@ angular.module('asset', ['restangular', 'ngRoute']).
         
   config(function($routeProvider, RestangularProvider) {
     $routeProvider.
+      when('/', {
+        controller:homePage, 
+        templateUrl:'home.html',
+      }).
       when('/:item', {
         controller:ListCtrl, 
         templateUrl:'list.html',
@@ -33,7 +37,7 @@ angular.module('asset', ['restangular', 'ngRoute']).
           }
         }
       }).
-      otherwise({redirectTo:'/Asset'});
+      otherwise({redirectTo:'/'});
       
       RestangularProvider.setBaseUrl('../public/index.php');
 //      RestangularProvider.setDefaultRequestParams({ apiKey: '4f847ad3e4b08a2eed5f3b54' })
@@ -52,6 +56,11 @@ angular.module('asset', ['restangular', 'ngRoute']).
 //      });
       
   });
+
+
+function homePage($scope, Restangular) {
+   $scope.items = Restangular.all("item").getList().$object;
+}
 
 
 function ListCtrl($scope, Restangular, item) {
