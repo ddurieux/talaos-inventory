@@ -71,7 +71,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="item in list | filter:search | orderBy:'name'" ng-show="item.id">
+        <tr ng-repeat="item in list.data | filter:search | orderBy:'name'" ng-show="item.id">
           <td>{{item.id}}</td>
           <td>{{item.name}}</td>
           <td>{{item.serial}}</td>
@@ -85,7 +85,7 @@
         </tbody>
       </table>
 <pre>
-<button ng-click='previousPage()'>Previous</button>  Page: {{meta.currentpage}} / {{meta.totalpage}}  <button ng-click='nextPage()'>Next</button>
+<button ng-click='previousPage()'>Previous</button>  Page: {{list.meta.currentpage}} / {{list.meta.totalpage}}  <button ng-click='nextPage()'>Next</button>
         </pre>
     </script>
   
@@ -102,7 +102,7 @@
               Required</span>
         </div>
 
-        <span ng-if="item.route == 'Asset'">
+        <span ng-if="itemtypename == 'Asset'">
             <div class="form-group">
               <label class="col-sm-2 control-label">Asset type</label>
               <select name="assettypes_id" ng-model="item.assettypes_id" 
