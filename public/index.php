@@ -76,18 +76,20 @@ $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
        $assettypes_id = $split[1];
        $itemname = $split[0];
        $a = $itemname::take($per_page)->offset($offset)->with($param)->where('assettypes_id', '=', $assettypes_id)->get();
+       $total = $itemname::with($param)->where('assettypes_id', '=', $assettypes_id)->count();
    } else {
        $a = $item::take($per_page)->offset($offset)->with($param)->get();
+       $total = $item::with($param)->count();
    }
+   $meta = array();
    // Define total in header
-   $total = $item::take($per_page)->offset($offset)->with($param)->count();
-   $app->response->headers->set('X-Pagination-Total-Count', $total);
+   $meta['total'] = $total;
 
-   $app->response->headers->set('X-Pagination-Per-Page', $per_page);
+   $meta['perpage'] = $per_page;
 
-   $app->response->headers->set('X-Pagination-Page-Count', ceil($total / $per_page));
+   $meta['totalpage'] = ceil($total / $per_page);
 
-   $app->response->headers->set('X-Pagination-Current-Page', $page);
+   $meta['currentpage'] = $page;
 
    // Define links
    $links = array();
@@ -116,11 +118,11 @@ $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
    $output = implode('&', array_map(function ($v, $k) { return $k . '=' . $v; }, $query_string, array_keys($query_string)));
    $prev = $linkBaseURL.$output;
    $links[] = sprintf('<%s>; rel="prev"', $prev);
+   $meta['Link'] = $links;
 
    $app->response->headers->set('Link', implode(', ', $links));
-
    // Display json with data
-   echo $a->toJson(JSON_PRETTY_PRINT);
+   echo json_encode(array('data' => $a, 'meta' => $meta), JSON_PRETTY_PRINT);
 })->conditions(array('param' => '[a-z]+'));
 
 

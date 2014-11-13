@@ -47,20 +47,9 @@ angular.module('asset', ['restangular', 'ngRoute']).
         return elem;
       })
 
-      RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response) {
-         data.meta = [];
-         var link = [];
-         if (response.headers('Link')) {
-             link = parse_link_header(response.headers('Link'));
-         }
-         data.meta.Link = link;
-         data.meta.total = response.headers('X-Pagination-Total-Count');
-         data.meta.perpage = response.headers('X-Pagination-Per-Page');
-         data.meta.totalpage = response.headers('X-Pagination-Page-Count');
-         data.meta.currentpage = response.headers('X-Pagination-Current-Page');
-        
-         return data;
-      });
+//      RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response) {
+//         return data;
+//      });
       
   });
 
@@ -68,22 +57,28 @@ angular.module('asset', ['restangular', 'ngRoute']).
 function ListCtrl($scope, Restangular, item) {
    $scope.list = item;
    $scope.items = Restangular.all("item").getList().$object;
-   $scope.meta = item.meta;
+//   $scope.meta = item.meta;
 
     $scope.loadPage = function() {
-        $scope.list = Restangular.all(item.route).getList({'page':$scope.meta.currentpage}).$object;
+        //$scope.list = Restangular.all(item.route).getList({'page':$scope.list.meta.currentpage});
+//        console.log(Restangular.all('Asset').customGET('', {'page':$scope.list.meta.currentpage}));
+        Restangular.all('Asset').customGET('', {'page':$scope.list.meta.currentpage})
+                .then(function(data) {
+                    $scope.list = data;
+            });
+        //console.log($scope.list);
     };
 
     $scope.nextPage = function() {
-        if ($scope.meta.currentpage < $scope.meta.totalpage) {
-            $scope.meta.currentpage++;
+        if ($scope.list.meta.currentpage < $scope.list.meta.totalpage) {
+            $scope.list.meta.currentpage++;
             $scope.loadPage();
         }
     };
 
     $scope.previousPage = function() {
-        if ($scope.meta.currentpage > 1) {
-            $scope.meta.currentpage--;
+        if ($scope.list.meta.currentpage > 1) {
+            $scope.list.meta.currentpage--;
             $scope.loadPage();
         }
     };
@@ -103,8 +98,11 @@ function CreateCtrl($scope, $location, Restangular, item) {
 function EditCtrl($scope, $location, Restangular, item) {
   var original = item;
   $scope.item = Restangular.copy(original); 
+  delete $scope.item['assetschild'];
   if ($scope.item.route == 'Asset') {
-      $scope.assettypes = Restangular.all("AssetType").getList().$object;
+      Restangular.all("AssetType").customGET().then(function(data) {
+                    $scope.assettypes = data.data;
+            });
   }
     
   $scope.isClean = function() {
