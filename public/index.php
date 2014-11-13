@@ -87,7 +87,11 @@ $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
 
    $meta['perpage'] = $per_page;
 
-   $meta['totalpage'] = ceil($total / $per_page);
+   $totalpage = ceil($total / $per_page);
+   if ($totalpage == 0) {
+       $totalpage = 1;
+   }
+   $meta['totalpage'] = $totalpage;
 
    $meta['currentpage'] = $page;
 
