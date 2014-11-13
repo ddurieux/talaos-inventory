@@ -141,6 +141,11 @@ $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
  * @uses /Itemname/idnum/relat will get the row of item 'Itemname' + relationship 'relat' have id=idnum (idnum is integer)
  */
 $app->get('/:item/:id(/:param+)', function ($item, $id, $param = array()) {
+   if (strstr($item, '__')) {
+       $split = explode('__', $item);
+       $item = $split[0];
+   }
+
    if ($item == 'Asset') {
        $a = $item::with('assetschild')->find($id);
    } else {
@@ -177,6 +182,11 @@ $app->post('/:itemtype', function ($itemtype) use($app) {
    $request = $app->request();
    $body = $request->getBody();
    $input = json_decode($body, true);
+   if (strstr($itemtype, '__')) {
+       $split = explode('__', $itemtype);
+       $input['assettypes_id'] = $split[1];
+       $itemtype = $split[0];
+   }
    $item = new $itemtype();
    foreach($input as $key=>$value) {
       $item->$key = $value;
@@ -200,6 +210,11 @@ $app->put('/:itemtype/:id', function ($itemtype, $id) use ($app) {
    $request = $app->request();
    $body = $request->getBody();
    $input = json_decode($body, true);
+   if (strstr($itemtype, '__')) {
+       $split = explode('__', $itemtype);
+       $input['assettypes_id'] = $split[1];
+       $itemtype = $split[0];
+   }
    $item = $itemtype::find($id);
    foreach($input as $key=>$value) {
       $item->$key = $value;
