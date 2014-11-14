@@ -66,16 +66,12 @@ function homePage($scope, Restangular) {
 function ListCtrl($scope, Restangular, item) {
    $scope.list = item;
    $scope.items = Restangular.all("item").getList().$object;
-//   $scope.meta = item.meta;
 
     $scope.loadPage = function() {
-        //$scope.list = Restangular.all(item.route).getList({'page':$scope.list.meta.currentpage});
-//        console.log(Restangular.all('Asset').customGET('', {'page':$scope.list.meta.currentpage}));
-        Restangular.all('Asset').customGET('', {'page':$scope.list.meta.currentpage})
+        Restangular.all(item.route).customGET('', {'page':$scope.list.meta.currentpage})
                 .then(function(data) {
                     $scope.list = data;
             });
-        //console.log($scope.list);
     };
 
     $scope.nextPage = function() {
