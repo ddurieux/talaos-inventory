@@ -1,4 +1,4 @@
-angular.module('asset', ['restangular', 'ngRoute', 'angular.filter']).
+angular.module('asset', ['restangular', 'ngRoute', 'angular.filter', 'ui.bootstrap']).
         
   config(function($routeProvider, RestangularProvider) {
     $routeProvider.

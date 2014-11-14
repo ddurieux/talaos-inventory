@@ -12,6 +12,9 @@
     <script type="text/javascript" src="js/underscore-min.js"></script>
     <script type="text/javascript" src="js/restangular.min.js"></script>
     <script type="text/javascript" src="js/angular-filter.js"></script>
+    <script type="text/javascript" src="js/ui-bootstrap-0.11.2.min.js"></script>
+    
+    
     <script src="app.js"></script>
   </head>
 
@@ -37,9 +40,9 @@
               <a href="#" role="button" class="navbar-brand">
                   GLPI 2.0
               </a>
-          <li ng-repeat="item in items | unique: 'menu' | orderBy:'menu'" ng-show="item.name">
-            <a href="#">{{item.menu}}</a>
-              <ul class="navbar">
+          <li ng-repeat="item in items | unique: 'menu' | orderBy:'menu'" ng-show="item.name" class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{item.menu}} <b class="caret"></b></a>
+              <ul class="dropdown-menu">
                   <li ng-repeat="item1 in items | orderBy:'name' | filter:{'menu':item.menu}" ng-show="item.name">
                       <a href="#{{item1.item}}">{{item1.name}}</a>
                   </li>
