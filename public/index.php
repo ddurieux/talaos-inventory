@@ -39,7 +39,7 @@ $app->get('/item(/:param?)', function ($param='') {
         foreach ($assettypes as $data) {
             $a[] = array(
                 'item' => 'Asset__'.$data['id'],
-                'name' => '[A]'.$data['name'],
+                'name' => $data['name'],
                 'menu' => 'Asset'
             );
         }

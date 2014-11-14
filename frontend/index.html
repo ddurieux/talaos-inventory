@@ -11,6 +11,7 @@
     <script src="js/angular-route.js"></script>
     <script type="text/javascript" src="js/underscore-min.js"></script>
     <script type="text/javascript" src="js/restangular.min.js"></script>
+    <script type="text/javascript" src="js/angular-filter.js"></script>
     <script src="app.js"></script>
   </head>
 
@@ -36,18 +37,19 @@
               <a href="#" role="button" class="navbar-brand">
                   GLPI 2.0
               </a>
-          <li ng-repeat="item in items | orderBy:'menu':'name'" ng-show="item.name">
-              <a href="#{{item.item}}">{{item.name}}</a>
+          <li ng-repeat="item in items | unique: 'menu' | orderBy:'menu'" ng-show="item.name">
+            <a href="#">{{item.menu}}</a>
+              <ul class="navbar">
+                  <li ng-repeat="item1 in items | orderBy:'name' | filter:{'menu':item.menu}" ng-show="item.name">
+                      <a href="#{{item1.item}}">{{item1.name}}</a>
+                  </li>
+              </ul>
           </li>
+        </ul>
+    </div>
+</li>  
           </ul>
           </nav>
-          <nav class="visible-xs" collapse="!isCollapsed">
-              <ul class="nav navbar-nav">
-                  <li><a href="#getting_started" ng-click="isCollapsed = !isCollapsed">Getting started</a></li>
-                  <li><a href="#directives_small" ng-click="isCollapsed = !isCollapsed">Directives</a></li>
-              </ul>
-          </nav>
-        </div>
       </div>
     </header>
    </script>
