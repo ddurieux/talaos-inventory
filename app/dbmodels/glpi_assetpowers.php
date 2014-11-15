@@ -27,4 +27,4 @@ $table['relationships'] = array(
         'type'  => 'belongsTo',
         'item'  => 'EnergyType'),
 );
-$table['visible'] = array();
+$table['visible'] = array('powertypes_id', 'energytypes_id', 'is_redondant');

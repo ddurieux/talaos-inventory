@@ -41,7 +41,15 @@ class CommonGLPI extends Eloquent {
     public function getFields() {
         require __DIR__.'/../dbmodels/'.$this->table.'.php';
 
-        return $table['visible'];
+        $fields = array();
+        foreach ($table['visible'] as $field) {
+            $fields[$field] = array(
+                'type'  => $table['fields'][$field]['type'],
+                'value' => '',
+                'label' => $field
+            );
+        }
+        return $fields;
     }
 
 

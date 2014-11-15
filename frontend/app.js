@@ -121,8 +121,8 @@ function EditCtrl($scope, $location, Restangular, item) {
     
     $scope.loadRelatedModel = function(itemname, id, isNew) {
         if (isNew == true) {
-            Restangular.all(itemname).customGET().then(function(data) {
-                $scope.relatedmodels[itemname] = data;                
+            Restangular.all('item').customGET(itemname).then(function(data) {
+                $scope.relatedmodels[itemname] = data;  
             });
         } else {
             Restangular.one(itemname, 'id').get()

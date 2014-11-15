@@ -47,7 +47,7 @@ $app->get('/item(/:param?)', function ($param='') {
         $item = new $param;
         $a = $item->getFields();
     }
-    echo json_encode($a);
+    echo json_encode(array('data' => $a));
 });
 
 
@@ -123,27 +123,6 @@ $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
    $prev = $linkBaseURL.$output;
    $links[] = sprintf('<%s>; rel="prev"', $prev);
    $meta['Link'] = $links;
-
-   // Hack Temp
-    if ($item == 'AssetDisplay') {
-        $a = array(
-            'size'     => array(
-                'type'  => 'integer',
-                'value' => 12,
-                'label' => 'Taille'
-            ),
-            'have_vga' => array(
-                'type'  => 'boolean',
-                'value' => False,
-                'label' => 'Connecteur VGA'
-            ),
-            'have_dvi' => array(
-                'type'  => 'boolean',
-                'value' => False,
-                'label' => 'Connecteur DVI'
-            ));
-    }
-
 
    $app->response->headers->set('Link', implode(', ', $links));
    // Display json with data

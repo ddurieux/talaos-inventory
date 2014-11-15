@@ -32,4 +32,5 @@ $table['relationships'] = array(
         'type'  => 'belongsTo',
         'item'  => 'ModelType')
 );
-$table['visible'] = array();
+$table['visible'] = array('size', 'displaytypes_id', 'displaymodels_id', 'have_subd',
+    'have_bnc', 'have_vga', 'have_dvi', 'have_displayport');
