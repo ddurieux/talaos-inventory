@@ -124,6 +124,27 @@ $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
    $links[] = sprintf('<%s>; rel="prev"', $prev);
    $meta['Link'] = $links;
 
+   // Hack Temp
+    if ($item == 'AssetDisplay') {
+        $a = array(
+            'size'     => array(
+                'type'  => 'integer',
+                'value' => 12,
+                'label' => 'Taille'
+            ),
+            'have_vga' => array(
+                'type'  => 'boolean',
+                'value' => False,
+                'label' => 'Connecteur VGA'
+            ),
+            'have_dvi' => array(
+                'type'  => 'boolean',
+                'value' => False,
+                'label' => 'Connecteur DVI'
+            ));
+    }
+
+
    $app->response->headers->set('Link', implode(', ', $links));
    // Display json with data
    echo json_encode(array('data' => $a, 'meta' => $meta), JSON_PRETTY_PRINT);
@@ -152,7 +173,9 @@ $app->get('/:item/:id(/:param+)', function ($item, $id, $param = array()) {
        $a = $item::find($id);
    }
    $a->load($param);
-   echo $a->toJson(JSON_PRETTY_PRINT);
+   $extendedModels = $item::getRelatedModels($id);
+   echo json_encode(array('data' => $a, 'relatedmodels' => $extendedModels), JSON_PRETTY_PRINT);
+//   echo $a->toJson(JSON_PRETTY_PRINT);
 })->conditions(array('id' => '\d+'));
 
 

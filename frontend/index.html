@@ -111,9 +111,9 @@
     <script type="text/ng-template" id="detail.html">
        <ng-include src="'menu.html'"></ng-include>
       <form>
-        <div class="form-group">
-          <label class="col-sm-2 control-label">Name</label>
-          <input type="text" name="name" ng-model="item.name" required>
+        <div class="well well-lg form-group">
+          <label>Name</label>
+          <input type="text" name="name" ng-model="item.name" class="form-control" required>
           <span ng-show="myForm.name.$error.required" class=".help-block">
               Required</span>
         </div>
@@ -121,10 +121,62 @@
         <span ng-if="itemtypename == 'Asset'">
             <div class="form-group">
               <label class="col-sm-2 control-label">Asset type</label>
-              <select name="assettypes_id" ng-model="item.assettypes_id" 
+              <select name="assettypes_id" ng-model="item.assettypes_id"
                     ng-options="assettype.id as assettype.name for assettype in assettypes"></select>
             </div>
         </span>
+
+        <div class="well well-lg">Add
+        <span ng-repeat="(key, relatedmodel) in possiblerelatedmodels">
+            <button ng-click="addNewRelatedModel(key)" class="btn btn-primary">{{key}}</button>
+        </span>
+        </div>
+
+        <div class="form-group" data-ng-repeat="(key, relatedmodel) in relatedmodels track by key">
+            <div class="well well-lg form-group">
+            <div class="well-info panel-heading btn-success"><h4>{{key}}</h4></div>
+            <div ng-repeat="item in relatedmodel.data" ng-show="item.label">
+       
+<span ng-switch on="item.type">  
+  <span ng-switch-when="string">  
+    <label>{{item.label}}</label>
+    <input ng-model="item.value" type="text" class="form-control" />  
+  </span>  
+  <span ng-switch-when="boolean">  
+    <label>
+     <input ng-model="item.value" ng-checked="item.value" type="checkbox"/>  
+     {{item.label}}</label>
+  </span>  
+  <span ng-switch-when="integer">  
+    <label>{{item.label}}</label>
+    <select class="form-control" ng-model="item.value">
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+      <option>6</option>
+      <option>7</option>
+      <option>8</option>
+      <option>9</option>
+      <option>10</option>
+      <option>11</option>
+      <option>12</option>
+      <option>13</option>
+      <option>14</option>
+      <option>15</option>
+      <option>16</option>
+      <option>17</option>
+    </select>    
+  </span>  
+  <span ng-switch-default>  
+      <span class="form-control">Unknown widget</span>  
+  </span>  
+</span>         
+       
+            </div>
+            </div>
+        </div>
 
         <br>
         <a href="#/{{item.route}}" class="btn btn-default">Cancel</a>

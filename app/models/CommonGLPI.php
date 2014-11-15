@@ -43,4 +43,10 @@ class CommonGLPI extends Eloquent {
 
         return $table['visible'];
     }
+
+
+
+    static function getRelatedModels($id) {
+        return array();
+    }
 }

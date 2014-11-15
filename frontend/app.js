@@ -106,31 +106,60 @@ function CreateCtrl($scope, $location, Restangular, item) {
 }
 
 function EditCtrl($scope, $location, Restangular, item) {
-  var original = item;
-  $scope.item = Restangular.copy(original); 
-  $scope.itemtypename = item.route;
-  delete $scope.item['assetschild'];
-  if ($scope.item.route == 'Asset') {
-      Restangular.all("AssetType").customGET().then(function(data) {
-                    $scope.assettypes = data.data;
-            });
-  }
+    var original = item;
+    $scope.item = Restangular.copy(original.data); 
+    $scope.item.route = item.route;
+    $scope.possiblerelatedmodels = item.relatedmodels; 
+    $scope.relatedmodels = new Object();
+    $scope.itemtypename = item.route;
+    delete $scope.item['assetschild'];
+    if ($scope.item.route == 'Asset') {
+        Restangular.all("AssetType").customGET().then(function(data) {
+            $scope.assettypes = data.data;
+        });
+    }
     
-  $scope.isClean = function() {
-    return angular.equals(original, $scope.item);
-  }
+    $scope.loadRelatedModel = function(itemname, id, isNew) {
+        if (isNew == true) {
+            Restangular.all(itemname).customGET().then(function(data) {
+                $scope.relatedmodels[itemname] = data;                
+            });
+        } else {
+            Restangular.one(itemname, 'id').get()
+                .then(function(data) {
+                    $scope.relatedmodels.itemname.data = data;
+            });
+        }
+    };
+    for (var key in item.relatedmodels) {
+        if (item.relatedmodels[key].new == false) {
+            $scope.loadRelatedModel(key, $scope.item.id, item.relatedmodels[key].new);
+        }
+    }
+    
+    $scope.addNewRelatedModel = function(itemname) {
+//        var newItemNo = $scope.choices.length+1;
+        $scope.loadRelatedModel(itemname, 0, true);
+    };
+  
 
-  $scope.destroy = function() {
-    original.remove().then(function() {
-      $location.path('/' + $scope.item.route);
-    });
-  };
+    
+    
+    $scope.isClean = function() {
+        return angular.equals(original, $scope.item);
+    }
 
-  $scope.save = function() {
-    $scope.item.put().then(function() {
-      $location.path('/' + $scope.item.route);
-    });
-  };
+    $scope.destroy = function() {
+        original.remove().then(function() {
+            $location.path('/' + $scope.item.route);
+        });
+    };
+
+    $scope.save = function() {
+        $scope.item.put().then(function() {
+            $location.path('/' + $scope.item.route);
+        });
+    };
 }
 
 /*
