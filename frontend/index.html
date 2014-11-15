@@ -134,7 +134,8 @@
 
         <div class="form-group" data-ng-repeat="(key, relatedmodel) in relatedmodels track by key">
             <div class="well well-lg form-group">
-            <div class="well-info panel-heading btn-success"><h4>{{key}}</h4></div>
+  <fieldset>
+    <legend>{{key}}</legend>
             <div ng-repeat="item in relatedmodel.data" ng-show="item.label">
        
 <span ng-switch on="item.type">  
@@ -176,6 +177,7 @@
 </span>         
        
             </div>
+     </fieldset>
             </div>
         </div>
 
