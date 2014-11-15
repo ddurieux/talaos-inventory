@@ -43,11 +43,12 @@ $app->get('/item(/:param?)', function ($param='') {
                 'menu' => 'Asset'
             );
         }
+    echo json_encode($a);
     } else {
         $item = new $param;
         $a = $item->getFields();
+        echo json_encode(array('data' => $a));
     }
-    echo json_encode(array('data' => $a));
 });
 
 
