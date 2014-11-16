@@ -94,6 +94,7 @@ function ListCtrl($scope, Restangular, item) {
 function CreateCtrl($scope, $location, Restangular, item) {
   var original = item;
   $scope.itemtypename = item;
+  $scope.items = Restangular.all("item").getList().$object;
   Restangular.all("AssetType").customGET().then(function(data) {
      $scope.assettypes = data.data;
   });
@@ -108,6 +109,7 @@ function CreateCtrl($scope, $location, Restangular, item) {
 function EditCtrl($scope, $location, Restangular, item) {
     var original = item;
     $scope.item = Restangular.copy(original.data); 
+    $scope.items = Restangular.all("item").getList().$object;
     $scope.item.route = item.route;
     $scope.possiblerelatedmodels = item.relatedmodels; 
     $scope.relatedmodels = new Object();
