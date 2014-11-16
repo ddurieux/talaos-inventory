@@ -138,12 +138,18 @@ function EditCtrl($scope, $location, Restangular, item) {
     }
     
     $scope.addNewRelatedModel = function(itemname) {
-//        var newItemNo = $scope.choices.length+1;
         $scope.loadRelatedModel(itemname, 0, true);
     };
-  
 
-    
+    // Load 
+    for (var key in $scope.possiblerelatedmodels) {
+        Restangular.one(key, 0).customGET('', {assets_id:item.data.id}).then(function(rel) {
+            if (rel.hasOwnProperty('data') == true) {
+                $scope.relatedmodels[key] = rel;
+                delete $scope.possiblerelatedmodels[key];
+            }
+        });
+    }
     
     $scope.isClean = function() {
         return angular.equals(original, $scope.item);
@@ -156,9 +162,23 @@ function EditCtrl($scope, $location, Restangular, item) {
     };
 
     $scope.save = function() {
-        $scope.item.put().then(function() {
-            $location.path('/' + $scope.item.route);
-        });
+        $scope.item.put();
+        for (var key in $scope.relatedmodels) {
+            if (typeof $scope.relatedmodels[key].data.id === 'undefined') {
+                // Add
+                $scope.relatedmodels[key].data.assets_id = $scope.item.id;
+                Restangular.all(key).post($scope.relatedmodels[key].data);
+            } else {
+                // Update
+                for (var k in $scope.relatedmodels[key].data) {
+                    $scope.relatedmodels[key][k] = $scope.relatedmodels[key].data[k];
+                }
+                delete $scope.relatedmodels[key].meta;
+                delete $scope.relatedmodels[key].data;
+                $scope.relatedmodels[key].put();
+            }
+        }
+        $location.path('/' + $scope.item.route);
     };
 }
 

@@ -136,21 +136,21 @@
             <div class="well well-lg form-group">
   <fieldset>
     <legend>{{key}}</legend>
-            <div ng-repeat="item in relatedmodel.data" ng-show="item.label">
+            <div ng-repeat="(kitem, item) in relatedmodel.meta" ng-show="item.label">
        
 <span ng-switch on="item.type">  
   <span ng-switch-when="string">  
     <label>{{item.label}}</label>
-    <input ng-model="item.value" type="text" class="form-control" />  
+    <input ng-model="relatedmodel.data[kitem]" type="text" class="form-control" />  
   </span>  
   <span ng-switch-when="boolean">  
     <label>
-     <input ng-model="item.value" ng-checked="item.value" type="checkbox"/>  
+     <input ng-model="relatedmodel.data[kitem]" ng-checked="relatedmodel.data[kitem]" type="checkbox"/>  
      {{item.label}}</label>
   </span>  
   <span ng-switch-when="integer">  
     <label>{{item.label}}</label>
-    <select class="form-control" ng-model="item.value">
+    <select class="form-control" ng-model="relatedmodel.data[kitem]">
       <option>0</option>
       <option>1</option>
       <option>2</option>

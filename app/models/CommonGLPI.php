@@ -41,13 +41,16 @@ class CommonGLPI extends Eloquent {
     public function getFields() {
         require __DIR__.'/../dbmodels/'.$this->table.'.php';
 
-        $fields = array();
+        $fields = array(
+            'data' => array(),
+            'meta' => array()
+        );
         foreach ($table['visible'] as $field) {
-            $fields[$field] = array(
+            $fields['meta'][$field] = array(
                 'type'  => $table['fields'][$field]['type'],
-                'value' => '',
                 'label' => $field
             );
+            $fields['data'][$field] = 0; // TODO get the right default value
         }
         return $fields;
     }

@@ -26,9 +26,6 @@ $app->get('/item(/:param?)', function ($param='') {
     $a = array();
     if (empty($param)) {
         $a = array(
-//            array('item' => 'Asset',
-//                  'name' => 'Asset',
-//                  'menu' => 'Asset'),
             array('item' => 'Manufacturer',
                   'name' => 'Manufacturer',
                   'menu' => 'Configuration'),
@@ -47,7 +44,7 @@ $app->get('/item(/:param?)', function ($param='') {
     } else {
         $item = new $param;
         $a = $item->getFields();
-        echo json_encode(array('data' => $a));
+        echo json_encode($a, JSON_PRETTY_PRINT);
     }
 });
 
@@ -147,6 +144,23 @@ $app->get('/:item/:id(/:param+)', function ($item, $id, $param = array()) {
        $item = $split[0];
    }
 
+   if (isset($_GET)
+       && !empty($_GET)) {
+
+       $key = key($_GET);
+       $a = $item::with('assetschild')->find($id);
+       $a = $item::where($key, '=', $_GET[$key])->first();
+       if ($a) {
+           $i = new $item;
+           $meta = $i->getFields();
+           echo json_encode(array('data' => $a, 'meta' => $meta['meta']), JSON_PRETTY_PRINT);
+           return;
+       } else {
+           echo json_encode(array());
+           return;
+       }
+   }
+
    if ($item == 'Asset') {
        $a = $item::with('assetschild')->find($id);
    } else {
@@ -155,7 +169,6 @@ $app->get('/:item/:id(/:param+)', function ($item, $id, $param = array()) {
    $a->load($param);
    $extendedModels = $item::getRelatedModels($id);
    echo json_encode(array('data' => $a, 'relatedmodels' => $extendedModels), JSON_PRETTY_PRINT);
-//   echo $a->toJson(JSON_PRETTY_PRINT);
 })->conditions(array('id' => '\d+'));
 
 
