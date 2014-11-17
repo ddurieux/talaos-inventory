@@ -28,10 +28,23 @@ $app->get('/item(/:param?)', function ($param='') {
         $a = array(
             array('item' => 'Manufacturer',
                   'name' => 'Manufacturer',
-                  'menu' => 'Configuration'),
+                  'menu' => 'Dropdown'),
             array('item' => 'AssetType',
                   'name' => 'Type of assets',
-                  'menu' => 'Configuration'));
+                  'menu' => 'Configuration'),
+            array('item' => 'DisplayModel',
+                  'name' => 'Models of display',
+                  'menu' => 'Dropdown'),
+            array('item' => 'DisplayType',
+                  'name' => 'Types of display',
+                  'menu' => 'Dropdown'),
+            array('item' => 'EnergyType',
+                  'name' => 'Types of energy',
+                  'menu' => 'Dropdown'),
+            array('item' => 'PowerType',
+                  'name' => 'Types of power',
+                  'menu' => 'Dropdown')
+            );
         $assettypes = AssetType::get();
         foreach ($assettypes as $data) {
             $a[] = array(
