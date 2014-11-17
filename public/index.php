@@ -25,26 +25,40 @@ $app->get('/hello/:name', function ($name) {
 $app->get('/item(/:param?)', function ($param='') {
     $a = array();
     if (empty($param)) {
-        $a = array(
-            array('item' => 'Manufacturer',
-                  'name' => 'Manufacturer',
-                  'menu' => 'Dropdown'),
-            array('item' => 'AssetType',
-                  'name' => 'Type of assets',
-                  'menu' => 'Configuration'),
-            array('item' => 'DisplayModel',
-                  'name' => 'Models of display',
-                  'menu' => 'Dropdown'),
-            array('item' => 'DisplayType',
-                  'name' => 'Types of display',
-                  'menu' => 'Dropdown'),
-            array('item' => 'EnergyType',
-                  'name' => 'Types of energy',
-                  'menu' => 'Dropdown'),
-            array('item' => 'PowerType',
-                  'name' => 'Types of power',
-                  'menu' => 'Dropdown')
-            );
+        $tables = DBModels::getDBModels();
+        $a = array();
+        foreach ($tables as $table) {
+            if (!empty($table['menu'])) {
+                if (!(strpos($table['model'], "Asset") === 0)
+                     || $table['model'] == 'AssetType') {
+                    $a[] = array(
+                        'item' => $table['model'],
+                        'name' => $table['model'],
+                        'menu' => $table['menu']
+                    );
+                }
+            }
+        }
+//        $a = array(
+//            array('item' => 'Manufacturer',
+//                  'name' => 'Manufacturer',
+//                  'menu' => 'Dropdown'),
+//            array('item' => 'AssetType',
+//                  'name' => 'Type of assets',
+//                  'menu' => 'Configuration'),
+//            array('item' => 'DisplayModel',
+//                  'name' => 'Models of display',
+//                  'menu' => 'Dropdown'),
+//            array('item' => 'DisplayType',
+//                  'name' => 'Types of display',
+//                  'menu' => 'Dropdown'),
+//            array('item' => 'EnergyType',
+//                  'name' => 'Types of energy',
+//                  'menu' => 'Dropdown'),
+//            array('item' => 'PowerType',
+//                  'name' => 'Types of power',
+//                  'menu' => 'Dropdown')
+//            );
         $assettypes = AssetType::get();
         foreach ($assettypes as $data) {
             $a[] = array(

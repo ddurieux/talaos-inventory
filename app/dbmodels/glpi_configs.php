@@ -7,7 +7,9 @@ $table = array(
     'indexes'       => array(),
     'oldindexes'    => array(),
     'relationships' => array(),
-    'visible'       => array()
+    'visible'       => array(),
+    'model'         => 'Config',
+    'menu'          => ''
 );
 $table['fields'] = array(
     'id'      => DBModels::type('increments'),
