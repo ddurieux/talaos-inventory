@@ -47,7 +47,11 @@ class GLPIInstall {
                             break;
 
                         case 'text':
-                            $table->text($fieldname)->nullable();
+                            if (isset($data['size']) && is_numeric($data['size'])) {
+                                $table->text($fieldname, $data['size'])->nullable();
+                            } else {
+                                $table->text($fieldname)->nullable();
+                            }
                             break;
 
                         case 'longtext':
@@ -111,7 +115,23 @@ class GLPIInstall {
                             }
                             $table->dateTime($fieldname)->default($default);
                             break;
-
+                            
+                        case 'decimal':
+                            $default = '0.0000';
+                            if (isset($data['default'])
+                                && !empty($data['default'])) {
+                                $default = $data['default'];
+                            }
+                            $table->decimal($fieldname,20,4)->default($default);
+                            break;
+                        case 'float':
+                            $default = '0';
+                            if (isset($data['default'])
+                                && !empty($data['default'])) {
+                                $default = $data['default'];
+                            }
+                            $table->float($fieldname)->default($default);
+                            break;                            
                     }
                 }
                 $table->timestamps();
