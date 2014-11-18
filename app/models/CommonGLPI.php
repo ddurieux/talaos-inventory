@@ -39,7 +39,7 @@ class CommonGLPI extends Eloquent {
                         $linktable = $table['relationships'][$name]['linktable'];
                     }
                     if (isset($table['relationships'][$name]['condition'])
-                           && is_array($table['relationships'][$name]['condition']) 
+                           && is_array($table['relationships'][$name]['condition'])
                            && count($table['relationships'][$name]['condition'])==3) {
                                print_r($table['relationships'][$name]['condition']);
                         return($this->belongsToMany(
@@ -54,7 +54,7 @@ class CommonGLPI extends Eloquent {
                             $table['relationships'][$name]['item'],
                             $linktable,
                             $field1,
-                            $field2));                        
+                            $field2));
                     }
                     break;
 
@@ -63,7 +63,7 @@ class CommonGLPI extends Eloquent {
                     if (isset($table['relationships'][$name]['field'])) {
                         $field = $table['relationships'][$name]['field'];
                     }
-                
+
                     return($this->hasMany(
                         $table['relationships'][$name]['item'],
                         $field,
@@ -94,7 +94,25 @@ class CommonGLPI extends Eloquent {
                    'type'  => $data['type'],
                    'label' => $field
                 );
-                $fields['data'][$field] = 0; // TODO get the right default value
+                switch ($data['type']) {
+
+                    case 'datetime':
+                        $fields['data'][$field] = '0000-00-00 00:00:00';
+                        break;
+
+                    case 'integer':
+                        $fields['data'][$field] = 0;
+                        break;
+
+                    case 'boolean':
+                        $fields['data'][$field] = 0;
+                        break;
+
+                    default:
+                        $fields['data'][$field] = '';
+                        break;
+
+                }
             }
         }
         foreach ($table['relationships'] as $name=>$data) {

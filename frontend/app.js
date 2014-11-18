@@ -33,7 +33,7 @@ angular.module('asset', ['restangular', 'ngRoute', 'angular.filter', 'ui.bootstr
           templateUrl:'detail.html',
           resolve: {
           item: function(Restangular, $route){
-              return $route.current.params.item;
+             return Restangular.one('item', $route.current.params.item).get();
           }
         }
       }).
@@ -93,15 +93,18 @@ function ListCtrl($scope, Restangular, item) {
 
 function CreateCtrl($scope, $location, Restangular, item) {
   var original = item;
-  $scope.itemtypename = item;
+  
+  $scope.item = Restangular.copy(original.data); 
+  $scope.meta = Restangular.copy(original.meta); 
+  $split = $location.$$path.split("/");
+  $scope.item.route = $split[1];
+  $scope.itemtypename = $split[1];
   $scope.items = Restangular.all("item").getList().$object;
-  Restangular.all("AssetType").customGET().then(function(data) {
-     $scope.assettypes = data.data;
-  });
   
   $scope.save = function() {
-    Restangular.all(item).post($scope.item).then(function(item) {
-      $location.path('/' + original);
+      
+    Restangular.all($scope.item.route).post($scope.item).then(function(item) {
+      $location.path('/' + $scope.item.route);
     });
   }
 }
