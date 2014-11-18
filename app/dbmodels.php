@@ -24,15 +24,19 @@ class DBModels {
      * Function used to define info of field of DB
      *
      * @param string $type
-     * @param boolean $visibility
      * @param array $options
      *
      * @return array
      */
-    static function type($type, $visibility=true, $options=array()) {
+    static function type($type, $options=array()) {
         $data = array(
             'type'    => $type
         );
-        return array_merge($data, $options);
+        $data = array_merge($data, $options);
+        
+        if (!isset($data['visible'])) {
+            $data['visible'] = false;
+        }
+        return $data;
     }
 }
