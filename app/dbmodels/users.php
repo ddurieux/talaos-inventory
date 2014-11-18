@@ -111,5 +111,5 @@ $table['fields'] = array(
 $table['relationships'] = array(
     'locations' => array(
         'type' => 'belongsTo',
-        'item' => 'Location')
+        'item' => 'Location'),
 );

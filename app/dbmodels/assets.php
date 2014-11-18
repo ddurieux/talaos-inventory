@@ -29,11 +29,12 @@ $table['fields'] = array(
     'assets_id'        => DBModels::type('integer'),
     'users_id'         => DBModels::type('integer'),
     'users_id_tech'    => DBModels::type('integer'),
+    'groups_id'        => DBModels::type('integer'),
+    'groups_id_tech'   => DBModels::type('integer'),
 );
-///TODO : Add groups : contacts / technicians 
 
 $table['relationships'] = array(
-    'assets'        => array(
+    'assets'    => array(
         'type'  => 'belongsTo',
         'item'  => 'Asset',
         'field' => 'assets_id'),
@@ -54,5 +55,12 @@ $table['relationships'] = array(
         'type'  => 'belongsTo',
         'item'  => 'User',
         'field' => 'users_id_tech'),
+    'groups_id' => array(
+        'type' => 'belongsTo',
+        'item' => 'Group'),
+    'groups_id_tech' => array(
+        'type'  => 'belongsTo',
+        'item'  => 'Group',
+        'field' => 'groups_id_tech'),
         
 );

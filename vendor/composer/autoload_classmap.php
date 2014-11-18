@@ -15,6 +15,8 @@ return array(
     'DisplayModel' => $baseDir . '/app/models/DisplayModel.php',
     'DisplayType' => $baseDir . '/app/models/DisplayType.php',
     'EnergyType' => $baseDir . '/app/models/EnergyType.php',
+    'Group' => $baseDir . '/app/models/Group.php',
+    'Location' => $baseDir . '/app/models/Location.php',
     'Manufacturer' => $baseDir . '/app/models/Manufacturer.php',
     'PowerType' => $baseDir . '/app/models/PowerType.php',
     'User' => $baseDir . '/app/models/User.php',

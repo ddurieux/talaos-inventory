@@ -33,3 +33,14 @@ $table['fields'] = array(
     'longitude'        => DBModels::type('string'),
     'altitude'         => DBModels::type('string'),
 );
+
+$table['relationships'] = array(
+    'locations'        => array(
+        'type'  => 'belongsTo',
+        'item'  => 'Location'),
+    'locationschild'   => array(
+        'type'  => 'hasMany',
+        'item'  => 'Location',
+        'field' => 'locations_id'),
+        
+);
