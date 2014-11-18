@@ -17,4 +17,7 @@ $table['fields'] = array(
     'comment' => DBModels::type('text'),
 );
 
+$table['visible'] = array('name', 'comment');
+
+
 
