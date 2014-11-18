@@ -109,6 +109,7 @@ function CreateCtrl($scope, $location, Restangular, item) {
 function EditCtrl($scope, $location, Restangular, item) {
     var original = item;
     $scope.item = Restangular.copy(original.data); 
+    $scope.meta = Restangular.copy(original.meta); 
     $scope.items = Restangular.all("item").getList().$object;
     $scope.item.route = item.route;
     $scope.possiblerelatedmodels = item.relatedmodels; 
@@ -164,6 +165,7 @@ function EditCtrl($scope, $location, Restangular, item) {
     };
 
     $scope.save = function() {
+        
         $scope.item.put();
         for (var key in $scope.relatedmodels) {
             if (typeof $scope.relatedmodels[key].data.id === 'undefined') {
