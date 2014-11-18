@@ -40,7 +40,6 @@ $table['relationships'] = array(
         'item'  => 'Location'),
     'locationschild'   => array(
         'type'  => 'hasMany',
-        'item'  => 'Location',
-        'field' => 'location_id'),
+        'item'  => 'Location'),
         
 );

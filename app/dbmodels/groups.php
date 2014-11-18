@@ -52,7 +52,6 @@ $table['relationships'] = array(
         'item' => 'Group'),     
     'groupschild'   => array(
         'type'  => 'hasMany',
-        'item'  => 'Group',
-        'field' => 'group_id'),
+        'item'  => 'Group'),
         
 );
