@@ -7,7 +7,7 @@ $table = array(
     'indexes'       => array(),
     'oldindexes'    => array(),
     'relationships' => array(),
-    'model'         => 'Infocom',
+    'model'         => 'Notepad',
     'menu'          => ''
 );
 $table['fields'] = array(
