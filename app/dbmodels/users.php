@@ -37,7 +37,7 @@ $table['fields'] = array(
     'profiles_id'                     => DBModels::type('integer'), ///TODO create relation
     'entities_id'                     => DBModels::type('integer'), ///TODO create relation
     'usertitles_id'                   => DBModels::type('integer'),
-    'usercategories_id'               => DBModels::type('integer'), ///TODO create relation
+    'usercategories_id'               => DBModels::type('integer'),
     'date_format'                     => DBModels::type('integer',
                                                     array('nullable' => true)),
     'number_format'                   => DBModels::type('integer',
@@ -114,6 +114,8 @@ $table['relationships'] = array(
         'item' => 'Location'),
     'usertitles' => array(
         'type' => 'belongsTo',
-        'item' => 'UserTitle')
-
+        'item' => 'UserTitle'),
+    'usercategories' => array(
+        'type' => 'belongsTo',
+        'item' => 'UserCategory')
 );
