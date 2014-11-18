@@ -17,4 +17,5 @@ return array(
     'EnergyType' => $baseDir . '/app/models/EnergyType.php',
     'Manufacturer' => $baseDir . '/app/models/Manufacturer.php',
     'PowerType' => $baseDir . '/app/models/PowerType.php',
+    'User' => $baseDir . '/app/models/User.php',
 );

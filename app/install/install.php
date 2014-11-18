@@ -50,22 +50,48 @@ class GLPIInstall {
                             $table->text($fieldname)->nullable();
                             break;
 
+                        case 'longtext':
+                            $table->longText($fieldname)->nullable();
+                            break;
+
                         case 'integer':
-                            $default = '0';
-                            if (isset($data['default'])
-                                && !empty($data['default'])) {
-                                $default = $data['default'];
+                            if (isset($data['nullable']) && $data['nullable']) {
+                                $default = NULL;
+                                
+                                if (isset($data['default'])
+                                    && !empty($data['default'])) {
+                                    $default = $data['default'];
+                                }
+                                $table->integer($fieldname)->unsigned()->default($default)->nullable();
+                            } else {
+                                $default = '0';
+                                
+                                if (isset($data['default'])
+                                    && !empty($data['default'])) {
+                                    $default = $data['default'];
+                                }
+                            
+                                $table->integer($fieldname)->unsigned()->default($default);
                             }
-                            $table->integer($fieldname)->unsigned()->default($default);
                             break;
 
                         case 'boolean':
-                            $default = '0';
-                            if (isset($data['default'])
-                                && !empty($data['default'])) {
-                                $default = $data['default'];
+                            if (isset($data['nullable']) && $data['nullable']) {
+                                $default = NULL;
+                                if (isset($data['default'])
+                                    && !empty($data['default'])) {
+                                    $default = $data['default'];
+                                }
+                                $table->boolean($fieldname)->default($default)->nullable();;
+                            
+                            } else {
+                                $default = '0';
+                                if (isset($data['default'])
+                                    && !empty($data['default'])) {
+                                    $default = $data['default'];
+                                }
+                                $table->boolean($fieldname)->default($default);
                             }
-                            $table->boolean($fieldname)->default($default);
                             break;
 
                         case 'date':

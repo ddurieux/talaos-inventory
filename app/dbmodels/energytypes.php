@@ -11,10 +11,9 @@ $table = array(
     'menu'          => 'Dropdown'
 );
 $table['fields'] = array(
-    'id'      => DBModels::type('increments'),
-    'name'    => DBModels::type('string', 
-                                array('visible' => true)),
-    'comment' => DBModels::type('text', 
-                                array('visible' => true)),
+    'id'      => DBModels::type('increments', 
+                                array('visible' => false)),
+    'name'    => DBModels::type('string'),
+    'comment' => DBModels::type('text'),
 );
 

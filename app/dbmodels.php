@@ -35,7 +35,7 @@ class DBModels {
         $data = array_merge($data, $options);
         
         if (!isset($data['visible'])) {
-            $data['visible'] = false;
+            $data['visible'] = true;
         }
         return $data;
     }

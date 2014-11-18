@@ -11,7 +11,8 @@ $table = array(
     'menu'          => 'Configuration'
 );
 $table['fields'] = array(
-    'id'      => DBModels::type('increments'),
+    'id'      => DBModels::type('increments', 
+                                array('visible' => false)),
     'name'    => DBModels::type('string'),
     'comment' => DBModels::type('text'),
 );

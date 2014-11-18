@@ -11,14 +11,13 @@ $table = array(
     'menu'          => ''
 );
 $table['fields'] = array(
-    'id'               => DBModels::type('increments'),
-    'assets_id'        => DBModels::type('integer'),
-    'powertypes_id'    => DBModels::type('integer', 
-                                         array('visible' => true)),
-    'energytypes_id'   => DBModels::type('integer', 
-                                         array('visible' => true)),
-    'is_redondant'     => DBModels::type('boolean', 
-                                         array('visible' => true)),
+    'id'               => DBModels::type('increments', 
+                                         array('visible' => false)),
+    'assets_id'        => DBModels::type('integer', 
+                                         array('visible' => false)),
+    'powertypes_id'    => DBModels::type('integer'),
+    'energytypes_id'   => DBModels::type('integer'),
+    'is_redondant'     => DBModels::type('boolean'),
 );
 $table['relationships'] = array(
     'assets'        => array(
