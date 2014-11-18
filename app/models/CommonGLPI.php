@@ -7,7 +7,8 @@ class CommonGLPI extends Eloquent {
     protected $table = '';
 
     public function __call($name, $arguments) {
-        require __DIR__.'/../dbmodels/'.$this->table.'.php';
+        //require __DIR__.'/../dbmodels/'.preg_replace('/^glpi_/','',$this->table).'.php';
+	require $this->getDBmodelFileFromTablename($this->table);
 
         if (isset($table['relationships'][$name])) {
             $field = NULL;
@@ -39,7 +40,8 @@ class CommonGLPI extends Eloquent {
 
 
     public function getFields($restrict='visible') {
-        require __DIR__.'/../dbmodels/'.$this->table.'.php';
+        //require __DIR__.'/../dbmodels/'.preg_replace('/^glpi_/','',$this->table).'.php';
+	require $this->getDBmodelFileFromTablename($this->table);
 
         $fields = array(
             'data' => array(),
@@ -60,7 +62,9 @@ class CommonGLPI extends Eloquent {
         return $fields;
     }
 
-
+    function getDBmodelFileFromTablename($tablename) {
+        return __DIR__.'/../dbmodels/'.preg_replace('/^glpi_/','',$tablename).'.php';
+    }
 
     static function getRelatedModels($id) {
         return array();

@@ -14,7 +14,7 @@ class DBModels {
             require_once $file;
             $split = explode('/', $file);
             $tableName = str_replace('.php', '', $split[(count($split) - 1)]);
-            $tables[$tableName] = $table;
+            $tables['glpi_'.$tableName] = $table;
         }
         return $tables;
     }
