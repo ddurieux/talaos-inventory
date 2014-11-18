@@ -63,16 +63,9 @@ class Glpi {
 
     function runSeed()
     {
-        $files = glob(SEEDS_PATH.'/*.php');
-
-        foreach ($files as $file) {
-            require_once($file);
-
-            $name = basename($file, '.php');
-            list($number,$class) = explode('_',$name);
-            $migration = new $class;
-            $migration->run();
-        }
+        include __DIR__."/app/seed.php";
+        $seed = new Seed();
+        $seed->run();
     }
 
 
