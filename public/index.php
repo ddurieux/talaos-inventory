@@ -247,7 +247,12 @@ $app->put('/:itemtype/:id', function ($itemtype, $id) use ($app) {
  * @uses /Itemname/idnum will delete the row of item 'Itemname' with id=idnum (idnum is integer)
  */
 $app->delete('/:item/:id', function ($item, $id) {
-   $item::destroy($id);
+    if (strstr($item, '__')) {
+       $split = explode('__', $item);
+       $item = $split[0];
+    }
+
+    $item::destroy($id);
 })->conditions(array('id' => '\d+'));
 
 

@@ -170,7 +170,7 @@ function EditCtrl($scope, $location, Restangular, item) {
     }
 
     $scope.destroy = function() {
-        original.remove().then(function() {
+        $scope.item.remove().then(function() {
             $location.path('/' + $scope.item.route);
         });
     };
