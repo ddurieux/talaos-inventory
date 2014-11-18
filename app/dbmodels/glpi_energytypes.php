@@ -7,13 +7,14 @@ $table = array(
     'indexes'       => array(),
     'oldindexes'    => array(),
     'relationships' => array(),
-    'visible'       => array(),
     'model'         => 'EnergyType',
     'menu'          => 'Dropdown'
 );
 $table['fields'] = array(
     'id'      => DBModels::type('increments'),
-    'name'    => DBModels::type('string'),
-    'comment' => DBModels::type('text'),
+    'name'    => DBModels::type('string', 
+                                array('visible' => true)),
+    'comment' => DBModels::type('text', 
+                                array('visible' => true)),
 );
 

@@ -7,21 +7,28 @@ $table = array(
     'indexes'       => array(),
     'oldindexes'    => array(),
     'relationships' => array(),
-    'visible'       => array(),
     'model'         => 'AssetDisplay',
     'menu'          => ''
 );
 $table['fields'] = array(
     'id'               => DBModels::type('increments'),
     'assets_id'        => DBModels::type('integer'),
-    'size'             => DBModels::type('integer'),
-    'displaytypes_id'  => DBModels::type('integer'),
-    'displaymodels_id' => DBModels::type('integer'),
-    'have_subd'        => DBModels::type('boolean'),
-    'have_bnc'         => DBModels::type('boolean'),
-    'have_vga'         => DBModels::type('boolean'),
-    'have_dvi'         => DBModels::type('boolean'),
-    'have_displayport' => DBModels::type('boolean'),
+    'size'             => DBModels::type('integer', 
+                                         array('visible' => true)),
+    'displaytypes_id'  => DBModels::type('integer', 
+                                         array('visible' => true)),
+    'displaymodels_id' => DBModels::type('integer', 
+                                         array('visible' => true)),
+    'have_subd'        => DBModels::type('boolean', 
+                                         array('visible' => true)),
+    'have_bnc'         => DBModels::type('boolean', 
+                                         array('visible' => true)),
+    'have_vga'         => DBModels::type('boolean', 
+                                         array('visible' => true)),
+    'have_dvi'         => DBModels::type('boolean', 
+                                         array('visible' => true)),
+    'have_displayport' => DBModels::type('boolean', 
+                                         array('visible' => true)),
 );
 $table['relationships'] = array(
     'assets'        => array(
@@ -34,5 +41,3 @@ $table['relationships'] = array(
         'type'  => 'belongsTo',
         'item'  => 'ModelType')
 );
-$table['visible'] = array('size', 'displaytypes_id', 'displaymodels_id', 'have_subd',
-    'have_bnc', 'have_vga', 'have_dvi', 'have_displayport');

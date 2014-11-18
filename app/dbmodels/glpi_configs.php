@@ -7,7 +7,6 @@ $table = array(
     'indexes'       => array(),
     'oldindexes'    => array(),
     'relationships' => array(),
-    'visible'       => array(),
     'model'         => 'Config',
     'menu'          => ''
 );

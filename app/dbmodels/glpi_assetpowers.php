@@ -7,16 +7,18 @@ $table = array(
     'indexes'       => array(),
     'oldindexes'    => array(),
     'relationships' => array(),
-    'visible'       => array(),
     'model'         => 'AssetPower',
     'menu'          => ''
 );
 $table['fields'] = array(
     'id'               => DBModels::type('increments'),
     'assets_id'        => DBModels::type('integer'),
-    'powertypes_id'    => DBModels::type('integer'),
-    'energytypes_id'   => DBModels::type('integer'),
-    'is_redondant'     => DBModels::type('boolean'),
+    'powertypes_id'    => DBModels::type('integer', 
+                                         array('visible' => true)),
+    'energytypes_id'   => DBModels::type('integer', 
+                                         array('visible' => true)),
+    'is_redondant'     => DBModels::type('boolean', 
+                                         array('visible' => true)),
 );
 $table['relationships'] = array(
     'assets'        => array(
@@ -29,4 +31,3 @@ $table['relationships'] = array(
         'type'  => 'belongsTo',
         'item'  => 'EnergyType'),
 );
-$table['visible'] = array('powertypes_id', 'energytypes_id', 'is_redondant');

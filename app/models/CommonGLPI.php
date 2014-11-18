@@ -45,12 +45,15 @@ class CommonGLPI extends Eloquent {
             'data' => array(),
             'meta' => array()
         );
-        foreach ($table['visible'] as $field) {
-            $fields['meta'][$field] = array(
-                'type'  => $table['fields'][$field]['type'],
-                'label' => $field
-            );
-            $fields['data'][$field] = 0; // TODO get the right default value
+
+        foreach ($table['fields'] as $field => $data) {
+            if ($data['visible']) {
+                $fields['meta'][$field] = array(
+                   'type'  => $data['type'],
+                   'label' => $field
+                );
+                $fields['data'][$field] = 0; // TODO get the right default value
+            }
         }
         return $fields;
     }
