@@ -13,7 +13,7 @@ $table = array(
 $table['fields'] = array(
     'id'                     => DBModels::type('increments', 
                                                array('visible' => false)),
-    'entities_id'            => DBModels::type('integer'),
+    'entity_id'            => DBModels::type('integer'),
     'is_recursive'           => DBModels::type('boolean', 
                                                array('visible' => false)),
     'is_deleted'             => DBModels::type('boolean', 
@@ -25,7 +25,7 @@ $table['fields'] = array(
     'name'                   => DBModels::type('string'),
     'num'                    => DBModels::type('string'),
     'comment'                => DBModels::type('text'),
-    'contracttypes_id'       => DBModels::type('integer'),
+    'contracttype_id'       => DBModels::type('integer'),
     'begin_date'             => DBModels::type('date'),
     'duration'               => DBModels::type('integer'),
     'notice'                 => DBModels::type('integer'),
@@ -46,7 +46,7 @@ $table['fields'] = array(
 );
   
 $table['relationships'] = array(
-    'contracttypes' => array(
+    'contracttype' => array(
         'type' => 'belongsTo',
         'item' => 'ContractType'),    
 );

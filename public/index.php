@@ -79,10 +79,10 @@ $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
     $offset = ($page * $per_page) - $per_page;
    if (strstr($item, '__')) {
        $split = explode('__', $item);
-       $assettypes_id = $split[1];
+       $assettype_id = $split[1];
        $itemname = $split[0];
-       $a = $itemname::take($per_page)->offset($offset)->with($param)->where('assettypes_id', '=', $assettypes_id)->get();
-       $total = $itemname::with($param)->where('assettypes_id', '=', $assettypes_id)->count();
+       $a = $itemname::take($per_page)->offset($offset)->with($param)->where('assettype_id', '=', $assettype_id)->get();
+       $total = $itemname::with($param)->where('assettype_id', '=', $assettype_id)->count();
    } else {
        $a = $item::take($per_page)->offset($offset)->with($param)->get();
        $total = $item::with($param)->count();
@@ -200,7 +200,7 @@ $app->post('/:itemtype', function ($itemtype) use($app) {
    $input = json_decode($body, true);
    if (strstr($itemtype, '__')) {
        $split = explode('__', $itemtype);
-       $input['assettypes_id'] = $split[1];
+       $input['assettype_id'] = $split[1];
        $itemtype = $split[0];
    }
    $item = new $itemtype();
@@ -228,7 +228,7 @@ $app->put('/:itemtype/:id', function ($itemtype, $id) use ($app) {
    $input = json_decode($body, true);
    if (strstr($itemtype, '__')) {
        $split = explode('__', $itemtype);
-       $input['assettypes_id'] = $split[1];
+       $input['assettype_id'] = $split[1];
        $itemtype = $split[0];
    }
    $item = $itemtype::find($id);

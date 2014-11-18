@@ -16,10 +16,10 @@ $table['fields'] = array(
     'itemtype'              => DBModels::type('string', 
                                               array('visible' => false,
                                                     'size'    => 100)),
-    'items_id'              => DBModels::type('integer', 
-                                              array('visible' => false)),
-    'users_id'              => DBModels::type('integer'),
-    'users_id_lastupdater'  => DBModels::type('integer'),
+    'item_id'               => DBModels::type('integer', 
+                                             array('visible' => false)),
+    'user_id'               => DBModels::type('integer'),
+    'user_lastupdater_id'   => DBModels::type('integer'),
     'content'               => DBModels::type('longtext'),
     
                                          
@@ -27,10 +27,10 @@ $table['fields'] = array(
   
   
 $table['relationships'] = array(
-    'users_id' => array(
+    'user_id' => array(
         'type' => 'belongsTo',
         'item' => 'User'),
-    'users_id_lastupdater' => array(
+    'user_lastupdater_id' => array(
         'type' => 'belongsTo',
         'item' => 'User'),
 );

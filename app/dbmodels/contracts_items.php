@@ -11,14 +11,14 @@ $table = array(
     'menu'          => ''
 );
 $table['fields'] = array(
-    'id'      => DBModels::type('increments', 
-                                array('visible' => false)),
-    'contracts_id' => DBModels::type('integer'),
-    'itemtype'              => DBModels::type('string', 
-                                              array('visible' => false,
-                                                    'size'    => 100)),
-    'items_id'              => DBModels::type('integer', 
-                                              array('visible' => false)),
+    'id'          => DBModels::type('increments', 
+                                    array('visible' => false)),
+    'contract_id' => DBModels::type('integer'),
+    'itemtype'    => DBModels::type('string', 
+                                    array('visible' => false,
+                                        'size'    => 100)),
+    'item_id'     => DBModels::type('integer', 
+                                    array('visible' => false)),
 );
 
 

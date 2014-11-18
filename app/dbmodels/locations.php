@@ -15,10 +15,10 @@ $table['fields'] = array(
                                          array('visible' => false)),
     'name'             => DBModels::type('string'),
     'comment'          => DBModels::type('text'),
-    'entities_id'      => DBModels::type('integer'),
+    'entity_id'      => DBModels::type('integer'),
     'is_recursive'     => DBModels::type('boolean', 
                                          array('visible' => false)),
-    'locations_id'     => DBModels::type('integer'),
+    'location_id'     => DBModels::type('integer'),
     'completename'     => DBModels::type('text', 
                                          array('visible' => false)),
     'level'            => DBModels::type('integer', 
@@ -35,12 +35,12 @@ $table['fields'] = array(
 );
 
 $table['relationships'] = array(
-    'locations'        => array(
+    'location'        => array(
         'type'  => 'belongsTo',
         'item'  => 'Location'),
     'locationschild'   => array(
         'type'  => 'hasMany',
         'item'  => 'Location',
-        'field' => 'locations_id'),
+        'field' => 'location_id'),
         
 );
