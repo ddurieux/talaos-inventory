@@ -20,10 +20,10 @@ $table['fields'] = array(
                                       array('visible' => false)),
     'is_deleted'    => DBModels::type('boolean', 
                                       array('visible' => false)),
-    'begin_date'   => DBModels::type('date'),
-    'end_date'     => DBModels::type('date'),
-    'value'        => DBModels::type('decimal'),
+    'begin_date'    => DBModels::type('date'),
+    'end_date'      => DBModels::type('date'),
+    'value'         => DBModels::type('decimal'),
     'is_template'   => DBModels::type('boolean'),
-    'template_name'   => DBModels::type('string'),
+    'template_name' => DBModels::type('string'),
                                       
 );

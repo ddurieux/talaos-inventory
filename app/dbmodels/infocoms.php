@@ -30,7 +30,7 @@ $table['fields'] = array(
     'warranty_date'       => DBModels::type('date'),
     'warranty_duration'   => DBModels::type('integer'),
     'warranty_info'       => DBModels::type('string'),
-    'suppliers_id'   => DBModels::type('integer'), ///TODO create relation
+    'suppliers_id'   => DBModels::type('integer'), 
     'order_number'       => DBModels::type('string'),
     'delivery_number'       => DBModels::type('string'),
     'immo_number'       => DBModels::type('string'),
@@ -50,4 +50,7 @@ $table['relationships'] = array(
     'budgets' => array(
         'type' => 'belongsTo',
         'item' => 'Budget'),
+    'suppliers' => array(
+        'type' => 'belongsTo',
+        'item' => 'Supplier'),        
 );
