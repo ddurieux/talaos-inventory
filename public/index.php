@@ -21,8 +21,9 @@ $app->get('/hello/:name', function ($name) {
  *
  * @uses /item will get all items you can see
  * @uses /item/itemname will get all fields of item 'Itemname' use can see
+ * @uses /item/itemname/restrict restrictget fields 'visible' (default) or 'all'
  */
-$app->get('/item(/:param?)', function ($param='') {
+$app->get('/item(/:param?)(/:restrict?)', function ($param='', $restrict='visible') {
     $a = array();
     if (empty($param)) {
         $tables = DBModels::getDBModels();
@@ -50,7 +51,7 @@ $app->get('/item(/:param?)', function ($param='') {
     echo json_encode($a);
     } else {
         $item = new $param;
-        $a = $item->getFields();
+        $a = $item->getFields($restrict);
         echo json_encode($a, JSON_PRETTY_PRINT);
     }
 });

@@ -38,7 +38,7 @@ class CommonGLPI extends Eloquent {
     }
 
 
-    public function getFields() {
+    public function getFields($restrict='visible') {
         require __DIR__.'/../dbmodels/'.$this->table.'.php';
 
         $fields = array(
@@ -47,7 +47,9 @@ class CommonGLPI extends Eloquent {
         );
 
         foreach ($table['fields'] as $field => $data) {
-            if ($data['visible']) {
+            if (($restrict == 'visible'
+                    &&$data['visible'])
+                || $restrict == 'all') {
                 $fields['meta'][$field] = array(
                    'type'  => $data['type'],
                    'label' => $field
