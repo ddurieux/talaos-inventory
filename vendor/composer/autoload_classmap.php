@@ -18,6 +18,8 @@ return array(
     'ContractType' => $baseDir . '/app/models/ContractType.php',
     'DisplayModel' => $baseDir . '/app/models/DisplayModel.php',
     'DisplayType' => $baseDir . '/app/models/DisplayType.php',
+    'Document' => $baseDir . '/app/models/Document.php',
+    'DocumentCategory' => $baseDir . '/app/models/DocumentCategory.php',
     'EnergyType' => $baseDir . '/app/models/EnergyType.php',
     'Group' => $baseDir . '/app/models/Group.php',
     'Infocom' => $baseDir . '/app/models/Infocom.php',

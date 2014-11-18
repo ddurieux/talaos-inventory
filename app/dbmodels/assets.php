@@ -51,6 +51,13 @@ $table['relationships'] = array(
         'field1' => 'contract_id',
         'field2' => 'item_id',
         'condition' => array('itemtype','=','Asset')),
+    'documents' => array(
+        'type' => 'belongsToMany',
+        'item' => 'Document',
+        'linktable' => 'glpi_documents_items',
+        'field1' => 'document_id',
+        'field2' => 'item_id',
+        'condition' => array('itemtype','=','Asset')),
     'group' => array(
         'type' => 'belongsTo',
         'item' => 'Group'),
