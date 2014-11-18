@@ -173,8 +173,13 @@ $app->get('/:item/:id(/:param+)', function ($item, $id, $param = array()) {
        $a = $item::find($id);
    }
    $a->load($param);
+   $i = new $item;
+   $meta = $i->getFields();
    $extendedModels = $item::getRelatedModels($id);
-   echo json_encode(array('data' => $a, 'relatedmodels' => $extendedModels), JSON_PRETTY_PRINT);
+   echo json_encode(array(
+       'data'          => $a,
+       'relatedmodels' => $extendedModels,
+       'meta'          => $meta['meta']), JSON_PRETTY_PRINT);
 })->conditions(array('id' => '\d+'));
 
 
