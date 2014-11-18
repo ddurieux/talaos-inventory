@@ -136,6 +136,13 @@
       
               <span ng-switch-when="integer">  
                 <label>{{dt.label}}</label>
+                
+                <div ng-if="foreignlist[kitem]">
+                  <select name="item[kitem]" ng-model="item[kitem]"
+                        ng-options="sel.id as sel.name for sel in foreignlist[kitem].data"></select>
+                </div>
+                
+                <div ng-if="!foreignlist[kitem]">
                 <select class="form-control" ng-model="item[kitem]">
                   <option>0</option>
                   <option>1</option>
@@ -156,6 +163,7 @@
                   <option>16</option>
                   <option>17</option>
                 </select>    
+                </div>
               </span>  
       
               <span ng-switch-when="datetime">  

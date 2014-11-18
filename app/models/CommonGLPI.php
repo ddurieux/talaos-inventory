@@ -59,6 +59,15 @@ class CommonGLPI extends Eloquent {
                 $fields['data'][$field] = 0; // TODO get the right default value
             }
         }
+        foreach ($table['relationships'] as $name=>$data) {
+            if (isset($data['field'])) {
+                $fields['meta'][$field]['relationship'] = $data['item'];
+            } else {
+                $foreignKey = snake_case($name).'_id';
+
+                $fields['meta'][$foreignKey]['relationship'] = $data['item'];
+            }
+        }
         return $fields;
     }
 

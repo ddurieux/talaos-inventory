@@ -110,6 +110,14 @@ function EditCtrl($scope, $location, Restangular, item) {
     var original = item;
     $scope.item = Restangular.copy(original.data); 
     $scope.meta = Restangular.copy(original.meta); 
+    $scope.foreignlist = {};
+    for (var field in $scope.item) {
+        for (var key2 in $scope.meta[field]) {
+            if (key2 == 'relationship') {
+                $scope.foreignlist[field] = Restangular.all($scope.meta[field].relationship).customGET().$object;
+            }
+        }
+    }
     $scope.items = Restangular.all("item").getList().$object;
     $scope.item.route = item.route;
     $scope.possiblerelatedmodels = item.relatedmodels; 

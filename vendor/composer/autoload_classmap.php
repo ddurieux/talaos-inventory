@@ -23,6 +23,8 @@ return array(
     'Manufacturer' => $baseDir . '/app/models/Manufacturer.php',
     'PowerType' => $baseDir . '/app/models/PowerType.php',
     'State' => $baseDir . '/app/models/State.php',
+    'Supplier' => $baseDir . '/app/models/Supplier.php',
+    'SupplierType' => $baseDir . '/app/models/SupplierType.php',
     'User' => $baseDir . '/app/models/User.php',
     'UserCategory' => $baseDir . '/app/models/UserCategory.php',
     'UserTitle' => $baseDir . '/app/models/UserTitle.php',
