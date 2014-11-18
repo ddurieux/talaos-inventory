@@ -155,7 +155,6 @@ $app->get('/:item/:id(/:param+)', function ($item, $id, $param = array()) {
        && !empty($_GET)) {
 
        $key = key($_GET);
-       $a = $item::with('assetschild')->find($id);
        $a = $item::where($key, '=', $_GET[$key])->first();
        if ($a) {
            $i = new $item;
