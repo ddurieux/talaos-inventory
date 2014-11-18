@@ -15,7 +15,7 @@ $table['fields'] = array(
                                                         array('visible' => false)),
     'name'                            => DBModels::type('string'),
     'comment'                         => DBModels::type('text'),
-    'states_id'                       => DBModels::type('integer'),
+    'state_id'                        => DBModels::type('integer'),
     'completename'                    => DBModels::type('text',
                                                         array('visible' => false)),
     'level'                           => DBModels::type('integer',
@@ -27,7 +27,7 @@ $table['fields'] = array(
 );
 
 $table['relationships'] = array(
-    'states' => array(
+    'state' => array(
         'type' => 'belongsTo',
         'item' => 'State')
 );

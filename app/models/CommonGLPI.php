@@ -11,13 +11,13 @@ class CommonGLPI extends Eloquent {
 	require $this->getDBmodelFileFromTablename($this->table);
 
         if (isset($table['relationships'][$name])) {
-            $field = NULL;
-            if (isset($table['relationships'][$name]['field'])) {
-                $field = $table['relationships'][$name]['field'];
-            }
             switch ($table['relationships'][$name]['type']) {
 
                 case 'belongsTo' :
+                    $field = NULL;
+                    if (isset($table['relationships'][$name]['field'])) {
+                        $field = $table['relationships'][$name]['field'];
+                    }
                     return($this->belongsTo(
                         $table['relationships'][$name]['item'],
                         $field,
@@ -25,7 +25,45 @@ class CommonGLPI extends Eloquent {
                         $name));
                     break;
 
+                case 'belongsToMany' :
+                    $field1 = NULL;
+                    if (isset($table['relationships'][$name]['field1'])) {
+                        $field1 = $table['relationships'][$name]['field1'];
+                    }
+                    $field2 = NULL;
+                    if (isset($table['relationships'][$name]['field2'])) {
+                        $field2 = $table['relationships'][$name]['field2'];
+                    }
+                    $linktable = NULL;
+                    if (isset($table['relationships'][$name]['linktable'])) {
+                        $linktable = $table['relationships'][$name]['linktable'];
+                    }
+                    if (isset($table['relationships'][$name]['condition'])
+                           && is_array($table['relationships'][$name]['condition']) 
+                           && count($table['relationships'][$name]['condition'])==3) {
+                               print_r($table['relationships'][$name]['condition']);
+                        return($this->belongsToMany(
+                            $table['relationships'][$name]['item'],
+                            $linktable,
+                            $field1,
+                            $field2)->Where($table['relationships'][$name]['condition'][0],
+                                            $table['relationships'][$name]['condition'][1],
+                                            $table['relationships'][$name]['condition'][2]));
+                    } else {
+                        return($this->belongsToMany(
+                            $table['relationships'][$name]['item'],
+                            $linktable,
+                            $field1,
+                            $field2));                        
+                    }
+                    break;
+
                 case 'hasMany' :
+                    $field = NULL;
+                    if (isset($table['relationships'][$name]['field'])) {
+                        $field = $table['relationships'][$name]['field'];
+                    }
+                
                     return($this->hasMany(
                         $table['relationships'][$name]['item'],
                         $field,

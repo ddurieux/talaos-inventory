@@ -13,20 +13,20 @@ $table = array(
 $table['fields'] = array(
     'id'               => DBModels::type('increments', 
                                          array('visible' => false)),
-    'assets_id'        => DBModels::type('integer', 
+    'asset_id'        => DBModels::type('integer', 
                                          array('visible' => false)),
-    'powertypes_id'    => DBModels::type('integer'),
-    'energytypes_id'   => DBModels::type('integer'),
+    'powertype_id'    => DBModels::type('integer'),
+    'energytype_id'   => DBModels::type('integer'),
     'is_redondant'     => DBModels::type('boolean'),
 );
 $table['relationships'] = array(
-    'assets'        => array(
+    'asset'        => array(
         'type'  => 'belongsTo',
         'item'  => 'Asset'),
-    'powertypes'    => array(
+    'powertype'    => array(
         'type'  => 'belongsTo',
         'item'  => 'PowerType'),
-    'energytypes'   => array(
+    'energytype'   => array(
         'type'  => 'belongsTo',
         'item'  => 'EnergyType'),
 );

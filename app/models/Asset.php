@@ -23,7 +23,12 @@ class Asset extends CommonGLPI {
             'AssetDisplay' => array(
                 'type' => 'capacity',
                 'new'  => True
-            )
+            ),
+            'AssetPrinter' => array(
+                'type' => 'capacity',
+                'new'  => True
+            ),
+            
 
         );
     }

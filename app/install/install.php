@@ -115,6 +115,14 @@ class GLPIInstall {
                             }
                             $table->dateTime($fieldname)->default($default);
                             break;
+                        case 'time':
+                            $default = '00:00:00';
+                            if (isset($data['default'])
+                                && !empty($data['default'])) {
+                                $default = $data['default'];
+                            }
+                            $table->time($fieldname)->default($default);
+                            break;
                             
                         case 'decimal':
                             $default = '0.0000';

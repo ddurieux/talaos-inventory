@@ -15,13 +15,13 @@ $table['fields'] = array(
                                          array('visible' => false)),
     'name'             => DBModels::type('string'),
     'comment'          => DBModels::type('text'),
-    'entities_id'      => DBModels::type('integer'),
+    'entity_id'      => DBModels::type('integer'),
     'is_recursive'     => DBModels::type('boolean', 
                                          array('visible' => false)),
     'ldap_field'       => DBModels::type('string'),
     'ldap_value'       => DBModels::type('text'),
     'ldap_group_dn'    => DBModels::type('text'),
-    'groups_id'        => DBModels::type('integer'),
+    'group_id'        => DBModels::type('integer'),
     'completename'     => DBModels::type('text', 
                                          array('visible' => false)),
     'level'            => DBModels::type('integer', 
@@ -47,12 +47,12 @@ $table['fields'] = array(
 );
   
 $table['relationships'] = array(
-    'groups' => array(
+    'group' => array(
         'type' => 'belongsTo',
         'item' => 'Group'),     
     'groupschild'   => array(
         'type'  => 'hasMany',
         'item'  => 'Group',
-        'field' => 'groups_id'),
+        'field' => 'group_id'),
         
 );

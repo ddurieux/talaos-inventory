@@ -15,7 +15,7 @@ $table['fields'] = array(
                                      array('visible' => false)),
     'name'          => DBModels::type('string'),
     'comment'       => DBModels::type('text'),
-    'entities_id'   => DBModels::type('integer'),
+    'entity_id'   => DBModels::type('integer'),
     'is_recursive'  => DBModels::type('boolean', 
                                       array('visible' => false)),
     'is_deleted'    => DBModels::type('boolean', 
@@ -23,7 +23,9 @@ $table['fields'] = array(
     'begin_date'    => DBModels::type('date'),
     'end_date'      => DBModels::type('date'),
     'value'         => DBModels::type('decimal'),
-    'is_template'   => DBModels::type('boolean'),
-    'template_name' => DBModels::type('string'),
+    'is_template'   => DBModels::type('boolean', 
+                                      array('visible' => false)),
+    'template_name' => DBModels::type('string', 
+                                      array('visible' => false)),
                                       
 );
