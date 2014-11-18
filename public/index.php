@@ -252,7 +252,7 @@ $app->delete('/:item/:id', function ($item, $id) {
 
 
 $app->run();
-//if (isset($sqllog)) {
+// if (isset($sqllog)) {
 //   echo $sqllog;
-//}
+// }
 //echo "Memory : ".(memory_get_usage() / 1000000)." Mo";

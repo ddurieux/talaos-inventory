@@ -44,7 +44,22 @@ $table['relationships'] = array(
         'field' => 'assets_id'),
     'assettypes'    => array(
         'type'  => 'belongsTo',
-        'item'  => 'AssetType'),
+        'item'  => 'AssetType',
+        'field' => 'assetypes_id'),
+    'contracts' => array(
+        'type' => 'belongsToMany',
+        'item' => 'Contract',
+        'linktable' => 'glpi_contracts_items',
+        'field1' => 'contracts_id',
+        'field2' => 'items_id',
+        'condition' => array('itemtype','=','Asset')),
+    'groups_id' => array(
+        'type' => 'belongsTo',
+        'item' => 'Group'),
+    'groups_id_tech' => array(
+        'type'  => 'belongsTo',
+        'item'  => 'Group',
+        'field' => 'groups_id_tech'),
     'manufacturers' => array(
         'type' => 'belongsTo',
         'item' => 'Manufacturer'),
@@ -55,12 +70,5 @@ $table['relationships'] = array(
         'type'  => 'belongsTo',
         'item'  => 'User',
         'field' => 'users_id_tech'),
-    'groups_id' => array(
-        'type' => 'belongsTo',
-        'item' => 'Group'),
-    'groups_id_tech' => array(
-        'type'  => 'belongsTo',
-        'item'  => 'Group',
-        'field' => 'groups_id_tech'),
         
 );
