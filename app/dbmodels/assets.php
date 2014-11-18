@@ -11,15 +11,15 @@ $table = array(
     'menu'          => 'Asset'
 );
 $table['fields'] = array(
-    'id'               => DBModels::type('increments', 
+    'id'               => DBModels::type('increments',
                                          array('visible' => false)),
     'name'             => DBModels::type('string'),
-    'assettype_id'     => DBModels::type('integer', 
+    'assettype_id'     => DBModels::type('integer',
                                          array('visible' => false)),
     'entity_id'        => DBModels::type('integer'),
-    'is_recursive'     => DBModels::type('boolean', 
+    'is_recursive'     => DBModels::type('boolean',
                                          array('visible' => false)),
-    'is_deleted'       => DBModels::type('boolean', 
+    'is_deleted'       => DBModels::type('boolean',
                                          array('visible' => false)),
     'serial'           => DBModels::type('string'),
     'inventory_number' => DBModels::type('string'),
@@ -59,7 +59,7 @@ $table['relationships'] = array(
     'cartridges'   => array(
         'type'  => 'hasMany',
         'item'  => 'Cartridge',
-        'field' => 'asset_id'),        
+        'field' => 'asset_id'),
     'contracts' => array(
         'type' => 'belongsToMany',
         'item' => 'Contract',
@@ -92,5 +92,8 @@ $table['relationships'] = array(
     'user_tech' => array(
         'type'  => 'belongsTo',
         'item'  => 'User'),
-        
+    'state' => array(
+        'type'  => 'belongsTo',
+        'item'  => 'State'),
+
 );
