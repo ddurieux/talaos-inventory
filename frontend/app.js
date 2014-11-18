@@ -157,7 +157,7 @@ function EditCtrl($scope, $location, Restangular, item) {
 
     // Load 
     for (var key in $scope.possiblerelatedmodels) {
-        Restangular.one(key, 0).customGET('', {assets_id:item.data.id}).then(function(rel) {
+        Restangular.one(key, 0).customGET('', {asset_id:item.data.id}).then(function(rel) {
             if (rel.hasOwnProperty('data') == true) {
                 $scope.relatedmodels[key] = rel;
                 delete $scope.possiblerelatedmodels[key];
@@ -181,7 +181,7 @@ function EditCtrl($scope, $location, Restangular, item) {
         for (var key in $scope.relatedmodels) {
             if (typeof $scope.relatedmodels[key].data.id === 'undefined') {
                 // Add
-                $scope.relatedmodels[key].data.assets_id = $scope.item.id;
+                $scope.relatedmodels[key].data.asset_id = $scope.item.id;
                 Restangular.all(key).post($scope.relatedmodels[key].data);
             } else {
                 // Update
