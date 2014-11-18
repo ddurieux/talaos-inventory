@@ -70,6 +70,18 @@ class CommonGLPI extends Eloquent {
                         'id',
                         $name));
                     break;
+                
+                case 'hasOne' :
+                    $field = NULL;
+                    if (isset($table['relationships'][$name]['field'])) {
+                        $field = $table['relationships'][$name]['field'];
+                    }
+                
+                    return($this->hasMany(
+                        $table['relationships'][$name]['item'],
+                        $field,
+                        'id'));
+                    break;
 
             }
         }
