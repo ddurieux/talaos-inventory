@@ -14,8 +14,7 @@ $app->config('debug', true);
 $app->log->setEnabled(true);
 
 //Define error log file
-$logWriter = new \Slim\LogWriter(fopen(__DIR__.'/../app/log/glpi.log', 'a'));
-$app->log->setWriter($logWriter);
+$app->log->setWriter(new Customlog($app->log));
 
 $app->get('/hello/:name', function ($name) {
     echo "Hello, $name";
