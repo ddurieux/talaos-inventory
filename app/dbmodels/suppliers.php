@@ -11,16 +11,16 @@ $table = array(
     'menu'          => 'Management'
 );
 $table['fields'] = array(
-    'id'                 => DBModels::type('increments', 
+    'id'                 => DBModels::type('increments',
                                            array('visible' => false)),
     'name'               => DBModels::type('string'),
     'comment'            => DBModels::type('text'),
-    'entity_id'        => DBModels::type('integer'),
-    'is_recursive'       => DBModels::type('boolean', 
+    'entity_id'          => DBModels::type('integer'), ///TODO create relation
+    'is_recursive'       => DBModels::type('boolean',
                                            array('visible' => false)),
-    'is_deleted'         => DBModels::type('boolean', 
+    'is_deleted'         => DBModels::type('boolean',
                                            array('visible' => false)),
-    'suppliertype_id'   => DBModels::type('integer'),
+    'suppliertype_id'    => DBModels::type('integer'),
     'address'            => DBModels::type('text'),
     'postcode'           => DBModels::type('string'),
     'town'               => DBModels::type('string'),
@@ -30,7 +30,7 @@ $table['fields'] = array(
     'phonenumber'        => DBModels::type('string'),
     'fax'                => DBModels::type('string'),
     'email'              => DBModels::type('string'),
-                                      
+
 );
 
 $table['relationships'] = array(

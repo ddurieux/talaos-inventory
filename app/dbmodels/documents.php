@@ -11,12 +11,12 @@ $table = array(
     'menu'          => 'Management'
 );
 $table['fields'] = array(
-    'id'                     => DBModels::type('increments', 
+    'id'                     => DBModels::type('increments',
                                                array('visible' => false)),
-    'entity_id'              => DBModels::type('integer'),
-    'is_recursive'           => DBModels::type('boolean', 
+    'entity_id'              => DBModels::type('integer'), ///TODO create relation
+    'is_recursive'           => DBModels::type('boolean',
                                                array('visible' => false)),
-    'is_deleted'             => DBModels::type('boolean', 
+    'is_deleted'             => DBModels::type('boolean',
                                                array('visible' => false)),
     'name'                   => DBModels::type('string'),
     'filename'               => DBModels::type('string'),
@@ -38,5 +38,5 @@ $table['relationships'] = array(
         'item' => 'DocumentCategory'),
     'user' => array(
         'type' => 'belongsTo',
-        'item' => 'User'),        
+        'item' => 'User'),
 );

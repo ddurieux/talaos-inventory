@@ -11,15 +11,15 @@ $table = array(
     'menu'          => ''
 );
 $table['fields'] = array(
-    'id'                  => DBModels::type('increments', 
+    'id'                  => DBModels::type('increments',
                                             array('visible' => false)),
-    'itemtype'            => DBModels::type('string', 
+    'itemtype'            => DBModels::type('string',
                                             array('visible' => false,
                                                   'size'    => 100)),
-    'item_id'            => DBModels::type('integer', 
+    'item_id'             => DBModels::type('integer',
                                             array('visible' => false)),
-    'entity_id'         => DBModels::type('integer'),
-    'is_recursive'        => DBModels::type('boolean', 
+    'entity_id'           => DBModels::type('integer'), ///TODO create relation
+    'is_recursive'        => DBModels::type('boolean',
                                             array('visible' => false)),
     'comment'             => DBModels::type('text'),
     'buy_date'            => DBModels::type('date'),
@@ -30,7 +30,7 @@ $table['fields'] = array(
     'warranty_date'       => DBModels::type('date'),
     'warranty_duration'   => DBModels::type('integer'),
     'warranty_info'       => DBModels::type('string'),
-    'supplier_id'        => DBModels::type('integer'), 
+    'supplier_id'         => DBModels::type('integer'),
     'order_number'        => DBModels::type('string'),
     'delivery_number'     => DBModels::type('string'),
     'immo_number'         => DBModels::type('string'),
@@ -40,17 +40,17 @@ $table['fields'] = array(
     'sink_type'           => DBModels::type('integer'),
     'sink_coeff'          => DBModels::type('float'),
     'bill'                => DBModels::type('string'),
-    'budget_id'          => DBModels::type('integer'),
+    'budget_id'           => DBModels::type('integer'),
     'alert'               => DBModels::type('integer'),
-    
-                                         
+
+
 );
-  
+
 $table['relationships'] = array(
     'budget' => array(
         'type' => 'belongsTo',
         'item' => 'Budget'),
     'supplier' => array(
         'type' => 'belongsTo',
-        'item' => 'Supplier'),        
+        'item' => 'Supplier'),
 );

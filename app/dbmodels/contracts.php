@@ -11,21 +11,21 @@ $table = array(
     'menu'          => ''
 );
 $table['fields'] = array(
-    'id'                     => DBModels::type('increments', 
+    'id'                     => DBModels::type('increments',
                                                array('visible' => false)),
-    'entity_id'            => DBModels::type('integer'),
-    'is_recursive'           => DBModels::type('boolean', 
+    'entity_id'              => DBModels::type('integer'), ///TODO create relation
+    'is_recursive'           => DBModels::type('boolean',
                                                array('visible' => false)),
-    'is_deleted'             => DBModels::type('boolean', 
+    'is_deleted'             => DBModels::type('boolean',
                                                array('visible' => false)),
-    'is_template'            => DBModels::type('boolean', 
+    'is_template'            => DBModels::type('boolean',
                                                array('visible' => false)),
-    'template_name'          => DBModels::type('string', 
-                                               array('visible' => false)),                                            
+    'template_name'          => DBModels::type('string',
+                                               array('visible' => false)),
     'name'                   => DBModels::type('string'),
     'num'                    => DBModels::type('string'),
     'comment'                => DBModels::type('text'),
-    'contracttype_id'       => DBModels::type('integer'),
+    'contracttype_id'        => DBModels::type('integer'),
     'begin_date'             => DBModels::type('date'),
     'duration'               => DBModels::type('integer'),
     'notice'                 => DBModels::type('integer'),
@@ -44,9 +44,9 @@ $table['fields'] = array(
     'alert'                  => DBModels::type('integer'),
     'renewal'                => DBModels::type('integer'),
 );
-  
+
 $table['relationships'] = array(
     'contracttype' => array(
         'type' => 'belongsTo',
-        'item' => 'ContractType'),    
+        'item' => 'ContractType'),
 );

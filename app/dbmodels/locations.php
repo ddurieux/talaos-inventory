@@ -11,21 +11,21 @@ $table = array(
     'menu'          => 'Dropdown'
 );
 $table['fields'] = array(
-    'id'               => DBModels::type('increments', 
+    'id'               => DBModels::type('increments',
                                          array('visible' => false)),
     'name'             => DBModels::type('string'),
     'comment'          => DBModels::type('text'),
-    'entity_id'      => DBModels::type('integer'),
-    'is_recursive'     => DBModels::type('boolean', 
+    'entity_id'        => DBModels::type('integer'), ///TODO create relation
+    'is_recursive'     => DBModels::type('boolean',
                                          array('visible' => false)),
-    'location_id'     => DBModels::type('integer'),
-    'completename'     => DBModels::type('text', 
+    'location_id'      => DBModels::type('integer'),
+    'completename'     => DBModels::type('text',
                                          array('visible' => false)),
-    'level'            => DBModels::type('integer', 
+    'level'            => DBModels::type('integer',
                                          array('visible' => false)),
-    'ancestors_cache'  => DBModels::type('longtext', 
+    'ancestors_cache'  => DBModels::type('longtext',
                                          array('visible' => false)),
-    'sons_cache'       => DBModels::type('longtext', 
+    'sons_cache'       => DBModels::type('longtext',
                                          array('visible' => false)),
     'building'         => DBModels::type('string'),
     'room'             => DBModels::type('string'),
@@ -41,5 +41,5 @@ $table['relationships'] = array(
     'locationschild'   => array(
         'type'  => 'hasMany',
         'item'  => 'Location'),
-        
+
 );

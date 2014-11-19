@@ -11,9 +11,9 @@ $table = array(
     'menu'          => ''
 );
 $table['fields'] = array(
-    'id'                 => DBModels::type('increments', 
+    'id'                 => DBModels::type('increments',
                                            array('visible' => false)),
-    'entity_id'          => DBModels::type('integer'),
+    'entity_id'          => DBModels::type('integer'), ///TODO create relation
     'cartridgeitem_id'   => DBModels::type('integer'),
     'asset_id'           => DBModels::type('integer'),
     'date_in'            => DBModels::type('date'),
