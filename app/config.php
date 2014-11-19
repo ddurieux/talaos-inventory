@@ -20,6 +20,12 @@ $capsule->addConnection(array(
     'prefix'    => ''
 ));
 
+// Info for metrics about backend (no host = disabled)
+$statsd_host = '';
+$statsd_port = '8125';
+$statsd_namespace = 'glpi.backend';
+
+
 $capsule->setEventDispatcher(new Dispatcher(new Container));
 
 $capsule->setAsGlobal();
@@ -36,3 +42,14 @@ $capsule->getEventDispatcher()->listen('illuminate.query', function($sql, $bindi
 
 // set timezone for timestamps etc
 date_default_timezone_set('UTC');
+
+// Manage statsd
+global $statsd;
+if ($statsd_host == '') {
+    $connection = new Domnikl\Statsd\Connection\Blackhole();
+    $statsd = new \Domnikl\Statsd\Client($connection, "test.namespace");
+} else {
+    $connection = new \Domnikl\Statsd\Connection\Socket($statsd_host, $statsd_port);
+    $statsd = new \Domnikl\Statsd\Client($connection, "test.namespace");
+}
+$statsd->setNamespace($statsd_namespace);

@@ -1,5 +1,7 @@
 <?php
 
+$timer = microtime(true);
+
 // Autoload our dependencies with Composer
 require '../vendor/autoload.php';
 require '../app/dbmodels.php';
@@ -270,3 +272,6 @@ $app->run();
 //   echo $sqllog;
 // }
 //echo "Memory : ".(memory_get_usage() / 1000000)." Mo";
+$statsd->increment("page");
+$statsd->timing("time", (microtime(true) - $timer) * 1000);
+$statsd->gauge('memory', memory_get_peak_usage());

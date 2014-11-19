@@ -21,6 +21,7 @@ return array(
     'Config' => $baseDir . '/app/models/Config.php',
     'Contract' => $baseDir . '/app/models/Contract.php',
     'ContractType' => $baseDir . '/app/models/ContractType.php',
+    'Customlog' => $baseDir . '/app/models/Customlog.php',
     'DisplayModel' => $baseDir . '/app/models/DisplayModel.php',
     'DisplayType' => $baseDir . '/app/models/DisplayType.php',
     'Document' => $baseDir . '/app/models/Document.php',

@@ -11,5 +11,6 @@ return array(
     'Illuminate\\Events' => array($vendorDir . '/illuminate/events'),
     'Illuminate\\Database' => array($vendorDir . '/illuminate/database'),
     'Illuminate\\Container' => array($vendorDir . '/illuminate/container'),
+    'Domnikl' => array($vendorDir . '/domnikl/statsd/lib'),
     'Carbon' => array($vendorDir . '/nesbot/carbon/src'),
 );

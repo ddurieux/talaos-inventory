@@ -291,5 +291,51 @@
             "orm",
             "sql"
         ]
+    },
+    {
+        "name": "domnikl/statsd",
+        "version": "1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/domnikl/statsd-php.git",
+            "reference": "ab2b63d66343e071011f4df49335a7a88cd88806"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/domnikl/statsd-php/zipball/ab2b63d66343e071011f4df49335a7a88cd88806",
+            "reference": "ab2b63d66343e071011f4df49335a7a88cd88806",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">= 5.3.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0"
+        },
+        "time": "2014-08-16 09:19:04",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Domnikl": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Dominik Liebler",
+                "email": "liebler.dominik@googlemail.com"
+            }
+        ],
+        "description": "a PHP client for statsd",
+        "homepage": "http://domnikl.github.com/statsd-php",
+        "keywords": [
+            "monitoring",
+            "statsd"
+        ]
     }
 ]
