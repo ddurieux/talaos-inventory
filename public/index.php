@@ -7,6 +7,16 @@ require '../app/dbmodels.php';
 
 $app = new \Slim\Slim();
 
+//Enable debugging (on by default)
+$app->config('debug', true);
+
+//Enable logging
+$app->log->setEnabled(true);
+
+//Define error log file
+$logWriter = new \Slim\LogWriter(fopen(__DIR__.'/../app/log/glpi.log', 'a'));
+$app->log->setWriter($logWriter);
+
 $app->get('/hello/:name', function ($name) {
     echo "Hello, $name";
 });
