@@ -163,11 +163,11 @@ $app->get('/:item/:id(/:param+)', function ($item, $id, $param = array()) {
        $item = $split[0];
    }
 
+   // Special for Asset
    if (isset($_GET)
-       && !empty($_GET)) {
+       && isset($_GET['asset_id'])) {
 
-       $key = key($_GET);
-       $a = $item::where($key, '=', $_GET[$key])->first();
+       $a = $item::where('asset_id', '=', $_GET['asset_id'])->first();
        if ($a) {
            $i = new $item;
            $meta = $i->getFields();
@@ -188,6 +188,16 @@ $app->get('/:item/:id(/:param+)', function ($item, $id, $param = array()) {
    $i = new $item;
    $meta = $i->getFields();
    $extendedModels = $item::getRelatedModels($id);
+
+   if (isset($_GET)) {
+       if (isset($_GET['ancestor'])) {
+           $extendedModels['ancestor'] = $a->getAncestors()->toHierarchy();
+       }
+       if (isset($_GET['descendant'])) {
+           $extendedModels['descendant'] = $a->getDescendants()->toHierarchy();
+       }
+   }
+
    echo json_encode(array(
        'data'          => $a,
        'relatedmodels' => $extendedModels,

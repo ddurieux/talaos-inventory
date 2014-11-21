@@ -8,7 +8,7 @@ class CommonGLPI extends Eloquent {
 
     public function __call($name, $arguments) {
         //require __DIR__.'/../dbmodels/'.preg_replace('/^glpi_/','',$this->table).'.php';
-	require $this->getDBmodelFileFromTablename($this->table);
+        require $this->getDBmodelFileFromTablename($this->table);
 
         if (isset($table['relationships'][$name])) {
             switch ($table['relationships'][$name]['type']) {
@@ -70,13 +70,13 @@ class CommonGLPI extends Eloquent {
                         'id',
                         $name));
                     break;
-                
+
                 case 'hasOne' :
                     $field = NULL;
                     if (isset($table['relationships'][$name]['field'])) {
                         $field = $table['relationships'][$name]['field'];
                     }
-                
+
                     return($this->hasMany(
                         $table['relationships'][$name]['item'],
                         $field,

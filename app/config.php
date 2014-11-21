@@ -21,7 +21,7 @@ $capsule->addConnection(array(
 ));
 
 // Info for metrics about backend (no host = disabled)
-$statsd_host = '';
+$statsd_host = '127.0.0.1';
 $statsd_port = '8125';
 $statsd_namespace = 'glpi.backend';
 

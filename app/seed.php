@@ -25,6 +25,8 @@ class Seed {
             $state->save();
         }
 
+        // Location
+        $this->createLocation(1, 'loc', new Location());
 
         // Asset
         for ($i=1; $i < 2000; $i++) {
@@ -37,4 +39,26 @@ class Seed {
             $asset->save();
         }
     }
+
+
+    /**
+     * Generate 4282 locations on 5 levels
+     *
+     * @param type $depth
+     * @param type $name
+     * @param type $item
+     * @return type
+     */
+    function createLocation($depth, $name, $item) {
+        if ($depth > 5) {
+            return;
+        }
+        for ($i=0;$i< ($depth * 2); $i++) {
+            $loc = Location::create(['name' => $name.'.'.$depth.$i]);
+            if ($depth > 1) {
+                $loc->makeChildOf($item);
+            }
+            $this->createLocation(($depth + 1), $name.'.'.$depth.$i, $loc);
+        }
+   }
 }

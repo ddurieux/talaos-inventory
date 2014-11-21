@@ -32,6 +32,7 @@ return array(
     'Infocom' => $baseDir . '/app/models/Infocom.php',
     'Location' => $baseDir . '/app/models/Location.php',
     'Manufacturer' => $baseDir . '/app/models/Manufacturer.php',
+    'NestedGLPI' => $baseDir . '/app/models/NestedGLPI.php',
     'Notepad' => $baseDir . '/app/models/Notepad.php',
     'PowerType' => $baseDir . '/app/models/PowerType.php',
     'PrinterModel' => $baseDir . '/app/models/PrinterModel.php',

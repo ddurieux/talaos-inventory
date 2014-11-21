@@ -32,6 +32,13 @@ $table['fields'] = array(
     'latitude'         => DBModels::type('string'),
     'longitude'        => DBModels::type('string'),
     'altitude'         => DBModels::type('string'),
+
+    'lft'              => DBModels::type('integer',
+                                         array('visible' => false)),
+    'rgt'              => DBModels::type('integer',
+                                         array('visible' => false)),
+    'depth'            => DBModels::type('integer',
+                                         array('visible' => false)),
 );
 
 $table['relationships'] = array(
