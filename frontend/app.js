@@ -39,7 +39,7 @@ angular.module('asset', ['restangular', 'ngRoute', 'angular.filter', 'ui.bootstr
       }).
       otherwise({redirectTo:'/'});
       
-      RestangularProvider.setBaseUrl('../public/index.php');
+      RestangularProvider.setBaseUrl('../public/index.php/v1');
 //      RestangularProvider.setDefaultRequestParams({ apiKey: '4f847ad3e4b08a2eed5f3b54' })
       
       RestangularProvider.setRequestInterceptor(function(elem, operation, what) {
