@@ -79,8 +79,6 @@ $app->get('/item(/:param?)(/:restrict?)', function ($param='', $restrict='visibl
  * @uses /Itemname/relat will get all rows of item 'Itemname' + relationship 'relat'
  */
 $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
-    // limit = per_page
-    // offset = page
     $offset = 0;
     $limit = 10;
     if (isset($_GET['offset'])) {
@@ -101,8 +99,8 @@ $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
     }
     $meta = array();
     // Define total in header
-    $meta['total'] = $total;
-    $meta['limit'] = $limit;
+    $meta['total']  = $total;
+    $meta['limit']  = $limit;
     $meta['offset'] = $offset;
 
     // Define links
