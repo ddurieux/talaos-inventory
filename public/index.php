@@ -99,12 +99,30 @@ $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
         $split = explode('__', $item);
         $assettype_id = $split[1];
         $itemname = $split[0];
-        $a = $itemname::take($limit)->offset($offset)->with($param)->where('assettype_id', '=', $assettype_id)->get($fields);
+        $i = new $itemname;
+        $query = $i->take($limit)->offset($offset)->with($param);
+        $query->where('assettype_id', '=', $assettype_id);
         $total = $itemname::with($param)->where('assettype_id', '=', $assettype_id)->count();
     } else {
-        $a = $item::take($limit)->offset($offset)->with($param)->get($fields);
+        $i = new $item;
+        $query = $i->take($limit)->offset($offset)->with($param);
         $total = $item::with($param)->count();
     }
+    if (isset($_GET['sort'])) {
+        $sorts = explode(',', $_GET['sort']);
+        foreach ($sorts as $sort) {
+            $field = substr($sort, 1);
+            if (substr($sort, 0, 1) == '+') {
+                $query->orderBy($field);
+            } else if (substr($sort, 0, 1) == '-') {
+                $query->orderBy($field, 'desc');
+            }
+        }
+    }
+    $a = $query->get($fields);
+
+
+
     $meta = array();
     // Define total in header
     $meta['total']  = $total;
