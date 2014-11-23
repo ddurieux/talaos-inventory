@@ -79,67 +79,60 @@ $app->get('/item(/:param?)(/:restrict?)', function ($param='', $restrict='visibl
  * @uses /Itemname/relat will get all rows of item 'Itemname' + relationship 'relat'
  */
 $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
-    $page = 1;
-    if (isset($_GET['page'])) {
-        $page = $_GET['page'];
+    // limit = per_page
+    // offset = page
+    $offset = 0;
+    $limit = 10;
+    if (isset($_GET['offset'])) {
+        $offset = intval($_GET['offset']);
     }
-    $per_page = 10;
-    if (isset($_GET['per_page'])) {
-        $per_page = $_GET['per_page'];
+    if (isset($_GET['limit'])) {
+        $limit = intval($_GET['limit']);
     }
-    $offset = ($page * $per_page) - $per_page;
    if (strstr($item, '__')) {
        $split = explode('__', $item);
        $assettype_id = $split[1];
        $itemname = $split[0];
-       $a = $itemname::take($per_page)->offset($offset)->with($param)->where('assettype_id', '=', $assettype_id)->get();
+       $a = $itemname::take($limit)->offset($offset)->with($param)->where('assettype_id', '=', $assettype_id)->get();
        $total = $itemname::with($param)->where('assettype_id', '=', $assettype_id)->count();
    } else {
-       $a = $item::take($per_page)->offset($offset)->with($param)->get();
+       $a = $item::take($limit)->offset($offset)->with($param)->get();
        $total = $item::with($param)->count();
    }
    $meta = array();
    // Define total in header
    $meta['total'] = $total;
-
-   $meta['perpage'] = $per_page;
-
-   $totalpage = ceil($total / $per_page);
-   if ($totalpage == 0) {
-       $totalpage = 1;
-   }
-   $meta['totalpage'] = $totalpage;
-
-   $meta['currentpage'] = $page;
+   $meta['limit'] = $limit;
+   $meta['offset'] = $offset;
 
    // Define links
    $links = array();
-   $linkBaseURL = $app->request->getUrl()
-    . $app->request->getRootUri()
-    . $app->request->getResourceUri()
-    . "?";
-   $query_string = $_GET;
-   $query_string['page'] = $page++;
-   $query_string['per_page'] = $per_page;
-   $output = implode('&', array_map(function ($v, $k) { return $k . '=' . $v; }, $query_string, array_keys($query_string)));
-   $next = $linkBaseURL.$output;
-   $links[] = sprintf('<%s>; rel="next"', $next);
-
-   $query_string['page'] = ceil($total / $per_page);
-   $output = implode('&', array_map(function ($v, $k) { return $k . '=' . $v; }, $query_string, array_keys($query_string)));
-   $last = $linkBaseURL.$output;
-   $links[] = sprintf('<%s>; rel="last"', $last);
-
-   $query_string['page'] = 0;
-   $output = implode('&', array_map(function ($v, $k) { return $k . '=' . $v; }, $query_string, array_keys($query_string)));
-   $first = $linkBaseURL.$output;
-   $links[] = sprintf('<%s>; rel="first"', $first);
-
-   $query_string['page'] = $page--;
-   $output = implode('&', array_map(function ($v, $k) { return $k . '=' . $v; }, $query_string, array_keys($query_string)));
-   $prev = $linkBaseURL.$output;
-   $links[] = sprintf('<%s>; rel="prev"', $prev);
-   $meta['Link'] = $links;
+//   $linkBaseURL = $app->request->getUrl()
+//    . $app->request->getRootUri()
+//    . $app->request->getResourceUri()
+//    . "?";
+//   $query_string = $_GET;
+//   $query_string['page'] = $page++;
+//   $query_string['per_page'] = $per_page;
+//   $output = implode('&', array_map(function ($v, $k) { return $k . '=' . $v; }, $query_string, array_keys($query_string)));
+//   $next = $linkBaseURL.$output;
+//   $links[] = sprintf('<%s>; rel="next"', $next);
+//
+//   $query_string['page'] = ceil($total / $per_page);
+//   $output = implode('&', array_map(function ($v, $k) { return $k . '=' . $v; }, $query_string, array_keys($query_string)));
+//   $last = $linkBaseURL.$output;
+//   $links[] = sprintf('<%s>; rel="last"', $last);
+//
+//   $query_string['page'] = 0;
+//   $output = implode('&', array_map(function ($v, $k) { return $k . '=' . $v; }, $query_string, array_keys($query_string)));
+//   $first = $linkBaseURL.$output;
+//   $links[] = sprintf('<%s>; rel="first"', $first);
+//
+//   $query_string['page'] = $page--;
+//   $output = implode('&', array_map(function ($v, $k) { return $k . '=' . $v; }, $query_string, array_keys($query_string)));
+//   $prev = $linkBaseURL.$output;
+//   $links[] = sprintf('<%s>; rel="prev"', $prev);
+//   $meta['Link'] = $links;
 
    $app->response->headers->set('Link', implode(', ', $links));
    // Display json with data
