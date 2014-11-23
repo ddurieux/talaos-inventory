@@ -65,25 +65,27 @@ function homePage($scope, Restangular) {
 
 function ListCtrl($scope, Restangular, item) {
    $scope.list = item;
+   $scope.list.meta.totalpage = Math.ceil($scope.list.meta.total / $scope.list.meta.limit);
    $scope.items = Restangular.all("item").getList().$object;
 
     $scope.loadPage = function() {
-        Restangular.all(item.route).customGET('', {'page':$scope.list.meta.currentpage})
+        Restangular.all(item.route).customGET('', {'offset':$scope.list.meta.offset})
                 .then(function(data) {
                     $scope.list = data;
+                    $scope.list.meta.totalpage = Math.ceil($scope.list.meta.total / $scope.list.meta.limit);
             });
     };
 
     $scope.nextPage = function() {
-        if ($scope.list.meta.currentpage < $scope.list.meta.totalpage) {
-            $scope.list.meta.currentpage++;
+        if (($scope.list.meta.offset + $scope.list.meta.limit) < $scope.list.meta.total) {
+            $scope.list.meta.offset += $scope.list.meta.limit;
             $scope.loadPage();
         }
     };
 
     $scope.previousPage = function() {
-        if ($scope.list.meta.currentpage > 1) {
-            $scope.list.meta.currentpage--;
+        if ($scope.list.meta.offset > 0) {
+            $scope.list.meta.offset -= $scope.list.meta.limit;
             $scope.loadPage();
         }
     };

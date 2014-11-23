@@ -105,7 +105,7 @@
         </tbody>
       </table>
 <pre>
-<button ng-click='previousPage()'>Previous</button>  Page: {{list.meta.currentpage}} / {{list.meta.totalpage}} - <i>{{list.meta.total}} elements</i> <button ng-click='nextPage()'>Next</button>
+<button ng-click='previousPage()'>Previous</button>  Page: {{(list.meta.offset / list.meta.limit) + 1}} / {{list.meta.totalpage}} - <i>{{list.meta.total}} elements</i> <button ng-click='nextPage()'>Next</button>
         </pre>
     </script>
   
