@@ -70,7 +70,7 @@ $app->get('/item(/:param?)(/:restrict?)', function ($param='', $restrict='visibl
 
 
 /**
- * Get all rows of item
+ * Get all rows of resource
  *
  * @apirest
  * @HTTPmethod GET
@@ -81,20 +81,28 @@ $app->get('/item(/:param?)(/:restrict?)', function ($param='', $restrict='visibl
 $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
     $offset = 0;
     $limit = 10;
+    $fields = array();
     if (isset($_GET['offset'])) {
         $offset = intval($_GET['offset']);
     }
     if (isset($_GET['limit'])) {
         $limit = intval($_GET['limit']);
     }
+    if (isset($_GET['fields'])) {
+        $fields = explode(',', $_GET['fields']);
+    }
+    if (empty($fields)) {
+        $fields = array('*');
+    }
+
     if (strstr($item, '__')) {
         $split = explode('__', $item);
         $assettype_id = $split[1];
         $itemname = $split[0];
-        $a = $itemname::take($limit)->offset($offset)->with($param)->where('assettype_id', '=', $assettype_id)->get();
+        $a = $itemname::take($limit)->offset($offset)->with($param)->where('assettype_id', '=', $assettype_id)->get($fields);
         $total = $itemname::with($param)->where('assettype_id', '=', $assettype_id)->count();
     } else {
-        $a = $item::take($limit)->offset($offset)->with($param)->get();
+        $a = $item::take($limit)->offset($offset)->with($param)->get($fields);
         $total = $item::with($param)->count();
     }
     $meta = array();
