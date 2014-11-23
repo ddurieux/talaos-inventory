@@ -42,7 +42,7 @@ $app->get('/item(/:param?)(/:restrict?)', function ($param='', $restrict='visibl
         foreach ($tables as $table) {
             if (!empty($table['menu'])) {
                 if (!(strpos($table['model'], "Asset") === 0)
-                     || $table['model'] == 'AssetType') {
+                        || $table['model'] == 'AssetType') {
                     $a[] = array(
                         'item' => $table['model'],
                         'name' => $table['model'],
@@ -89,24 +89,24 @@ $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
     if (isset($_GET['limit'])) {
         $limit = intval($_GET['limit']);
     }
-   if (strstr($item, '__')) {
-       $split = explode('__', $item);
-       $assettype_id = $split[1];
-       $itemname = $split[0];
-       $a = $itemname::take($limit)->offset($offset)->with($param)->where('assettype_id', '=', $assettype_id)->get();
-       $total = $itemname::with($param)->where('assettype_id', '=', $assettype_id)->count();
-   } else {
-       $a = $item::take($limit)->offset($offset)->with($param)->get();
-       $total = $item::with($param)->count();
-   }
-   $meta = array();
-   // Define total in header
-   $meta['total'] = $total;
-   $meta['limit'] = $limit;
-   $meta['offset'] = $offset;
+    if (strstr($item, '__')) {
+        $split = explode('__', $item);
+        $assettype_id = $split[1];
+        $itemname = $split[0];
+        $a = $itemname::take($limit)->offset($offset)->with($param)->where('assettype_id', '=', $assettype_id)->get();
+        $total = $itemname::with($param)->where('assettype_id', '=', $assettype_id)->count();
+    } else {
+        $a = $item::take($limit)->offset($offset)->with($param)->get();
+        $total = $item::with($param)->count();
+    }
+    $meta = array();
+    // Define total in header
+    $meta['total'] = $total;
+    $meta['limit'] = $limit;
+    $meta['offset'] = $offset;
 
-   // Define links
-   $links = array();
+    // Define links
+    $links = array();
 //   $linkBaseURL = $app->request->getUrl()
 //    . $app->request->getRootUri()
 //    . $app->request->getResourceUri()
@@ -134,9 +134,9 @@ $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
 //   $links[] = sprintf('<%s>; rel="prev"', $prev);
 //   $meta['Link'] = $links;
 
-   $app->response->headers->set('Link', implode(', ', $links));
-   // Display json with data
-   echo json_encode(array('data' => $a, 'meta' => $meta), JSON_PRETTY_PRINT);
+    $app->response->headers->set('Link', implode(', ', $links));
+    // Display json with data
+    echo json_encode(array('data' => $a, 'meta' => $meta), JSON_PRETTY_PRINT);
 })->conditions(array('param' => '[a-z]+'));
 
 
@@ -151,50 +151,50 @@ $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
  * @uses /Itemname/idnum/relat will get the row of item 'Itemname' + relationship 'relat' have id=idnum (idnum is integer)
  */
 $app->get('/:item/:id(/:param+)', function ($item, $id, $param = array()) {
-   if (strstr($item, '__')) {
+    if (strstr($item, '__')) {
        $split = explode('__', $item);
        $item = $split[0];
-   }
+    }
 
-   // Special for Asset
-   if (isset($_GET)
-       && isset($_GET['asset_id'])) {
+    // Special for Asset
+    if (isset($_GET)
+            && isset($_GET['asset_id'])) {
 
-       $a = $item::where('asset_id', '=', $_GET['asset_id'])->first();
-       if ($a) {
-           $i = new $item;
-           $meta = $i->getFields();
-           echo json_encode(array('data' => $a, 'meta' => $meta['meta']), JSON_PRETTY_PRINT);
-           return;
-       } else {
-           echo json_encode(array());
-           return;
-       }
-   }
+        $a = $item::where('asset_id', '=', $_GET['asset_id'])->first();
+        if ($a) {
+            $i = new $item;
+            $meta = $i->getFields();
+            echo json_encode(array('data' => $a, 'meta' => $meta['meta']), JSON_PRETTY_PRINT);
+            return;
+        } else {
+            echo json_encode(array());
+            return;
+        }
+    }
 
-   if ($item == 'Asset') {
-       $a = $item::with('assetschild')->find($id);
-   } else {
-       $a = $item::find($id);
-   }
-   $a->load($param);
-   $i = new $item;
-   $meta = $i->getFields();
-   $extendedModels = $item::getRelatedModels($id);
+    if ($item == 'Asset') {
+        $a = $item::with('assetschild')->find($id);
+    } else {
+        $a = $item::find($id);
+    }
+    $a->load($param);
+    $i = new $item;
+    $meta = $i->getFields();
+    $extendedModels = $item::getRelatedModels($id);
 
-   if (isset($_GET)) {
-       if (isset($_GET['ancestor'])) {
-           $extendedModels['ancestor'] = $a->getAncestors()->toHierarchy();
-       }
-       if (isset($_GET['descendant'])) {
-           $extendedModels['descendant'] = $a->getDescendants()->toHierarchy();
-       }
-   }
+    if (isset($_GET)) {
+        if (isset($_GET['ancestor'])) {
+            $extendedModels['ancestor'] = $a->getAncestors()->toHierarchy();
+        }
+        if (isset($_GET['descendant'])) {
+            $extendedModels['descendant'] = $a->getDescendants()->toHierarchy();
+        }
+    }
 
-   echo json_encode(array(
-       'data'          => $a,
-       'relatedmodels' => $extendedModels,
-       'meta'          => $meta['meta']), JSON_PRETTY_PRINT);
+    echo json_encode(array(
+        'data'          => $a,
+        'relatedmodels' => $extendedModels,
+        'meta'          => $meta['meta']), JSON_PRETTY_PRINT);
 })->conditions(array('id' => '\d+'));
 
 
@@ -208,22 +208,21 @@ $app->get('/:item/:id(/:param+)', function ($item, $id, $param = array()) {
  * @uses /Itemname will add new row of item 'Itemname' with array in $_POST variable
  */
 $app->post('/:itemtype', function ($itemtype) use($app) {
-   $app->response()->header("Content-Type", "application/json");
-   $request = $app->request();
-   $body = $request->getBody();
-   $input = json_decode($body, true);
-   if (strstr($itemtype, '__')) {
-       $split = explode('__', $itemtype);
-       $input['assettype_id'] = $split[1];
-       $itemtype = $split[0];
-   }
-   $item = new $itemtype();
-   foreach($input as $key=>$value) {
-      $item->$key = $value;
-   }
-   $item->save();
-   echo json_encode(array("id" => $item->id));
-
+    $app->response()->header("Content-Type", "application/json");
+    $request = $app->request();
+    $body = $request->getBody();
+    $input = json_decode($body, true);
+    if (strstr($itemtype, '__')) {
+        $split = explode('__', $itemtype);
+        $input['assettype_id'] = $split[1];
+        $itemtype = $split[0];
+    }
+    $item = new $itemtype();
+    foreach($input as $key=>$value) {
+        $item->$key = $value;
+    }
+    $item->save();
+    echo json_encode(array("id" => $item->id));
 });
 
 
@@ -236,20 +235,20 @@ $app->post('/:itemtype', function ($itemtype) use($app) {
  * @uses /Itemname/idnum will update the row of item 'Itemname' with id=idnum (idnum is integer)
  */
 $app->put('/:itemtype/:id', function ($itemtype, $id) use ($app) {
-   $app->response()->header("Content-Type", "application/json");
-   $request = $app->request();
-   $body = $request->getBody();
-   $input = json_decode($body, true);
-   if (strstr($itemtype, '__')) {
-       $split = explode('__', $itemtype);
-       $input['assettype_id'] = $split[1];
-       $itemtype = $split[0];
-   }
-   $item = $itemtype::find($id);
-   foreach($input as $key=>$value) {
-      $item->$key = $value;
-   }
-   $item->save();
+    $app->response()->header("Content-Type", "application/json");
+    $request = $app->request();
+    $body = $request->getBody();
+    $input = json_decode($body, true);
+    if (strstr($itemtype, '__')) {
+        $split = explode('__', $itemtype);
+        $input['assettype_id'] = $split[1];
+        $itemtype = $split[0];
+    }
+    $item = $itemtype::find($id);
+    foreach($input as $key=>$value) {
+        $item->$key = $value;
+    }
+    $item->save();
 })->conditions(array('id' => '\d+'));
 
 /**
@@ -262,8 +261,8 @@ $app->put('/:itemtype/:id', function ($itemtype, $id) use ($app) {
  */
 $app->delete('/:item/:id', function ($item, $id) {
     if (strstr($item, '__')) {
-       $split = explode('__', $item);
-       $item = $split[0];
+        $split = explode('__', $item);
+        $item = $split[0];
     }
 
     $item::destroy($id);
