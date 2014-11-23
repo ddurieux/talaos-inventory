@@ -37,6 +37,7 @@ return array(
     'PowerType' => $baseDir . '/app/models/PowerType.php',
     'PrinterModel' => $baseDir . '/app/models/PrinterModel.php',
     'PrinterType' => $baseDir . '/app/models/PrinterType.php',
+    'Route' => $baseDir . '/app/models/Route.php',
     'State' => $baseDir . '/app/models/State.php',
     'Supplier' => $baseDir . '/app/models/Supplier.php',
     'SupplierType' => $baseDir . '/app/models/SupplierType.php',
