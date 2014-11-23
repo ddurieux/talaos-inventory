@@ -16,7 +16,7 @@ class Route {
          * @uses /item/itemname will get all fields of item 'Itemname' use can see
          * @uses /item/itemname/restrict restrictget fields 'visible' (default) or 'all'
          */
-        $app->get('/item(/:param?)(/:restrict?)', function ($param='', $restrict='visible') {
+        $app->get('/v1/item(/:param?)(/:restrict?)', function ($param='', $restrict='visible') {
             $this->getResources($param, $restrict);
         });
 
@@ -30,7 +30,7 @@ class Route {
          * @uses /Itemname will get all rows of item 'Itemname'
          * @uses /Itemname/relat will get all rows of item 'Itemname' + relationship 'relat'
          */
-        $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
+        $app->get('/v1/:item(/:param+)', function ($item, $param=array()) use ($app) {
             $this->getAllResources($item, $param, $app);
         })->conditions(array('param' => '[a-z]+'));
 
@@ -45,7 +45,7 @@ class Route {
          * @uses /Itemname/idnum will get the row of item 'Itemname' have id=idnum (idnum is integer)
          * @uses /Itemname/idnum/relat will get the row of item 'Itemname' + relationship 'relat' have id=idnum (idnum is integer)
          */
-        $app->get('/:item/:id(/:param+)', function ($item, $id, $param = array()) {
+        $app->get('/v1/:item/:id(/:param+)', function ($item, $id, $param = array()) {
             $this->getOneResource($item, $id, $param);
         })->conditions(array('id' => '\d+'));
 
@@ -59,7 +59,7 @@ class Route {
          *
          * @uses /Itemname will add new row of item 'Itemname' with array in $_POST variable
          */
-        $app->post('/:itemtype', function ($itemtype) use($app) {
+        $app->post('/v1/:itemtype', function ($itemtype) use($app) {
             $this->addResource($itemtype, $app);
         });
 
@@ -73,7 +73,7 @@ class Route {
          *
          * @uses /Itemname/idnum will update the row of item 'Itemname' with id=idnum (idnum is integer)
          */
-        $app->put('/:itemtype/:id', function ($itemtype, $id) use ($app) {
+        $app->put('/v1/:itemtype/:id', function ($itemtype, $id) use ($app) {
             $this->updateResource($itemtype, $id, $app);
         })->conditions(array('id' => '\d+'));
 
@@ -87,7 +87,7 @@ class Route {
          *
          * @uses /Itemname/idnum will delete the row of item 'Itemname' with id=idnum (idnum is integer)
          */
-        $app->delete('/:item/:id', function ($item, $id) {
+        $app->delete('/v1/:item/:id', function ($item, $id) {
             $this->deleteResource($item, $id);
         })->conditions(array('id' => '\d+'));
 
