@@ -2,13 +2,6 @@
 
 class Location extends NestedGLPI {
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'glpi_locations';
-
 
     // 'parent_id' column name
     protected $parentColumn = 'location_id';

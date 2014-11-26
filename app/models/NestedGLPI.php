@@ -2,8 +2,6 @@
 
 class NestedGLPI extends Baum\Node {
 
-    protected $table = '';
-
     public function __call($name, $arguments) {
     	require $this->getDBmodelFileFromTablename($this->table);
 
