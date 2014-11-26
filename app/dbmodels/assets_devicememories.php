@@ -1,7 +1,8 @@
 <?php
 
-$table['model'] = 'Asset_DeviceCase';
+$table['model'] = 'Asset_DeviceMemory';
 
 include "_commonassets_devices.php";
+
 
 
