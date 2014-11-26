@@ -33,4 +33,10 @@ $table['relationships'] = array(
     'asset' => array(
         'type' => 'belongsTo',
         'item' => 'Asset'),
+    'infocom' => array(
+        'type' => 'morphMany',
+        'item' => 'Infocom'),
+    'receiver' => array(
+        'type' => 'morphTo'),
+        
 );

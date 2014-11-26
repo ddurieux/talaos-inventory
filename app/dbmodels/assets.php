@@ -61,17 +61,13 @@ $table['relationships'] = array(
         'item'  => 'Cartridge',
         'field' => 'asset_id'),
     'contracts' => array(
-        'type'      => 'belongsToMany',
+        'type'      => 'morphToMany',
         'item'      => 'Contract',
-        'linktable' => 'glpi_contracts_items',
-        'field1'    => 'contract_id',
-        'field2'    => 'item_id',
-        'condition' => array('item_type','=','Asset')),
+        'table'     => 'glpi_contracts_items'),
     'documents' => array(
         'type'      => 'morphToMany',
         'item'      => 'Document',
-        'table'     => 'glpi_documents_items',
-    ),
+        'table'     => 'glpi_documents_items'),
     'group' => array(
         'type' => 'belongsTo',
         'item' => 'Group'),

@@ -40,19 +40,16 @@ $table['relationships'] = array(
         'item'  => 'Consumable',
         'field' => 'consumableitem_id'),
     'contracts' => array(
-        'type'      => 'belongsToMany',
+        'type'      => 'morphToMany',
         'item'      => 'Contract',
-        'linktable' => 'glpi_contracts_items',
-        'field1'    => 'contract_id',
-        'field2'    => 'item_id',
-        'condition' => array('item_type','=','ConsumableItem')),
+        'table'     => 'glpi_contracts_items'),
     'documents' => array(
-        'type' => 'belongsToMany',
-        'item' => 'Document',
-        'linktable' => 'glpi_documents_items',
-        'field1' => 'document_id',
-        'field2' => 'item_id',
-        'condition' => array('item_type','=','ConsumableItem')),
+        'type'      => 'morphToMany',
+        'item'      => 'Document',
+        'table'     => 'glpi_documents_items'),
+    'infocom' => array(
+        'type' => 'morphMany',
+        'item' => 'Infocom'),    
     'group_tech' => array(
         'type'  => 'belongsTo',
         'item'  => 'Group'),

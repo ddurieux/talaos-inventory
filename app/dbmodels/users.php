@@ -117,5 +117,8 @@ $table['relationships'] = array(
         'item' => 'UserTitle'),
     'usercategory' => array(
         'type' => 'belongsTo',
-        'item' => 'UserCategory')
+        'item' => 'UserCategory'),
+    'consumables' => array(
+        'type' => 'morphMany',
+        'item' => 'Consumable'),
 );

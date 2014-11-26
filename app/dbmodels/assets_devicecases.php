@@ -35,22 +35,14 @@ $table['relationships'] = array(
         'type' => 'belongsTo',
         'item' => 'DeviceCase'),
     'contracts' => array(
-        'type'      => 'belongsToMany',
+        'type'      => 'morphToMany',
         'item'      => 'Contract',
-        'linktable' => 'glpi_contracts_items',
-        'field1'    => 'contract_id',
-        'field2'    => 'item_id',
-        'condition' => array('item_type','=','CartridgeItem')),
+        'table'     => 'glpi_contracts_items'),
     'documents' => array(
-        'type' => 'belongsToMany',
-        'item' => 'Document',
-        'linktable' => 'glpi_documents_items',
-        'field1' => 'document_id',
-        'field2' => 'item_id',
-        'condition' => array('item_type','=','CartridgeItem')),
-    'infocoms' => array(
-        'type'      => 'hasOne',
-        'item'      => 'Infocom',
-        'field'     => 'item_id',
-        'condition' => array('item_type','=','Asset_DeviceCase')),        
+        'type'      => 'morphToMany',
+        'item'      => 'Document',
+        'table'     => 'glpi_documents_items'),
+    'infocom' => array(
+        'type' => 'morphMany',
+        'item' => 'Infocom'),    
 );

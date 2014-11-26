@@ -53,5 +53,8 @@ $table['relationships'] = array(
     'groupschild'   => array(
         'type'  => 'hasMany',
         'item'  => 'Group'),
+    'consumables' => array(
+        'type' => 'morphMany',
+        'item' => 'Consumable'),        
 
 );
