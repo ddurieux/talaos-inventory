@@ -56,11 +56,20 @@ class CommonGLPI extends Eloquent {
                     break;
 
                 case 'morphTo' :
-                    return $this->morphTo($name,'itemtype','item_id');
+                    return $this->morphTo($name,
+                                          'item_type',
+                                          'item_id');
                     break;
                     
                 case 'morphMany' :
-                    return $this->morphMany($table['relationships'][$name]['item'], $name,'itemtype','item_id');
+                    return $this->morphMany($table['relationships'][$name]['item'], 
+                                            $name);
+                    break;
+
+                case 'morphToMany' :
+                    return $this->morphToMany($table['relationships'][$name]['item'],
+                                              'item', 
+                                              $table['relationships'][$name]['table']);
                     break;
 
                 case 'hasMany' :

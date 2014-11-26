@@ -42,14 +42,14 @@ $table['relationships'] = array(
         'linktable' => 'glpi_contracts_items',
         'field1'    => 'contract_id',
         'field2'    => 'item_id',
-        'condition' => array('itemtype','=','CartridgeItem')),
+        'condition' => array('item_type','=','CartridgeItem')),
     'documents' => array(
         'type' => 'belongsToMany',
         'item' => 'Document',
         'linktable' => 'glpi_documents_items',
         'field1' => 'document_id',
         'field2' => 'item_id',
-        'condition' => array('itemtype','=','CartridgeItem')),
+        'condition' => array('item_type','=','CartridgeItem')),
     'group_tech' => array(
         'type'  => 'belongsTo',
         'item'  => 'Group'),

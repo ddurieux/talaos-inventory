@@ -33,7 +33,7 @@ $table['relationships'] = array(
         'linktable' => 'glpi_documents_items',
         'field1' => 'document_id',
         'field2' => 'item_id',
-        'condition' => array('itemtype','=','DeviceCase')),
+        'condition' => array('item_type','=','DeviceCase')),
     'manufacturer' => array(
         'type' => 'belongsTo',
         'item' => 'Manufacturer'),
