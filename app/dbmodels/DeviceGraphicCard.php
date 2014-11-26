@@ -1,9 +1,9 @@
 <?php
 
 
-$table['model'] = 'Asset_DeviceGraphicCard';
+$table['model'] = 'DeviceGraphicCard';
 
-include "_commonassets_devices.php";
+include "_commondevices.php";
 
 $table['fields']['busID']               = DBModels::type('string');
 $table['fields']['memory']              = DBModels::type('integer');

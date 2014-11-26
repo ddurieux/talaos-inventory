@@ -9,7 +9,7 @@ $table['relationships'] = array();
 $table['menu']          = '';
 
 
-$devmodel = str_replace('Asset_','',$table['model']);
+$devitemmodel = $table['model'].'Item';
 $link = strtolower($devmodel);
 $fk = $link.'_id';
 
