@@ -80,6 +80,11 @@ $table['relationships'] = array(
     'group_tech' => array(
         'type'  => 'belongsTo',
         'item'  => 'Group'),
+    'infocoms' => array(
+        'type'      => 'hasOne',
+        'item'      => 'Infocom',
+        'field'     => 'item_id',
+        'condition' => array('itemtype','=','Asset')),
     'location' => array(
         'type' => 'belongsTo',
         'item' => 'Location'),
