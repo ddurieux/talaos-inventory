@@ -53,4 +53,6 @@ $table['relationships'] = array(
     'supplier' => array(
         'type' => 'belongsTo',
         'item' => 'Supplier'),
+    'infocom' => array(
+        'type' => 'morphTo'),
 );
