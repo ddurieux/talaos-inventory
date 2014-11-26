@@ -37,15 +37,14 @@ $table['relationships'] = array(
     $link => array(
         'type' => 'belongsTo',
         'item' => $devitemmodel),
-       
     'contracts' => array(
         'type'      => 'morphToMany',
         'item'      => 'Contract',
-        'table'     => 'glpi_contracts_items'),
+        'table'     => 'linked_contracts'),
     'documents' => array(
         'type'      => 'morphToMany',
         'item'      => 'Document',
-        'table'     => 'glpi_documents_items'),
+        'table'     => 'linked_documents'),
     'infocom' => array(
         'type' => 'morphMany',
         'item' => 'Infocom'),    

@@ -7,7 +7,7 @@ $table = array(
     'indexes'       => array(),
     'oldindexes'    => array(),
     'relationships' => array(),
-    'model'         => '',
+    'model'         => 'LinkedDocument',
     'menu'          => ''
 );
 $table['fields'] = array(
