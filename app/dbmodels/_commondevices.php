@@ -10,7 +10,7 @@ $table['menu']          = '';
 
 
 $devitemmodel = $table['model'].'Item';
-$link = strtolower($devmodel);
+$link = strtolower($devitemmodel);
 $fk = $link.'_id';
 
 
@@ -36,7 +36,7 @@ $table['relationships'] = array(
         'item' => 'Asset'),
     $link => array(
         'type' => 'belongsTo',
-        'item' => $devmodel),
+        'item' => $devitemmodel),
        
     'contracts' => array(
         'type'      => 'morphToMany',
