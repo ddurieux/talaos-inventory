@@ -1,38 +1,13 @@
 <?php
 
-$table = array(
-    'fields'        => array(),
-    'oldfields'     => array(),
-    'renamefields'  => array(),
-    'indexes'       => array(),
-    'oldindexes'    => array(),
-    'relationships' => array(),
-    'model'         => 'DeviceControl',
-    'menu'          => 'Configuration'
-);
-$table['fields'] = array(
-    'id'                    => DBModels::type('increments',
-                                              array('visible' => false)),
-    'name'                  => DBModels::type('string'),
-    'entity_id'             => DBModels::type('integer'), ///TODO create relation
-    'is_recursive'          => DBModels::type('boolean',
-                                              array('visible' => false)),
-    'manufacturer_id'       => DBModels::type('integer'),
-    'comment'               => DBModels::type('text'),
-    'is_raid'               => DBModels::type('boolean'),
-    'interfacetype_id'      => DBModels::type('integer'),
-);
+include "_commondevices.php";
 
-  
-$table['relationships'] = array(
-    'interfacetype' => array(
-        'type' => 'belongsTo',
-        'item' => 'InterfaceType'),
-    'documents' => array(
-        'type'      => 'morphToMany',
-        'item'      => 'Document',
-        'table'     => 'glpi_documents_items'),
-    'manufacturer' => array(
-        'type' => 'belongsTo',
-        'item' => 'Manufacturer'),
-);
+$table['model'] = 'DeviceControl';
+
+$table['fields']['interfacetype_id'] = DBModels::type('integer');
+$table['fields']['is_raid']          = DBModels::type('boolean');
+
+$table['relationships']['interfacetype'] = array(
+                                                'type' => 'belongsTo',
+                                                'item' => 'InterfaceType');
+

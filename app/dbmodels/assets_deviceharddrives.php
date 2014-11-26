@@ -27,8 +27,6 @@ $table['fields'] = array(
     'busID'              => DBModels::type('string'),
 );
 
-  `capacity` int(11) NOT NULL DEFAULT '0',
-  
 $table['relationships'] = array(
     'asset' => array(
         'type' => 'belongsTo',
