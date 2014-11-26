@@ -1,12 +1,11 @@
 <?php
 
-include "_commondevices.php";
+include "_commondeviceitems.php";
 
-$table['model'] = 'DeviceDrive';
+$table['model'] = 'DeviceControlItem';
 
 $table['fields']['interfacetype_id'] = DBModels::type('integer');
-$table['fields']['is_writer']        = DBModels::type('boolean');
-$table['fields']['speed']            = DBModels::type('string');
+$table['fields']['is_raid']          = DBModels::type('boolean');
 
 $table['relationships']['interfacetype'] = array(
                                                 'type' => 'belongsTo',

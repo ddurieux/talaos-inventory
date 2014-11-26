@@ -1,8 +1,8 @@
 <?php
 
-include "_commondevices.php";
+include "_commondeviceitems.php";
 
-$table['model'] = 'DeviceHardDrive';
+$table['model'] = 'DeviceHardDriveItem';
 
 $table['fields']['interfacetype_id'] = DBModels::type('integer');
 $table['fields']['cache_default']    = DBModels::type('integer');

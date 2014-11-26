@@ -1,15 +1,14 @@
 <?php
 
-include "_commondevices.php";
+include "_common_commondeviceitemsdevices.php";
 
-$table['model'] = 'DeviceGraphicCard';
+$table['model'] = 'DeviceDriveItem';
 
 $table['fields']['interfacetype_id'] = DBModels::type('integer');
-$table['fields']['memory_default']   = DBModels::type('integer');
-$table['fields']['chipset']          = DBModels::type('string');
+$table['fields']['is_writer']        = DBModels::type('boolean');
+$table['fields']['speed']            = DBModels::type('string');
 
 $table['relationships']['interfacetype'] = array(
                                                 'type' => 'belongsTo',
                                                 'item' => 'InterfaceType');
-
 

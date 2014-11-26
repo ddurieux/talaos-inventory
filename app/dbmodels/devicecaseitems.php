@@ -1,7 +1,8 @@
 <?php
-include "_commondevices.php";
 
-$table['model'] = 'DeviceCase';
+include "_commondeviceitems.php";
+
+$table['model'] = 'DeviceCaseItem';
 
 $table['fields']['devicecasetype_id'] = DBModels::type('integer');
 
