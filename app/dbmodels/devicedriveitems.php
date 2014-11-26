@@ -1,6 +1,6 @@
 <?php
 
-include "_common_commondeviceitemsdevices.php";
+include "_commondeviceitems.php";
 
 $table['model'] = 'DeviceDriveItem';
 

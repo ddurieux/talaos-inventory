@@ -17,7 +17,7 @@ $capsule->addConnection(array(
     'password'  => 'glping',
     'charset'   => 'utf8',
     'collation' => 'utf8_general_ci',
-    'prefix'    => ''
+    'prefix'    => 'glpi_'
 ));
 
 // Info for metrics about backend (no host = disabled)

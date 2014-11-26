@@ -13,10 +13,10 @@ class DBModels {
         foreach (glob(__DIR__.'/dbmodels/*') as $file) {
             $split = explode('/', $file);
             $tableName = str_replace('.php', '', $split[(count($split) - 1)]);
-
             if ($tableName[0] != '_') {
                 require_once $file;
-                $tables['glpi_'.$tableName] = $table;
+                $tableName = str_replace('\\', '', snake_case(str_plural($table['model'])));
+                $tables[$tableName] = $table;
             }
         }
         return $tables;

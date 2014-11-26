@@ -8,10 +8,10 @@ class GLPIInstall {
     var $tablefields = array();
 
     function run() {
-        if (Capsule::schema()->hasTable('glpi_computers')) {
+        if (Capsule::schema()->hasTable('computers')) {
             // Call update
             $this->runUpdate('2.0');
-        } else if (Capsule::schema()->hasTable('glpi_assets')) {
+        } else if (Capsule::schema()->hasTable('assets')) {
             // Get version
             $config = Config::find(1);
             $this->runUpdate($config->version);
@@ -20,7 +20,6 @@ class GLPIInstall {
             require_once __DIR__.'/../dbmodels.php';
             $tables = DBModels::getDBModels();
             $this->ConvertPHPTableORM($tables);
-
             $config = new Config();
             $config->id      = 1;
             $config->version = $this->currentVersion;
@@ -34,6 +33,7 @@ class GLPIInstall {
 
         foreach ($tables as $tablename => $data) {
             $this->tablefields = $data['fields'];
+
             Capsule::schema()->create($tablename, function($table) {
                 foreach ($this->tablefields as $fieldname=>$data) {
                     switch ($data['type']) {
