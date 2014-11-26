@@ -4,11 +4,8 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class CommonGLPI extends Eloquent {
 
-    protected $table = '';
-
     public function __call($name, $arguments) {
-        //require __DIR__.'/../dbmodels/'.preg_replace('/^glpi_/','',$this->table).'.php';
-        require $this->getDBmodelFileFromTablename($this->table);
+        require __DIR__.'/../dbmodels/'.get_called_class().'.php';
 
         if (isset($table['relationships'][$name])) {
             switch ($table['relationships'][$name]['type']) {
@@ -102,8 +99,7 @@ class CommonGLPI extends Eloquent {
 
 
     public function getFields($restrict='visible') {
-        //require __DIR__.'/../dbmodels/'.preg_replace('/^glpi_/','',$this->table).'.php';
-	require $this->getDBmodelFileFromTablename($this->table);
+        require __DIR__.'/../dbmodels/'.get_called_class().'.php';
 
         $fields = array(
             'data' => array(),
@@ -149,10 +145,6 @@ class CommonGLPI extends Eloquent {
             }
         }
         return $fields;
-    }
-
-    function getDBmodelFileFromTablename($tablename) {
-        return __DIR__.'/../dbmodels/'.preg_replace('/^glpi_/','',$tablename).'.php';
     }
 
     static function getRelatedModels($id) {
