@@ -13,11 +13,10 @@ class NestedGLPI extends Baum\Node {
                     if (isset($table['relationships'][$name]['field'])) {
                         $field = $table['relationships'][$name]['field'];
                     }
-                    return($this->belongsTo(
-                        $table['relationships'][$name]['item'],
-                        $field,
-                        'id',
-                        $name));
+                    return $this->belongsTo($table['relationships'][$name]['item'],
+                                            $field,
+                                            'id',
+                                            $name);
                     break;
 
                 case 'belongsToMany' :
@@ -37,20 +36,35 @@ class NestedGLPI extends Baum\Node {
                            && is_array($table['relationships'][$name]['condition'])
                            && count($table['relationships'][$name]['condition'])==3) {
                                print_r($table['relationships'][$name]['condition']);
-                        return($this->belongsToMany(
-                            $table['relationships'][$name]['item'],
-                            $linktable,
-                            $field1,
-                            $field2)->Where($table['relationships'][$name]['condition'][0],
-                                            $table['relationships'][$name]['condition'][1],
-                                            $table['relationships'][$name]['condition'][2]));
+                        return($this->belongsToMany($table['relationships'][$name]['item'],
+                                                    $linktable,
+                                                    $field1,
+                                                    $field2)->Where($table['relationships'][$name]['condition'][0],
+                                                                    $table['relationships'][$name]['condition'][1],
+                                                                    $table['relationships'][$name]['condition'][2]));
                     } else {
-                        return($this->belongsToMany(
-                            $table['relationships'][$name]['item'],
-                            $linktable,
-                            $field1,
-                            $field2));
+                        return($this->belongsToMany($table['relationships'][$name]['item'],
+                                                    $linktable,
+                                                    $field1,
+                                                    $field2));
                     }
+                    break;
+
+                case 'morphTo' :
+                    return $this->morphTo($name,
+                                          'item_type',
+                                          'item_id');
+                    break;
+
+                case 'morphMany' :
+                    return $this->morphMany($table['relationships'][$name]['item'],
+                                            $name, 'item_type', 'item_id');
+                    break;
+
+                case 'morphToMany' :
+                    return $this->morphToMany($table['relationships'][$name]['item'],
+                                              'item',
+                                              $table['relationships'][$name]['table']);
                     break;
 
                 case 'hasMany' :
@@ -59,11 +73,10 @@ class NestedGLPI extends Baum\Node {
                         $field = $table['relationships'][$name]['field'];
                     }
 
-                    return($this->hasMany(
-                        $table['relationships'][$name]['item'],
-                        $field,
-                        'id',
-                        $name));
+                    return($this->hasMany($table['relationships'][$name]['item'],
+                                          $field,
+                                          'id',
+                                          $name));
                     break;
 
                 case 'hasOne' :
@@ -72,10 +85,9 @@ class NestedGLPI extends Baum\Node {
                         $field = $table['relationships'][$name]['field'];
                     }
 
-                    return($this->hasMany(
-                        $table['relationships'][$name]['item'],
-                        $field,
-                        'id'));
+                    return($this->hasMany($table['relationships'][$name]['item'],
+                                          $field,
+                                          'id'));
                     break;
 
             }

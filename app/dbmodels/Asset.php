@@ -92,5 +92,8 @@ $table['relationships'] = array(
     'state' => array(
         'type'  => 'belongsTo',
         'item'  => 'State'),
+    'entity' => array(
+        'type'  => 'belongsTo',
+        'item'  => 'Entity'),
 
 );

@@ -159,10 +159,20 @@ class Route {
             $i = new $itemname;
             $query = $i->take($limit)->offset($offset)->with($param);
             $query->where('assettype_id', '=', $assettype_id);
+            $i_fields = $i->getFields();
+            if (isset($i_fields['data']['entity_id'])) {
+                $entity = Entity::find(1); // get first entity
+                $query->restrictentity($entity);
+            }
             $total = $itemname::with($param)->where('assettype_id', '=', $assettype_id)->count();
         } else {
             $i = new $item;
             $query = $i->take($limit)->offset($offset)->with($param);
+            $i_fields = $i->getFields();
+            if (isset($i_fields['data']['entity_id'])) {
+                $entity = Entity::find(1); // get first entity
+                $query->restrictentity($entity);
+            }
             $total = $item::with($param)->count();
         }
         if (isset($_GET['sort'])) {
@@ -177,8 +187,6 @@ class Route {
             }
         }
         $a = $query->get($fields);
-
-
 
         $meta = array();
         // Define total in header

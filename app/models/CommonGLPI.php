@@ -57,15 +57,15 @@ class CommonGLPI extends Eloquent {
                                           'item_type',
                                           'item_id');
                     break;
-                    
+
                 case 'morphMany' :
-                    return $this->morphMany($table['relationships'][$name]['item'], 
+                    return $this->morphMany($table['relationships'][$name]['item'],
                                             $name, 'item_type', 'item_id');
                     break;
 
                 case 'morphToMany' :
                     return $this->morphToMany($table['relationships'][$name]['item'],
-                                              'item', 
+                                              'item',
                                               $table['relationships'][$name]['table']);
                     break;
 
@@ -149,5 +149,15 @@ class CommonGLPI extends Eloquent {
 
     static function getRelatedModels($id) {
         return array();
+    }
+
+
+
+    public function scopeRestrictentity($query, Entity $entity=null) {
+        if ( is_null($entity) ) return $query->with('entity');
+
+        $entityIds = $entity->getDescendantsAndSelf()->lists('id');
+
+        return $query->whereIn('entity_id', $entityIds);
     }
 }
