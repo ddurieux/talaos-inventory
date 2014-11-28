@@ -14,7 +14,7 @@ $table['fields'] = array(
     'id'                    => DBModels::type('increments',
                                               array('visible' => false)),
     'name'                  => DBModels::type('string'),
-    'entity_id'             => DBModels::type('integer'), ///TODO create relation
+    'entity_id'             => DBModels::type('integer'),
     'is_recursive'          => DBModels::type('boolean',
                                               array('visible' => false)),
     'manufacturer_id'       => DBModels::type('integer'),
@@ -30,4 +30,7 @@ $table['relationships'] = array(
     'manufacturer' => array(
         'type' => 'belongsTo',
         'item' => 'Manufacturer'),
+    'entity' => array(
+        'type'  => 'belongsTo',
+        'item'  => 'Entity'),
 );

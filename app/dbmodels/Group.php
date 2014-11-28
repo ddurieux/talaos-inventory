@@ -15,7 +15,7 @@ $table['fields'] = array(
                                          array('visible' => false)),
     'name'             => DBModels::type('string'),
     'comment'          => DBModels::type('text'),
-    'entity_id'        => DBModels::type('integer'), ///TODO create relation
+    'entity_id'        => DBModels::type('integer'),
     'is_recursive'     => DBModels::type('boolean',
                                          array('visible' => false)),
     'ldap_field'       => DBModels::type('string'),
@@ -55,6 +55,9 @@ $table['relationships'] = array(
         'item'  => 'Group'),
     'consumables' => array(
         'type' => 'morphMany',
-        'item' => 'Consumable'),        
+        'item' => 'Consumable'),
+    'entity' => array(
+        'type'  => 'belongsTo',
+        'item'  => 'Entity'),
 
 );

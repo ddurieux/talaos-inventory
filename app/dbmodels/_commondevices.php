@@ -15,11 +15,11 @@ $fk = $link.'_id';
 
 
 $table['fields'] = array(
-    'id'              => DBModels::type('increments', 
+    'id'              => DBModels::type('increments',
                                         array('visible' => false)),
     'asset_id'        => DBModels::type('integer'),
     $fk               => DBModels::type('integer'),
-    'entity_id'       => DBModels::type('integer'), ///TODO create relation
+    'entity_id'       => DBModels::type('integer'),
     'is_recursive'    => DBModels::type('boolean',
                                         array('visible' => false)),
     'is_deleted'      => DBModels::type('boolean',
@@ -47,5 +47,8 @@ $table['relationships'] = array(
         'table'     => 'linked_documents'),
     'infocom' => array(
         'type' => 'morphMany',
-        'item' => 'Infocom'),    
+        'item' => 'Infocom'),
+    'entity' => array(
+        'type'  => 'belongsTo',
+        'item'  => 'Entity'),
 );

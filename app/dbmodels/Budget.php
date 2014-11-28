@@ -15,7 +15,7 @@ $table['fields'] = array(
                                      array('visible' => false)),
     'name'          => DBModels::type('string'),
     'comment'       => DBModels::type('text'),
-    'entity_id'     => DBModels::type('integer'), ///TODO create relation
+    'entity_id'     => DBModels::type('integer'),
     'is_recursive'  => DBModels::type('boolean',
                                       array('visible' => false)),
     'is_deleted'    => DBModels::type('boolean',
@@ -28,4 +28,10 @@ $table['fields'] = array(
     'template_name' => DBModels::type('string',
                                       array('visible' => false)),
 
+);
+
+$table['relationships'] = array(
+    'entity' => array(
+        'type'  => 'belongsTo',
+        'item'  => 'Entity'),
 );

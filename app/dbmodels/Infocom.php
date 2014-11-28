@@ -18,7 +18,7 @@ $table['fields'] = array(
                                                   'size'    => 100)),
     'item_id'             => DBModels::type('integer',
                                             array('visible' => false)),
-    'entity_id'           => DBModels::type('integer'), ///TODO create relation
+    'entity_id'           => DBModels::type('integer'),
     'is_recursive'        => DBModels::type('boolean',
                                             array('visible' => false)),
     'comment'             => DBModels::type('text'),
@@ -55,4 +55,7 @@ $table['relationships'] = array(
         'item' => 'Supplier'),
     'infocom' => array(
         'type' => 'morphTo'),
+    'entity' => array(
+        'type'  => 'belongsTo',
+        'item'  => 'Entity'),
 );

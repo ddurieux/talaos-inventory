@@ -35,7 +35,7 @@ $table['fields'] = array(
     'is_deleted'                      => DBModels::type('boolean',
                                                         array('visible' => false)),
     'profile_id'                      => DBModels::type('integer'), ///TODO create relation
-    'entity_id'                       => DBModels::type('integer'), ///TODO create relation
+    'entity_id'                       => DBModels::type('integer'),
     'usertitle_id'                    => DBModels::type('integer'),
     'usercategory_id'                 => DBModels::type('integer'),
     'date_format'                     => DBModels::type('integer',
@@ -121,4 +121,7 @@ $table['relationships'] = array(
     'consumables' => array(
         'type' => 'morphMany',
         'item' => 'Consumable'),
+    'entity' => array(
+        'type'  => 'belongsTo',
+        'item'  => 'Entity'),
 );
