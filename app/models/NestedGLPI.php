@@ -3,7 +3,7 @@
 class NestedGLPI extends Baum\Node {
 
     public function __call($name, $arguments) {
-    	require $this->getDBmodelFileFromTablename($this->table);
+        require __DIR__.'/../dbmodels/'.get_called_class().'.php';
 
         if (isset($table['relationships'][$name])) {
             switch ($table['relationships'][$name]['type']) {
