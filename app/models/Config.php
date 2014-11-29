@@ -1,4 +1,4 @@
 <?php
 
-class Config extends CommonGLPI {
+class Config extends CommonModel {
 }

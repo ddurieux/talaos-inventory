@@ -1,6 +1,6 @@
 <?php
 
-class DeviceMemoryItem extends CommonGLPI {
+class DeviceMemoryItem extends CommonModel {
 
 
 

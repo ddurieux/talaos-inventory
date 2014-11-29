@@ -1,5 +1,5 @@
 <?php
 
-class PrinterModel extends CommonGLPI {
+class PrinterModel extends CommonModel {
 
 }

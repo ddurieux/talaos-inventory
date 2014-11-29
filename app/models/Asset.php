@@ -1,6 +1,6 @@
 <?php
 
-class Asset extends CommonGLPI {
+class Asset extends CommonModel {
 
     /**
      * type is used to define the 'category' of the related model

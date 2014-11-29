@@ -1,4 +1,4 @@
 <?php
 
-class DisplayModel extends CommonGLPI {
+class DisplayModel extends CommonModel {
 }

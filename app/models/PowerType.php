@@ -1,6 +1,6 @@
 <?php
 
-class PowerType extends CommonGLPI {
+class PowerType extends CommonModel {
 
 
 }

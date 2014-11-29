@@ -1,6 +1,6 @@
 <?php
 
-class ConsumableItemType extends CommonGLPI {
+class ConsumableItemType extends CommonModel {
 
 
 }

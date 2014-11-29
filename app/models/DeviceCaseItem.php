@@ -1,6 +1,6 @@
 <?php
 
-class DeviceCaseItem extends CommonGLPI {
+class DeviceCaseItem extends CommonModel {
 
 
 }

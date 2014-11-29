@@ -1,5 +1,5 @@
 <?php
 
-class FileSystem extends CommonGLPI {
+class FileSystem extends CommonModel {
 
 }

@@ -1,5 +1,5 @@
 <?php
 
-class User extends CommonGLPI {
+class User extends CommonModel {
 
 }

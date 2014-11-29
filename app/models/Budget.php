@@ -1,5 +1,5 @@
 <?php
 
-class Budget extends CommonGLPI {
+class Budget extends CommonModel {
 
 }

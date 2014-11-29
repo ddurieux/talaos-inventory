@@ -1,6 +1,6 @@
 <?php
 
-class Notepad extends CommonGLPI {
+class Notepad extends CommonModel {
 
 
 }

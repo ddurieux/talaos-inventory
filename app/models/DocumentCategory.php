@@ -1,5 +1,5 @@
 <?php
 
-class DocumentCategory extends CommonGLPI {
+class DocumentCategory extends CommonModel {
 
 }

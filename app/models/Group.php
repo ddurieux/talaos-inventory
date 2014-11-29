@@ -1,5 +1,5 @@
 <?php
 
-class Group extends CommonGLPI {
+class Group extends CommonModel {
 
 }

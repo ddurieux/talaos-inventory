@@ -1,5 +1,5 @@
 <?php
 
-class AssetPrinter extends CommonGLPI {
+class AssetPrinter extends CommonModel {
 
 }

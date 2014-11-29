@@ -1,6 +1,6 @@
 <?php
 
-class DeviceHardDrive extends CommonGLPI {
+class DeviceHardDrive extends CommonModel {
 
 
 }

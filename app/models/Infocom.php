@@ -1,5 +1,5 @@
 <?php
 
-class Infocom extends CommonGLPI {
+class Infocom extends CommonModel {
 
 }

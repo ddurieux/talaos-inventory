@@ -1,6 +1,6 @@
 <?php
 
-class Entity extends NestedGLPI {
+class Entity extends CommonNested {
 
 
     // 'parent_id' column name

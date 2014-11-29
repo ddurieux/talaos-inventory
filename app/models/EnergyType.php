@@ -1,6 +1,6 @@
 <?php
 
-class EnergyType extends CommonGLPI {
+class EnergyType extends CommonModel {
 
 
 }

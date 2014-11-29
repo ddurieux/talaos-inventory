@@ -1,6 +1,6 @@
 <?php
 
-class Contract extends CommonGLPI {
+class Contract extends CommonModel {
 
 
 }

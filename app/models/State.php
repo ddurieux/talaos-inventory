@@ -1,5 +1,5 @@
 <?php
 
-class State extends CommonGLPI {
+class State extends CommonModel {
 
 }

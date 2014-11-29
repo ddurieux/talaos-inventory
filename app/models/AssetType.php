@@ -1,5 +1,5 @@
 <?php
 
-class AssetType extends CommonGLPI {
+class AssetType extends CommonModel {
 
 }

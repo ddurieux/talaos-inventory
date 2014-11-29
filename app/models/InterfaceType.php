@@ -1,6 +1,6 @@
 <?php
 
-class InterfaceType extends CommonGLPI {
+class InterfaceType extends CommonModel {
 
 
 }

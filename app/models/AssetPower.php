@@ -1,6 +1,6 @@
 <?php
 
-class AssetPower extends CommonGLPI {
+class AssetPower extends CommonModel {
 
 
 }

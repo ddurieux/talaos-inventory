@@ -1,6 +1,6 @@
 <?php
 
-class SupplierType extends CommonGLPI {
+class SupplierType extends CommonModel {
 
  
 }

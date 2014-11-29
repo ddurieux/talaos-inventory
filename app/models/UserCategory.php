@@ -1,6 +1,6 @@
 <?php
 
-class UserCategory extends CommonGLPI {
+class UserCategory extends CommonModel {
 
 
 }

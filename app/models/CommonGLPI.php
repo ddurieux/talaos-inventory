@@ -1,11 +1,9 @@
 <?php
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
+class CommonGLPI {
 
-class CommonGLPI extends Eloquent {
-
-    public function __call($name, $arguments) {
-        require __DIR__.'/../dbmodels/'.get_called_class().'.php';
+    static function relationship($item, $name, $arguments) {
+        require __DIR__.'/../dbmodels/'.get_class($item).'.php';
 
         if (isset($table['relationships'][$name])) {
             switch ($table['relationships'][$name]['type']) {
@@ -15,7 +13,7 @@ class CommonGLPI extends Eloquent {
                     if (isset($table['relationships'][$name]['field'])) {
                         $field = $table['relationships'][$name]['field'];
                     }
-                    return $this->belongsTo($table['relationships'][$name]['item'],
+                    return $item->belongsTo($table['relationships'][$name]['item'],
                                             $field,
                                             'id',
                                             $name);
@@ -38,14 +36,14 @@ class CommonGLPI extends Eloquent {
                            && is_array($table['relationships'][$name]['condition'])
                            && count($table['relationships'][$name]['condition'])==3) {
                                print_r($table['relationships'][$name]['condition']);
-                        return($this->belongsToMany($table['relationships'][$name]['item'],
+                        return($item->belongsToMany($table['relationships'][$name]['item'],
                                                     $linktable,
                                                     $field1,
                                                     $field2)->Where($table['relationships'][$name]['condition'][0],
                                                                     $table['relationships'][$name]['condition'][1],
                                                                     $table['relationships'][$name]['condition'][2]));
                     } else {
-                        return($this->belongsToMany($table['relationships'][$name]['item'],
+                        return($item->belongsToMany($table['relationships'][$name]['item'],
                                                     $linktable,
                                                     $field1,
                                                     $field2));
@@ -53,18 +51,18 @@ class CommonGLPI extends Eloquent {
                     break;
 
                 case 'morphTo' :
-                    return $this->morphTo($name,
+                    return $item->morphTo($name,
                                           'item_type',
                                           'item_id');
                     break;
 
                 case 'morphMany' :
-                    return $this->morphMany($table['relationships'][$name]['item'],
+                    return $item->morphMany($table['relationships'][$name]['item'],
                                             $name, 'item_type', 'item_id');
                     break;
 
                 case 'morphToMany' :
-                    return $this->morphToMany($table['relationships'][$name]['item'],
+                    return $item->morphToMany($table['relationships'][$name]['item'],
                                               'item',
                                               $table['relationships'][$name]['table']);
                     break;
@@ -75,7 +73,7 @@ class CommonGLPI extends Eloquent {
                         $field = $table['relationships'][$name]['field'];
                     }
 
-                    return($this->hasMany($table['relationships'][$name]['item'],
+                    return($item->hasMany($table['relationships'][$name]['item'],
                                           $field,
                                           'id',
                                           $name));
@@ -87,19 +85,19 @@ class CommonGLPI extends Eloquent {
                         $field = $table['relationships'][$name]['field'];
                     }
 
-                    return($this->hasMany($table['relationships'][$name]['item'],
+                    return($item->hasMany($table['relationships'][$name]['item'],
                                           $field,
                                           'id'));
                     break;
 
             }
         }
-        return parent::__call($name, $arguments);
     }
 
 
-    public function getFields($restrict='visible') {
-        require __DIR__.'/../dbmodels/'.get_called_class().'.php';
+
+    static function getFields($item, $restrict) {
+        require __DIR__.'/../dbmodels/'.get_class($item).'.php';
 
         $fields = array(
             'data' => array(),
@@ -147,17 +145,13 @@ class CommonGLPI extends Eloquent {
         return $fields;
     }
 
-    static function getRelatedModels($id) {
-        return array();
-    }
 
 
-
-    public function scopeRestrictentity($query, Entity $entity=null) {
-        if ( is_null($entity) ) return $query->with('entity');
-
+    static function scopeRestrictentity($query, Entity $entity=null) {
+        if (is_null($entity)) {
+            return $query->with('entity');
+        }
         $entityIds = $entity->getDescendantsAndSelf()->lists('id');
-
         return $query->whereIn('entity_id', $entityIds);
     }
 }

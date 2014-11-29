@@ -1,5 +1,5 @@
 <?php
 
-class Blacklist extends CommonGLPI {
+class Blacklist extends CommonModel {
 
 }

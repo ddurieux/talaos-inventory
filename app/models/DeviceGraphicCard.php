@@ -1,6 +1,6 @@
 <?php
 
-class DeviceGraphicCard extends CommonGLPI {
+class DeviceGraphicCard extends CommonModel {
 
 
 }

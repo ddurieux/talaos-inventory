@@ -1,6 +1,6 @@
 <?php
 
-class Location extends NestedGLPI {
+class Location extends CommonNested {
 
 
     // 'parent_id' column name

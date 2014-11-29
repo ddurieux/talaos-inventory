@@ -1,5 +1,5 @@
 <?php
 
-class DeviceCaseType extends CommonGLPI {
+class DeviceCaseType extends CommonModel {
 
 }

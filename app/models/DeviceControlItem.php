@@ -1,6 +1,6 @@
 <?php
 
-class DeviceControlItem extends CommonGLPI {
+class DeviceControlItem extends CommonModel {
 
 
 }

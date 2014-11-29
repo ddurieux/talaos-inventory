@@ -1,6 +1,6 @@
 <?php
 
-class UserTitle extends CommonGLPI {
+class UserTitle extends CommonModel {
 
 
 }

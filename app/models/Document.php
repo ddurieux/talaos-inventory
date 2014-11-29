@@ -1,5 +1,5 @@
 <?php
 
-class Document extends CommonGLPI {
+class Document extends CommonModel {
 
 }

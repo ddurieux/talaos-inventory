@@ -1,5 +1,5 @@
 <?php
 
-class CartridgeItemType extends CommonGLPI {
+class CartridgeItemType extends CommonModel {
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-class Manufacturer extends CommonGLPI {
+class Manufacturer extends CommonModel {
 
 
 }

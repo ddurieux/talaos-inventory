@@ -1,5 +1,5 @@
 <?php
 
-class AssetDisk extends CommonGLPI {
+class AssetDisk extends CommonModel {
 
 }

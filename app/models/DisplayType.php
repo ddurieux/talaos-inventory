@@ -1,5 +1,5 @@
 <?php
 
-class DisplayType extends CommonGLPI {
+class DisplayType extends CommonModel {
 
 }
