@@ -160,20 +160,24 @@ class Route {
             $query = $i->take($limit)->offset($offset)->with($param);
             $query->where('assettype_id', '=', $assettype_id);
             $i_fields = $i->getFields();
+            $tot = $itemname::where('assettype_id', '=', $assettype_id);
             if (isset($i_fields['data']['entity_id'])) {
                 $entity = Entity::find(1); // get first entity
                 $query->restrictentity($entity);
+                $tot->restrictentity($entity);
             }
-            $total = $itemname::with($param)->where('assettype_id', '=', $assettype_id)->count();
+            $total = $tot->count();
         } else {
             $i = new $item;
             $query = $i->take($limit)->offset($offset)->with($param);
             $i_fields = $i->getFields();
+            $tot = $i;
             if (isset($i_fields['data']['entity_id'])) {
                 $entity = Entity::find(1); // get first entity
                 $query->restrictentity($entity);
+                $tot->restrictentity($entity);
             }
-            $total = $item::with($param)->count();
+            $total = $tot->count();
         }
         if (isset($_GET['sort'])) {
             $sorts = explode(',', $_GET['sort']);
