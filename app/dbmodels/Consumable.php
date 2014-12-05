@@ -13,9 +13,6 @@ $table = array(
 $table['fields'] = array(
     'id'                 => DBModels::type('increments',
                                            array('visible' => false)),
-    'entity_id'          => DBModels::type('integer'),
-    'is_recursive'       => DBModels::type('boolean',
-                                            array('visible' => false)),
     'consumable_item_id'  => DBModels::type('integer'),
     'date_in'            => DBModels::type('date'),
     'date_out'           => DBModels::type('date'),
@@ -35,7 +32,6 @@ $table['relationships'] = array(
         'item' => 'Infocom'),
     'receiver' => array(
         'type' => 'morphTo'),
-    'entity' => array(
-        'type'  => 'belongsTo',
-        'item'  => 'Entity'),
 );
+include "_commonentitylink.php";
+include "_commonrecursiveentitylink.php";

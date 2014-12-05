@@ -15,9 +15,6 @@ $table['fields'] = array(
                                          array('visible' => false)),
     'name'             => DBModels::type('string'),
     'comment'          => DBModels::type('text'),
-    'entity_id'        => DBModels::type('integer'),
-    'is_recursive'     => DBModels::type('boolean',
-                                         array('visible' => false)),
     'ldap_field'       => DBModels::type('string'),
     'ldap_value'       => DBModels::type('text'),
     'ldap_group_dn'    => DBModels::type('text'),
@@ -56,8 +53,7 @@ $table['relationships'] = array(
     'consumables' => array(
         'type' => 'morphMany',
         'item' => 'Consumable'),
-    'entity' => array(
-        'type'  => 'belongsTo',
-        'item'  => 'Entity'),
-
 );
+
+include "_commonentitylink.php";
+include "_commonrecursiveentitylink.php";

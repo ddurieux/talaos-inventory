@@ -15,9 +15,6 @@ $table['fields'] = array(
                                            array('visible' => false)),
     'name'               => DBModels::type('string'),
     'comment'            => DBModels::type('text'),
-    'entity_id'          => DBModels::type('integer'),
-    'is_recursive'       => DBModels::type('boolean',
-                                           array('visible' => false)),
     'is_deleted'         => DBModels::type('boolean',
                                            array('visible' => false)),
     'supplier_type_id'    => DBModels::type('integer'),
@@ -41,3 +38,5 @@ $table['relationships'] = array(
         'type'  => 'belongsTo',
         'item'  => 'Entity'),
 );
+include "_commonentitylink.php";
+include "_commonrecursiveentitylink.php";

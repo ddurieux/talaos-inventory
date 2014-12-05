@@ -6,9 +6,6 @@ $table['model'] = 'IpNetwork';
 
 include "_commontreedropdowns.php";
 
-$table['fields']['entity_id']    = DBModels::type('integer');
-$table['fields']['is_recursive'] = DBModels::type('boolean',
-                                                  array('visible' => false));
 $table['fields']['addressable']  = DBModels::type('boolean');
 $table['fields']['version']  = DBModels::type('integer'); 
 $table['fields']['address']  = DBModels::type('string'); 
@@ -38,6 +35,5 @@ $table['relationships']['ip_addresses'] = array(
         'item'      => 'IpAddress',
         'linktable' => 'linked_ip_networks');
         
-$table['relationships']['entity'] = array(
-        'type'      => 'belongsTo',
-        'item'      => 'Entity');
+include "_commonentitylink.php";
+include "_commonrecursiveentitylink.php";

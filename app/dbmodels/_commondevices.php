@@ -19,9 +19,6 @@ $table['fields'] = array(
                                         array('visible' => false)),
     'asset_id'        => DBModels::type('integer'),
     $fk               => DBModels::type('integer'),
-    'entity_id'       => DBModels::type('integer'),
-    'is_recursive'    => DBModels::type('boolean',
-                                        array('visible' => false)),
     'is_deleted'      => DBModels::type('boolean',
                                         array('visible' => false)),
     'is_dynamic'      => DBModels::type('boolean',
@@ -48,7 +45,7 @@ $table['relationships'] = array(
     'infocom' => array(
         'type' => 'morphMany',
         'item' => 'Infocom'),
-    'entity' => array(
-        'type'  => 'belongsTo',
-        'item'  => 'Entity'),
 );
+
+include "_commonentitylink.php";
+include "_commonrecursiveentitylink.php";

@@ -14,9 +14,6 @@ $table['fields'] = array(
     'id'               => DBModels::type('increments',
                                          array('visible' => false)),
     'name'             => DBModels::type('string'),
-    'entity_id'        => DBModels::type('integer'),
-    'is_recursive'     => DBModels::type('boolean',
-                                         array('visible' => false)),
     'is_deleted'       => DBModels::type('boolean',
                                          array('visible' => false)),
     'is_dynamic'       => DBModels::type('boolean',
@@ -44,6 +41,5 @@ $table['relationships']['ip_networks'] = array(
         'item'      => 'IpNetwork',
         'linktable' => 'linked_ip_networks');
 
-$table['relationships']['entity'] = array(
-        'type'      => 'belongsTo',
-        'item'      => 'Entity');
+include "_commonentitylink.php";
+include "_commonrecursiveentitylink.php";

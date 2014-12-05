@@ -16,9 +16,6 @@ $table['fields'] = array(
     'name'             => DBModels::type('string'),
     'asset_type_id'     => DBModels::type('integer',
                                          array('visible' => false)),
-    'entity_id'        => DBModels::type('integer'),
-    'is_recursive'     => DBModels::type('boolean',
-                                         array('visible' => false)),
     'is_deleted'       => DBModels::type('boolean',
                                          array('visible' => false)),
     'is_dynamic'       => DBModels::type('boolean',
@@ -94,8 +91,7 @@ $table['relationships'] = array(
     'state' => array(
         'type'  => 'belongsTo',
         'item'  => 'State'),
-    'entity' => array(
-        'type'  => 'belongsTo',
-        'item'  => 'Entity'),
-
 );
+
+include "_commonentitylink.php";
+include "_commonrecursiveentitylink.php";
