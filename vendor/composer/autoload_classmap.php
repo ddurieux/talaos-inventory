@@ -12,6 +12,7 @@ return array(
     'AssetPower' => $baseDir . '/app/models/AssetPower.php',
     'AssetPrinter' => $baseDir . '/app/models/AssetPrinter.php',
     'AssetType' => $baseDir . '/app/models/AssetType.php',
+    'AssetVirtualMachine' => $baseDir . '/app/models/AssetVirtualMachine.php',
     'Blacklist' => $baseDir . '/app/models/Blacklist.php',
     'Budget' => $baseDir . '/app/models/Budget.php',
     'Cartridge' => $baseDir . '/app/models/Cartridge.php',
