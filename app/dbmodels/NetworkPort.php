@@ -33,10 +33,8 @@ $table['relationships'] = array(
     'vlans'     => array(
         'type'  => 'belongsToMany',
         'item'  => 'Vlan',
-        'linktable' => 'network_port_vlans'), 
-    'network_port_vlan' => array(
-        'type'  => 'hasMany',
-        'item'  => 'NetworkPortVlan'),        
+        'linktable' => 'network_port_vlans',
+        'linkfields' => array('tagged')),
 );
 
 include "_commonentitylink.php";

@@ -37,10 +37,18 @@ class CommonGLPI {
                         $linktable = $table['relationships'][$name]['linktable'];
                     }
 
-                    return($item->belongsToMany($table['relationships'][$name]['item'],
-                                                $linktable,
-                                                $field1,
-                                                $field2));
+                    if (isset($table['relationships'][$name]['linkfields']) && is_array($table['relationships'][$name]['linkfields'])) {
+                        return $item->belongsToMany($table['relationships'][$name]['item'],
+                                                    $linktable,
+                                                    $field1,
+                                                    $field2)->withPivot($table['relationships'][$name]['linkfields']);
+                    
+                    } else {
+                        return($item->belongsToMany($table['relationships'][$name]['item'],
+                                                    $linktable,
+                                                    $field1,
+                                                    $field2));
+                    }
                     break;
 
                 case 'morphTo' :

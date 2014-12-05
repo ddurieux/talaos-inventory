@@ -18,16 +18,3 @@ $table['fields'] = array(
     'tagged'          => DBModels::type('boolean'),
 
 );
-
-
-$table['relationships'] = array(
-    'vlan'     => array(
-        'type'  => 'belongsTo',
-        'item'  => 'Vlan'),
-    'network_port' => array(
-        'type'  => 'belongsTo',
-        'item'  => 'NetworkPort'),
-);
-
-include "_commonentitylink.php";
-include "_commonrecursiveentitylink.php";
