@@ -42,6 +42,26 @@ $table['relationships'] = array(
         'item'  => 'Vlan',
         'linktable' => 'network_port_vlans',
         'linkfields' => array('tagged')),
+    'network_port_wifi'   => array(
+        'type'  => 'hasOne',
+        'item'  => 'NetworkPortWifi'),        
+    'network_port_local'   => array(
+        'type'  => 'hasOne',
+        'item'  => 'NetworkPortLocal'),        
+    'network_port_ethernet'   => array(
+        'type'  => 'hasOne',
+        'item'  => 'NetworkPortEthernet'),        
+    'network_port_dialup'   => array(
+        'type'  => 'hasOne',
+        'item'  => 'NetworkPortDialup'),        
+    'network_port_aggregate'   => array(
+        'type'  => 'hasOne',
+        'item'  => 'NetworkPortDialup'),             
+    'network_port_alias'   => array(
+        'type'      => 'belongsToMany',
+        'item'      => 'NetworkPort',
+        'linktable' => 'network_port_aliases',
+        'field2'    => 'network_port_alias_id'),        
 );
 
 include "_commonentitylink.php";

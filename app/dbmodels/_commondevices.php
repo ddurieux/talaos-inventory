@@ -10,7 +10,7 @@ $table['menu']          = '';
 
 
 $devitemmodel = $table['model'].'Item';
-$link = strtolower($devitemmodel);
+$link = snake_case($devitemmodel);
 $fk = $link.'_id';
 
 
