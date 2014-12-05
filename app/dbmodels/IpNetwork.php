@@ -34,6 +34,9 @@ $table['relationships']['ip_addresses'] = array(
         'type'      => 'belongsToMany',
         'item'      => 'IpAddress',
         'linktable' => 'linked_ip_networks');
-        
+
+
+$table['relationships'] = array();
+
 include "_commonentitylink.php";
 include "_commonrecursiveentitylink.php";

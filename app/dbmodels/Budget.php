@@ -27,5 +27,7 @@ $table['fields'] = array(
 
 );
 
+$table['relationships'] = array();
+
 include "_commonentitylink.php";
 include "_commonrecursiveentitylink.php";
