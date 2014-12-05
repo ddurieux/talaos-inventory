@@ -4,21 +4,16 @@ namespace Domnikl\Statsd;
 
 /**
  * An interface for a Statsd connection implementation
- *
- * @author Derek Gallo <dgallo@avectra.com>
  */
 interface Connection
 {
-
     /**
      * sends a message to Statsd
      *
-     * @param $message
-     *
-     * @return void
+     * @param string $message
      */
     public function send($message);
-    
+
     /**
      * is sampling forced?
      *
@@ -26,4 +21,3 @@ interface Connection
      */
     public function forceSampling();
 }
-	

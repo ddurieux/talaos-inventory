@@ -61,16 +61,16 @@
         },
         {
             "name": "domnikl/statsd",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/domnikl/statsd-php.git",
-                "reference": "ab2b63d66343e071011f4df49335a7a88cd88806"
+                "reference": "b5763927c3692064a8e1e593cd1df372d118be45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/domnikl/statsd-php/zipball/ab2b63d66343e071011f4df49335a7a88cd88806",
-                "reference": "ab2b63d66343e071011f4df49335a7a88cd88806",
+                "url": "https://api.github.com/repos/domnikl/statsd-php/zipball/b5763927c3692064a8e1e593cd1df372d118be45",
+                "reference": "b5763927c3692064a8e1e593cd1df372d118be45",
                 "shasum": ""
             },
             "require": {
@@ -81,8 +81,8 @@
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Domnikl": "lib/"
+                "psr-4": {
+                    "Domnikl\\Statsd\\": "lib/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -92,16 +92,16 @@
             "authors": [
                 {
                     "name": "Dominik Liebler",
-                    "email": "liebler.dominik@googlemail.com"
+                    "email": "liebler.dominik@gmail.com"
                 }
             ],
             "description": "a PHP client for statsd",
-            "homepage": "http://domnikl.github.com/statsd-php",
+            "homepage": "https://domnikl.github.com/statsd-php",
             "keywords": [
                 "monitoring",
                 "statsd"
             ],
-            "time": "2014-08-16 09:19:04"
+            "time": "2014-12-01 21:27:13"
         },
         {
             "name": "illuminate/console",
@@ -471,17 +471,17 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.5.7",
+            "version": "v2.5.8",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "61b13c27c9258e97009249d4ef193c964bf346b7"
+                "reference": "806e29280b4b9700693b32d055ce1b1a491dec39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/61b13c27c9258e97009249d4ef193c964bf346b7",
-                "reference": "61b13c27c9258e97009249d4ef193c964bf346b7",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/806e29280b4b9700693b32d055ce1b1a491dec39",
+                "reference": "806e29280b4b9700693b32d055ce1b1a491dec39",
                 "shasum": ""
             },
             "require": {
@@ -522,21 +522,21 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-11-20 13:22:25"
+            "time": "2014-12-02 20:15:53"
         },
         {
             "name": "symfony/finder",
-            "version": "v2.5.7",
+            "version": "v2.5.8",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "743aabbf4958663ef626e10ae3a6c7b17a0fa3bd"
+                "reference": "e5487b9a23adc4be228ac550100d89c50f1ee8d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/743aabbf4958663ef626e10ae3a6c7b17a0fa3bd",
-                "reference": "743aabbf4958663ef626e10ae3a6c7b17a0fa3bd",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/e5487b9a23adc4be228ac550100d89c50f1ee8d5",
+                "reference": "e5487b9a23adc4be228ac550100d89c50f1ee8d5",
                 "shasum": ""
             },
             "require": {
@@ -569,14 +569,24 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2014-10-26 07:41:27"
+            "time": "2014-12-02 20:15:53"
         }
     ],
-    "packages-dev": [],
-    "aliases": [],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": [
+
+    ],
     "prefer-stable": false,
-    "platform": [],
-    "platform-dev": []
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
 }

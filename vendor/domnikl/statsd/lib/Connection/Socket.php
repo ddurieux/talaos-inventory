@@ -6,8 +6,6 @@ use Domnikl\Statsd\Connection as Connection;
 
 /**
  * encapsulates the connection to the statsd service
- *
- * @author Dominik Liebler <liebler.dominik@googlemail.com>
  */
 class Socket implements Connection
 {
@@ -16,42 +14,42 @@ class Socket implements Connection
      *
      * @var string
      */
-    protected $_host;
+    private $host;
 
     /**
      * port number
      *
      * @var int
      */
-    protected $_port;
+    private $port;
 
     /**
      * Socket timeout
      *
-     * @var int
+     * @var int|null
      */
-    protected $_timeout;
+    private $timeout;
 
     /**
      * Persistent connection
      *
      * @var bool
      */
-    protected $_persistent = false;
+    private $persistent = false;
 
     /**
      * the used socket resource
      *
-     * @var resource
+     * @var resource|null|false
      */
-    protected $_socket;
+    private $socket;
 
     /**
      * is sampling allowed?
      *
      * @var bool
      */
-    protected $_forceSampling = false;
+    private $forceSampling = false;
 
     /**
      * instantiates the Connection object and a real connection to statsd
@@ -63,42 +61,64 @@ class Socket implements Connection
      */
     public function __construct($host = 'localhost', $port = 8125, $timeout = null, $persistent = false)
     {
-        $this->_host = (string)$host;
-        $this->_port = (int)$port;
-        $this->_timeout = $timeout;
-        $this->_persistent = $persistent;
+        $this->host = (string) $host;
+        $this->port = (int) $port;
+
+        $this->persistent = (bool) $persistent;
+
+        if ($timeout !== null) {
+            $this->timeout = (int) $timeout;
+        } else {
+            $this->timeout = null;
+        }
     }
 
     /**
      * connect to statsd service
+     *
+     * @return resource|null
+     *
+     * @codeCoverageIgnore
+     * this is ignored because it requires to open a real UDP socket
      */
-    protected function connect()
+    private function connect()
     {
-        $errno = null;
-        $errstr = null;
-        if ($this->_persistent) {
-            $this->_socket = pfsockopen(sprintf("udp://%s", $this->_host), $this->_port, $errno, $errstr, $this->_timeout);
+        $errorNumber = null;
+        $errorMessage = null;
+
+        if ($this->persistent) {
+            $this->socket = pfsockopen(sprintf("udp://%s", $this->host), $this->port, $errorNumber, $errorMessage, $this->timeout);
         } else {
-            $this->_socket = fsockopen(sprintf("udp://%s", $this->_host), $this->_port, $errno, $errstr, $this->_timeout);
+            $this->socket = fsockopen(sprintf("udp://%s", $this->host), $this->port, $errorNumber, $errorMessage, $this->timeout);
         }
     }
 
     /**
      * sends a message to the UDP socket
      *
-     * @param $message
+     * @param string $message
      *
-     * @return void
+     * @codeCoverageIgnore
+     * this is ignored because it writes to an actual socket and is not testable
      */
     public function send($message)
     {
-        if (!$this->_socket) {
+        // prevent from sending empty or non-sense metrics
+        if (!is_string($message) || $message == '') {
+            return;
+        }
+
+        // only try once to connect to the socket, if this fails, socket will be false
+        // and connect will not be run again, this saves some time waiting for the connect to
+        // take place
+        if ($this->socket === null) {
             $this->connect();
         }
-        if (0 != strlen($message) && $this->_socket) {
+
+        if (is_resource($this->socket)) {
             try {
                 // total suppression of errors
-                @fwrite($this->_socket, $message);
+                @fwrite($this->socket, $message);
             } catch (\Exception $e) {
                 // ignore it: stats logging failure shouldn't stop the whole app
             }
@@ -110,7 +130,7 @@ class Socket implements Connection
      */
     public function getHost()
     {
-        return $this->_host;
+        return $this->host;
     }
 
 
@@ -119,7 +139,7 @@ class Socket implements Connection
      */
     public function getPort()
     {
-        return $this->_port;
+        return $this->port;
     }
 
     /**
@@ -127,7 +147,7 @@ class Socket implements Connection
      */
     public function getTimeout()
     {
-        return $this->_timeout;
+        return $this->timeout;
     }
 
     /**
@@ -135,7 +155,7 @@ class Socket implements Connection
      */
     public function isPersistent()
     {
-        return $this->_persistent;
+        return $this->persistent;
     }
 
     /**
@@ -145,6 +165,6 @@ class Socket implements Connection
      */
     public function forceSampling()
     {
-        return (bool)$this->_forceSampling;
+        return (bool) $this->forceSampling;
     }
 }

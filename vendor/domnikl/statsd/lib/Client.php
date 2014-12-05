@@ -4,8 +4,6 @@ namespace Domnikl\Statsd;
 
 /**
  * the statsd client
- *
- * @author Dominik Liebler <liebler.dominik@googlemail.com>
  */
 class Client
 {
@@ -14,53 +12,53 @@ class Client
      *
      * @var Connection
      */
-    protected $_connection;
+    private $connection;
 
     /**
      * holds all the timings that have not yet been completed
      *
      * @var array
      */
-    protected $_timings = array();
+    private $timings = array();
 
     /**
      * holds all memory profiles like timings
      *
      * @var array
      */
-    protected $_memoryProfiles = array();
+    private $memoryProfiles = array();
 
     /**
      * global key namespace
      *
      * @var string
      */
-    protected $_namespace = '';
+    private $namespace = '';
 
     /**
      * stores the batch after batch processing was started
      *
      * @var array
      */
-    protected $_batch = array();
+    private $batch = array();
 
     /**
      * batch mode?
      *
      * @var boolean
      */
-    protected $_isBatch = false;
+    private $isBatch = false;
 
     /**
-     * inits the Client object
+     * inits the client object
      *
      * @param Connection $connection
      * @param string $namespace global key namespace
      */
     public function __construct(Connection $connection, $namespace = '')
     {
-        $this->_connection = $connection;
-        $this->_namespace = (string) $namespace;
+        $this->connection = $connection;
+        $this->namespace = (string) $namespace;
     }
 
     /**
@@ -68,8 +66,6 @@ class Client
      *
      * @param string $key
      * @param int $sampleRate
-     *
-     * @return void
      */
     public function increment($key, $sampleRate = 1)
     {
@@ -81,8 +77,6 @@ class Client
      *
      * @param string $key
      * @param int $sampleRate
-     *
-     * @return void
      */
     public function decrement($key, $sampleRate = 1)
     {
@@ -94,12 +88,10 @@ class Client
      * @param string $key
      * @param int $value
      * @param int $sampleRate (optional) the default is 1
-     *
-     * @return void
      */
     public function count($key, $value, $sampleRate = 1)
     {
-        $this->_send($key, (int) $value, 'c', $sampleRate);
+        $this->send($key, (int) $value, 'c', $sampleRate);
     }
 
     /**
@@ -108,24 +100,20 @@ class Client
      * @param string $key
      * @param int $value the timing in ms
      * @param int $sampleRate the sample rate, if < 1, statsd will send an average timing
-     *
-     * @return void
      */
     public function timing($key, $value, $sampleRate = 1)
     {
-        $this->_send($key, (int) $value, 'ms', $sampleRate);
+        $this->send($key, (int) $value, 'ms', $sampleRate);
     }
 
     /**
      * starts the timing for a key
      *
      * @param string $key
-     *
-     * @return void
      */
     public function startTiming($key)
     {
-        $this->_timings[$key] = gettimeofday(true);
+        $this->timings[$key] = gettimeofday(true);
     }
 
     /**
@@ -134,29 +122,31 @@ class Client
      * @param string $key
      * @param int $sampleRate (optional)
      *
-     * @return void
+     * @return float|null
      */
     public function endTiming($key, $sampleRate = 1)
     {
         $end = gettimeofday(true);
 
-        if (array_key_exists($key, $this->_timings)) {
-            $timing = ($end - $this->_timings[$key]) * 1000;
+        if (isset($this->timings[$key])) {
+            $timing = ($end - $this->timings[$key]) * 1000;
             $this->timing($key, $timing, $sampleRate);
-            unset($this->_timings[$key]);
+            unset($this->timings[$key]);
+
+            return $timing;
         }
+
+        return null;
     }
 
     /**
      * start memory "profiling"
      *
      * @param string $key
-     *
-     * @return void
      */
     public function startMemoryProfile($key)
     {
-        $this->_memoryProfiles[$key] = memory_get_usage();
+        $this->memoryProfiles[$key] = memory_get_usage();
     }
 
     /**
@@ -164,18 +154,16 @@ class Client
      *
      * @param string $key
      * @param int $sampleRate
-     *
-     * @return void
      */
     public function endMemoryProfile($key, $sampleRate = 1)
     {
         $end = memory_get_usage();
 
-        if (array_key_exists($key, $this->_memoryProfiles)) {
-            $memory = ($end - $this->_memoryProfiles[$key]);
+        if (array_key_exists($key, $this->memoryProfiles)) {
+            $memory = ($end - $this->memoryProfiles[$key]);
             $this->memory($key, $memory, $sampleRate);
 
-            unset($this->_memoryProfiles[$key]);
+            unset($this->memoryProfiles[$key]);
         }
     }
 
@@ -185,8 +173,6 @@ class Client
      * @param string $key
      * @param int $memory
      * @param int $sampleRate
-     *
-     * @return void
      */
     public function memory($key, $memory = null, $sampleRate = 1)
     {
@@ -221,12 +207,10 @@ class Client
      *
      * @param string $key
      * @param int $value
-     * 
-     * @return void
      */
     public function gauge($key, $value)
     {
-        $this->_send($key, (int) $value, 'g', 1);
+        $this->send($key, (int) $value, 'g', 1);
     }
 
     /**
@@ -234,12 +218,10 @@ class Client
      *
      * @param string $key
      * @param int $value
-     * 
-     * @return void
      */
     public function set($key, $value)
     {
-        $this->_send($key, $value, 's', 1);
+        $this->send($key, $value, 's', 1);
     }
 
     /**
@@ -249,34 +231,32 @@ class Client
      * @param int $value
      * @param string $type
      * @param int $sampleRate
-     *
-     * @return void
      */
-    protected function _send($key, $value, $type, $sampleRate)
+    private function send($key, $value, $type, $sampleRate)
     {
-        if (0 != strlen($this->_namespace)) {
-            $key = sprintf('%s.%s', $this->_namespace, $key);
+        if (0 != strlen($this->namespace)) {
+            $key = sprintf('%s.%s', $this->namespace, $key);
         }
 
         $message = sprintf("%s:%d|%s", $key, $value, $type);
-        $sampledData = '';
-
         $sample = mt_rand() / mt_getrandmax();
 
         if ($sample > $sampleRate) {
+            // @codeCoverageIgnoreStart
             return;
+            // @codeCoverageIgnoreEnd
         }
 
-        if ($sampleRate < 1 || $this->_connection->forceSampling()) {
+        if ($sampleRate < 1 || $this->connection->forceSampling()) {
             $sampledData = sprintf('%s|@%s', $message, $sampleRate);
         } else {
             $sampledData = $message;
         }
 
-        if (!$this->_isBatch) {
-            $this->_connection->send($sampledData);
+        if (!$this->isBatch) {
+            $this->connection->send($sampledData);
         } else {
-            $this->_batch[] = $sampledData;
+            $this->batch[] = $sampledData;
         }
     }
 
@@ -284,12 +264,10 @@ class Client
      * changes the global key namespace
      *
      * @param string $namespace
-     *
-     * @return void
      */
     public function setNamespace($namespace)
     {
-        $this->_namespace = (string) $namespace;
+        $this->namespace = (string) $namespace;
     }
 
     /**
@@ -299,7 +277,7 @@ class Client
      */
     public function getNamespace()
     {
-        return $this->_namespace;
+        return $this->namespace;
     }
 
     /**
@@ -309,39 +287,33 @@ class Client
      */
     public function isBatch()
     {
-        return $this->_isBatch;
+        return $this->isBatch;
     }
-    
+
     /**
      * start batch-send-recording
-     * 
-     * @return void
      */
     public function startBatch()
     {
-        $this->_isBatch = true;
+        $this->isBatch = true;
     }
-    
+
     /**
      * ends batch-send-recording and sends the recorded messages to the connection
-     *
-     * @return void
      */
     public function endBatch()
     {
-        $this->_isBatch = false;
-        $this->_connection->send(join("\n", $this->_batch));
-        $this->_batch = array();
+        $this->isBatch = false;
+        $this->connection->send(join("\n", $this->batch));
+        $this->batch = array();
     }
-    
+
     /**
      * stops batch-recording and resets the batch
-     *
-     * @return void
      */
     public function cancelBatch()
     {
-        $this->_isBatch = false;
-        $this->_batch = array();
+        $this->isBatch = false;
+        $this->batch = array();
     }
 }

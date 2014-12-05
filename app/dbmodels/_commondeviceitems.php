@@ -10,6 +10,7 @@ $table = array(
     'model'         => '',
     'menu'          => 'Configuration'
 );
+
 $table['fields'] = array(
     'id'                    => DBModels::type('increments',
                                               array('visible' => false)),
