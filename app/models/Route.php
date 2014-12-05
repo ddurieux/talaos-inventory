@@ -22,21 +22,6 @@ class Route {
 
 
         /**
-         * Get list of resources
-         *
-         * @apirest
-         * @HTTPmethod GET
-         *
-         * @uses /Itemname will get all rows of item 'Itemname'
-         * @uses /Itemname/relat will get all rows of item 'Itemname' + relationship 'relat'
-         */
-        $app->get('/v1/:item(/:param+)', function ($item, $param=array()) use ($app) {
-            $this->getAllResources($item, $param, $app);
-        })->conditions(array('param' => '[a-z_]+'));
-
-
-
-        /**
          * Get a resource
          *
          * @apirest
@@ -48,6 +33,22 @@ class Route {
         $app->get('/v1/:item/:id(/:param+)', function ($item, $id, $param = array()) {
             $this->getOneResource($item, $id, $param);
         })->conditions(array('id' => '\d+'));
+
+        /**
+         * Get list of resources
+         *
+         * @apirest
+         * @HTTPmethod GET
+         *
+         * @uses /Itemname will get all rows of item 'Itemname'
+         * @uses /Itemname/relat will get all rows of item 'Itemname' + relationship 'relat'
+         */
+        $app->get('/v1/:item(/:param+)', function ($item, $param=array()) use ($app) {
+            $this->getAllResources($item, $param, $app);
+        });
+
+
+
 
 
 
@@ -136,7 +137,7 @@ class Route {
 
 
     function getAllResources($item, $param, $app) {
-        
+        print_r($param);
         $offset = 0;
         $limit = 10;
         $fields = array();
@@ -236,6 +237,7 @@ class Route {
 
 
     function getOneResource($item, $id, $param) {
+
         if (strstr($item, '__')) {
            $split = explode('__', $item);
            $item = $split[0];
