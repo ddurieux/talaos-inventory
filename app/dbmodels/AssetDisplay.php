@@ -16,22 +16,23 @@ $table['fields'] = array(
     'asset_id'        => DBModels::type('integer', 
                                          array('visible' => false)),
     'size'             => DBModels::type('integer'),
-    'displaytype_id'  => DBModels::type('integer'),
-    'displaymodel_id' => DBModels::type('integer'),
+    'display_type_id'  => DBModels::type('integer'),
+    'display_model_id' => DBModels::type('integer'),
     'have_subd'        => DBModels::type('boolean'),
     'have_bnc'         => DBModels::type('boolean'),
     'have_vga'         => DBModels::type('boolean'),
     'have_dvi'         => DBModels::type('boolean'),
     'have_displayport' => DBModels::type('boolean'),
 );
+
 $table['relationships'] = array(
     'asset'     => array(
         'type'  => 'belongsTo',
         'item'  => 'Asset'),
-    'displaytype'  => array(
+    'display_type'  => array(
         'type'  => 'belongsTo',
         'item'  => 'DisplayType'),
-    'modeltype'  => array(
+    'display_model'  => array(
         'type'  => 'belongsTo',
-        'item'  => 'ModelType')
+        'item'  => 'DisplayModel')
 );

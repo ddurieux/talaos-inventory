@@ -25,14 +25,14 @@ $table['fields'] = array(
     'location_id'           => DBModels::type('integer'),
     'user_tech_id'          => DBModels::type('integer'),
     'group_tech_id'         => DBModels::type('integer'),
-    'consumableitemtype_id' => DBModels::type('integer'),
+    'consumable_item_type_id' => DBModels::type('integer'),
     'alarm_threshold'       => DBModels::type('integer', array('defaut'=>10)),
 );
 
 
 
 $table['relationships'] = array(
-    'consumableitemtype' => array(
+    'consumable_item_type' => array(
         'type' => 'belongsTo',
         'item' => 'ConsumableItemType'),
     'consumables'   => array(

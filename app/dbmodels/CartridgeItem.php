@@ -24,12 +24,12 @@ $table['fields'] = array(
     'location_id'           => DBModels::type('integer'),
     'user_tech_id'          => DBModels::type('integer'),
     'group_tech_id'         => DBModels::type('integer'),
-    'cartridgeitemtype_id' => DBModels::type('integer'),
+    'cartridge_item_type_id' => DBModels::type('integer'),
     'alarm_threshold'       => DBModels::type('integer', array('defaut'=>10)),
 );
 
 $table['relationships'] = array(
-    'cartridgeitemtype' => array(
+    'cartridge_item_type' => array(
         'type' => 'belongsTo',
         'item' => 'CartridgeItemType'),
     'cartridges'   => array(
@@ -58,9 +58,7 @@ $table['relationships'] = array(
     'printermodels' => array(
         'type'      => 'belongsToMany',
         'item'      => 'PrinterModel',
-        'linktable' => 'cartridge_compatibilities',
-        'field1'    => 'cartridgeitem_id',
-        'field2'    => 'printermodel_id'),
+        'linktable' => 'cartridge_compatibilities'),
     'user_tech' => array(
         'type'  => 'belongsTo',
         'item'  => 'User'),

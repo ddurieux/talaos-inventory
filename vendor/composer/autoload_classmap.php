@@ -65,6 +65,7 @@ return array(
     'Group' => $baseDir . '/app/models/Group.php',
     'Infocom' => $baseDir . '/app/models/Infocom.php',
     'InterfaceType' => $baseDir . '/app/models/InterfaceType.php',
+    'IpNetwork' => $baseDir . '/app/models/IpNetwork.php',
     'Location' => $baseDir . '/app/models/Location.php',
     'Manufacturer' => $baseDir . '/app/models/Manufacturer.php',
     'Notepad' => $baseDir . '/app/models/Notepad.php',

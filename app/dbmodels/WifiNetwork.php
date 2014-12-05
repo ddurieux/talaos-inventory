@@ -11,3 +11,6 @@ $table['fields']['essid']        = DBModels::type('string');
 $table['fields']['mode']         = DBModels::type('string'); // comment 'ad-hoc, access_point',
 
 
+$table['relationships']['entity'] = array(
+        'type'      => 'belongsTo',
+        'item'      => 'Entity');

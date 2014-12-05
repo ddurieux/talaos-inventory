@@ -32,7 +32,7 @@ class Route {
          */
         $app->get('/v1/:item(/:param+)', function ($item, $param=array()) use ($app) {
             $this->getAllResources($item, $param, $app);
-        })->conditions(array('param' => '[a-z]+'));
+        })->conditions(array('param' => '[a-z_]+'));
 
 
 
@@ -136,6 +136,7 @@ class Route {
 
 
     function getAllResources($item, $param, $app) {
+        print_r($item);print_r($param);
         $offset = 0;
         $limit = 10;
         $fields = array();

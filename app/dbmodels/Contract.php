@@ -25,7 +25,7 @@ $table['fields'] = array(
     'name'                   => DBModels::type('string'),
     'num'                    => DBModels::type('string'),
     'comment'                => DBModels::type('text'),
-    'contracttype_id'        => DBModels::type('integer'),
+    'contract_type_id'        => DBModels::type('integer'),
     'begin_date'             => DBModels::type('date'),
     'duration'               => DBModels::type('integer'),
     'notice'                 => DBModels::type('integer'),
@@ -46,7 +46,7 @@ $table['fields'] = array(
 );
 
 $table['relationships'] = array(
-    'contracttype' => array(
+    'contract_type' => array(
         'type' => 'belongsTo',
         'item' => 'ContractType'),
     'entity' => array(

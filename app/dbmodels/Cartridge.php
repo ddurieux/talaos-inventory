@@ -16,7 +16,7 @@ $table['fields'] = array(
     'entity_id'          => DBModels::type('integer'),
     'is_recursive'          => DBModels::type('boolean',
                                               array('visible' => false)),
-    'cartridgeitem_id'   => DBModels::type('integer'),
+    'cartridge_item_id'   => DBModels::type('integer'),
     'asset_id'           => DBModels::type('integer'),
     'date_in'            => DBModels::type('date'),
     'date_use'           => DBModels::type('date'),
@@ -26,7 +26,7 @@ $table['fields'] = array(
 
 
 $table['relationships'] = array(
-    'cartridgeitem' => array(
+    'cartridge_item' => array(
         'type' => 'belongsTo',
         'item' => 'CartridgeItem'),
     'asset' => array(

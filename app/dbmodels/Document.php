@@ -22,7 +22,7 @@ $table['fields'] = array(
     'filename'               => DBModels::type('string'),
     'filepath'               => DBModels::type('string'),
     'comment'                => DBModels::type('text'),
-    'documentcategory_id'    => DBModels::type('integer'),
+    'document_category_id'    => DBModels::type('integer'),
     'mime'                   => DBModels::type('string'),
     'link'                   => DBModels::type('string'),
     'users_id'               => DBModels::type('integer'),
@@ -33,7 +33,7 @@ $table['fields'] = array(
 );
 
 $table['relationships'] = array(
-    'contracttype' => array(
+    'document_category' => array(
         'type' => 'belongsTo',
         'item' => 'DocumentCategory'),
     'user' => array(
