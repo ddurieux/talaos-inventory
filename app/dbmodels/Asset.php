@@ -40,6 +40,7 @@ $table['relationships'] = array(
     'assetschild'   => array(
         'type'  => 'hasMany',
         'item'  => 'Asset'),
+//     'assetslink'     => 'Hard Coded  - Complex',
     'asset_disks'   => array(
         'type'  => 'hasMany',
         'item'  => 'AssetDisk'),
