@@ -21,4 +21,5 @@ $table['fields'] = array(
 $table['relationships'] = array(
     'network_port' => array(
         'type'  => 'belongsTo',
+        'item'  => 'NetworkPort'),
 );
