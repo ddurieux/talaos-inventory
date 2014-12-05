@@ -33,6 +33,11 @@ $table['relationships']['vlans'] = array(
         'item'      => 'Vlan',
         'linktable' => 'linked_vlans');
     
+$table['relationships']['ip_addresses'] = array(
+        'type'      => 'belongsToMany',
+        'item'      => 'IpAddress',
+        'linktable' => 'linked_ip_networks');
+        
 $table['relationships']['entity'] = array(
         'type'      => 'belongsTo',
         'item'      => 'Entity');
