@@ -137,7 +137,6 @@ class Route {
 
 
     function getAllResources($item, $param, $app) {
-        print_r($param);
         $offset = 0;
         $limit = 10;
         $fields = array();
