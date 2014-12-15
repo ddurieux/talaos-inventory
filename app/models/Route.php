@@ -16,8 +16,8 @@ class Route {
          * @uses /item/itemname will get all fields of item 'Itemname' use can see
          * @uses /item/itemname/restrict restrictget fields 'visible' (default) or 'all'
          */
-        $app->get('/v1/item(/:param?)(/:restrict?)', function ($param='', $restrict='visible') {
-            $this->getResources($param, $restrict);
+        $app->get('/v1/item(/:param?)(/:restrict?)', function ($param='', $restrict='visible') use ($app) {
+            $this->getResources($param, $restrict, $app);
         });
 
 
@@ -30,8 +30,8 @@ class Route {
          * @uses /Itemname/idnum will get the row of item 'Itemname' have id=idnum (idnum is integer)
          * @uses /Itemname/idnum/relat will get the row of item 'Itemname' + relationship 'relat' have id=idnum (idnum is integer)
          */
-        $app->get('/v1/:item/:id(/:param+)', function ($item, $id, $param = array()) {
-            $this->getOneResource($item, $id, $param);
+        $app->get('/v1/:item/:id(/:param+)', function ($item, $id, $param = array()) use ($app) {
+            $this->getOneResource($app, $item, $id, $param);
         })->conditions(array('id' => '\d+'));
 
         /**
@@ -88,15 +88,15 @@ class Route {
          *
          * @uses /Itemname/idnum will delete the row of item 'Itemname' with id=idnum (idnum is integer)
          */
-        $app->delete('/v1/:item/:id', function ($item, $id) {
-            $this->deleteResource($item, $id);
+        $app->delete('/v1/:item/:id', function ($item, $id) use($app) {
+            $this->deleteResource($app, $item, $id);
         })->conditions(array('id' => '\d+'));
 
     }
 
 
 
-    function getResources($param, $restrict) {
+    function getResources($param, $restrict, $app) {
         $a = array();
         if (empty($param)) {
             $tables = DBModels::getDBModels();
@@ -128,6 +128,9 @@ class Route {
                $param = $split[0];
             }
 
+            if (!class_exists($param)) {
+                $app->log->notice("LOADCLASS[2]: The class ".$param." not exist");
+            }
             $item = new $param;
             $a = $item->getFields($restrict);
             echo json_encode($a, JSON_PRETTY_PRINT);
@@ -157,11 +160,14 @@ class Route {
             $split = explode('__', $item);
             $assettype_id = $split[1];
             $itemname = $split[0];
+            if (!class_exists($itemname)) {
+                $app->log->notice("LOADCLASS[2]: The class ".$itemname." not exist");
+            }
             $i = new $itemname;
             $query = $i->take($limit)->offset($offset)->with($param);
-            $query->where('assettype_id', '=', $assettype_id);
+            $query->where('asset_type_id', '=', $assettype_id);
             $i_fields = $i->getFields();
-            $tot = $itemname::where('assettype_id', '=', $assettype_id);
+            $tot = $itemname::where('asset_type_id', '=', $assettype_id);
             if (isset($i_fields['data']['entity_id'])) {
                 $entity = Entity::find(1); // get first entity
                 $query->restrictentity($entity);
@@ -169,6 +175,9 @@ class Route {
             }
             $total = $tot->count();
         } else {
+            if (!class_exists($item)) {
+                $app->log->notice("LOADCLASS[2]: The class ".$item." not exist");
+            }
             $i = new $item;
             $query = $i->take($limit)->offset($offset)->with($param);
             $i_fields = $i->getFields();
@@ -235,11 +244,14 @@ class Route {
 
 
 
-    function getOneResource($item, $id, $param) {
+    function getOneResource($app, $item, $id, $param) {
 
         if (strstr($item, '__')) {
            $split = explode('__', $item);
            $item = $split[0];
+        }
+        if (!class_exists($item)) {
+            $app->log->notice("LOADCLASS[2]: The class ".$item." not exist");
         }
 
         // Special for Asset
@@ -263,6 +275,9 @@ class Route {
         } else {
             $a = $item::find($id);
         }
+        if (empty($a)) {
+            $app->log->notice("GETITEM[1]: This item ".$id." is not found in DB");
+        }
         $a->load($param);
         $i = new $item;
         $meta = $i->getFields();
@@ -276,7 +291,6 @@ class Route {
                 $extendedModels['descendant'] = $a->getDescendants()->toHierarchy();
             }
         }
-
         echo json_encode(array(
             'data'          => $a,
             'relatedmodels' => $extendedModels,
@@ -295,6 +309,10 @@ class Route {
             $input['assettype_id'] = $split[1];
             $itemtype = $split[0];
         }
+        if (!class_exists($itemtype)) {
+            $app->log->notice("LOADCLASS[2]: The class ".$itemtype." not exist");
+        }
+
         $item = new $itemtype();
         foreach($input as $key=>$value) {
             $item->$key = $value;
@@ -315,6 +333,9 @@ class Route {
             $input['assettype_id'] = $split[1];
             $itemtype = $split[0];
         }
+        if (!class_exists($itemtype)) {
+            $app->log->notice("LOADCLASS[2]: The class ".$itemtype." not exist");
+        }
         $item = $itemtype::find($id);
         foreach($input as $key=>$value) {
             $item->$key = $value;
@@ -324,12 +345,14 @@ class Route {
 
 
 
-    function deleteResource($item, $id) {
+    function deleteResource($app, $item, $id) {
         if (strstr($item, '__')) {
             $split = explode('__', $item);
             $item = $split[0];
         }
-
+        if (!class_exists($item)) {
+            $app->log->notice("LOADCLASS[2]: The class ".$item." not exist");
+        }
         $item::destroy($id);
     }
 }
