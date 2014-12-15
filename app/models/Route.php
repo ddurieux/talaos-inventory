@@ -129,7 +129,7 @@ class Route {
             }
 
             if (!class_exists($param)) {
-                $app->log->notice("LOADCLASS[2]: The class ".$param." not exist");
+                $app->log->error("LOADCLASS[50001]: The class ".$param." not exist");
             }
             $item = new $param;
             $a = $item->getFields($restrict);
@@ -161,7 +161,7 @@ class Route {
             $assettype_id = $split[1];
             $itemname = $split[0];
             if (!class_exists($itemname)) {
-                $app->log->notice("LOADCLASS[2]: The class ".$itemname." not exist");
+                $app->log->error("LOADCLASS[50002]: The class ".$itemname." not exist");
             }
             $i = new $itemname;
             $query = $i->take($limit)->offset($offset)->with($param);
@@ -176,7 +176,7 @@ class Route {
             $total = $tot->count();
         } else {
             if (!class_exists($item)) {
-                $app->log->notice("LOADCLASS[2]: The class ".$item." not exist");
+                $app->log->error("LOADCLASS[50003]: The class ".$item." not exist");
             }
             $i = new $item;
             $query = $i->take($limit)->offset($offset)->with($param);
@@ -251,7 +251,7 @@ class Route {
            $item = $split[0];
         }
         if (!class_exists($item)) {
-            $app->log->notice("LOADCLASS[2]: The class ".$item." not exist");
+            $app->log->error("LOADCLASS[50004]: The class ".$item." not exist");
         }
 
         // Special for Asset
@@ -276,7 +276,7 @@ class Route {
             $a = $item::find($id);
         }
         if (empty($a)) {
-            $app->log->notice("GETITEM[1]: This item ".$id." is not found in DB");
+            $app->log->notice("GETITEM[50005]: This item ".$id." is not found in DB");
         }
         $a->load($param);
         $i = new $item;
@@ -310,7 +310,7 @@ class Route {
             $itemtype = $split[0];
         }
         if (!class_exists($itemtype)) {
-            $app->log->notice("LOADCLASS[2]: The class ".$itemtype." not exist");
+            $app->log->error("LOADCLASS[50006]: The class ".$itemtype." not exist");
         }
 
         $item = new $itemtype();
@@ -334,7 +334,7 @@ class Route {
             $itemtype = $split[0];
         }
         if (!class_exists($itemtype)) {
-            $app->log->notice("LOADCLASS[2]: The class ".$itemtype." not exist");
+            $app->log->error("LOADCLASS[50007]: The class ".$itemtype." not exist");
         }
         $item = $itemtype::find($id);
         foreach($input as $key=>$value) {
@@ -351,7 +351,7 @@ class Route {
             $item = $split[0];
         }
         if (!class_exists($item)) {
-            $app->log->notice("LOADCLASS[2]: The class ".$item." not exist");
+            $app->log->error("LOADCLASS[50008]: The class ".$item." not exist");
         }
         $item::destroy($id);
     }
