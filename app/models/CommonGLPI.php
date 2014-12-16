@@ -2,6 +2,10 @@
 
 class CommonGLPI {
 
+    static function getFkForModel($model) {
+        return snake_case($model).'_id';
+    }
+    
     static function relationship($item, $name, $arguments) {
         require __DIR__.'/../dbmodels/'.get_class($item).'.php';
 
@@ -32,16 +36,13 @@ class CommonGLPI {
                     if (isset($table['relationships'][$name]['linktable'])) {
                         $linktable = $table['relationships'][$name]['linktable'];
                     }
-                    if (isset($table['relationships'][$name]['condition'])
-                           && is_array($table['relationships'][$name]['condition'])
-                           && count($table['relationships'][$name]['condition'])==3) {
-                               print_r($table['relationships'][$name]['condition']);
-                        return($item->belongsToMany($table['relationships'][$name]['item'],
+
+                    if (isset($table['relationships'][$name]['linkfields']) && is_array($table['relationships'][$name]['linkfields'])) {
+                        return $item->belongsToMany($table['relationships'][$name]['item'],
                                                     $linktable,
                                                     $field1,
-                                                    $field2)->Where($table['relationships'][$name]['condition'][0],
-                                                                    $table['relationships'][$name]['condition'][1],
-                                                                    $table['relationships'][$name]['condition'][2]));
+                                                    $field2)->withPivot($table['relationships'][$name]['linkfields']);
+                    
                     } else {
                         return($item->belongsToMany($table['relationships'][$name]['item'],
                                                     $linktable,

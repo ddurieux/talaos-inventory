@@ -28,5 +28,15 @@ class Asset extends CommonModel {
 
         );
     }
+    
+    
+    
+
+    
+    // Complex relation store
+    public function assetslink()
+    {
+        /// TODO do the relationship creating the request 
+    }    
 
 }

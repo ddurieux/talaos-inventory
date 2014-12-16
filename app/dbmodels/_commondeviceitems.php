@@ -10,13 +10,11 @@ $table = array(
     'model'         => '',
     'menu'          => 'Configuration'
 );
+
 $table['fields'] = array(
     'id'                    => DBModels::type('increments',
                                               array('visible' => false)),
     'name'                  => DBModels::type('string'),
-    'entity_id'             => DBModels::type('integer'),
-    'is_recursive'          => DBModels::type('boolean',
-                                              array('visible' => false)),
     'manufacturer_id'       => DBModels::type('integer'),
     'comment'               => DBModels::type('text'),
 );
@@ -30,7 +28,6 @@ $table['relationships'] = array(
     'manufacturer' => array(
         'type' => 'belongsTo',
         'item' => 'Manufacturer'),
-    'entity' => array(
-        'type'  => 'belongsTo',
-        'item'  => 'Entity'),
 );
+include "_commonentitylink.php";
+include "_commonrecursiveentitylink.php";

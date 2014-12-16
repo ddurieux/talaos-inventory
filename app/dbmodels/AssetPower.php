@@ -15,18 +15,18 @@ $table['fields'] = array(
                                          array('visible' => false)),
     'asset_id'        => DBModels::type('integer', 
                                          array('visible' => false)),
-    'powertype_id'    => DBModels::type('integer'),
-    'energytype_id'   => DBModels::type('integer'),
+    'power_type_id'    => DBModels::type('integer'),
+    'energy_type_id'   => DBModels::type('integer'),
     'is_redondant'     => DBModels::type('boolean'),
 );
 $table['relationships'] = array(
     'asset'        => array(
         'type'  => 'belongsTo',
         'item'  => 'Asset'),
-    'powertype'    => array(
+    'power_type'    => array(
         'type'  => 'belongsTo',
         'item'  => 'PowerType'),
-    'energytype'   => array(
+    'energy_type'   => array(
         'type'  => 'belongsTo',
         'item'  => 'EnergyType'),
 );

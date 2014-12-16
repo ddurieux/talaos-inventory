@@ -15,8 +15,8 @@ $table['fields'] = array(
                                             array('visible' => false)),
     'asset_id'            => DBModels::type('integer', 
                                             array('visible' => false)),
-    'printertype_id'      => DBModels::type('integer'),
-    'printermodel_id'     => DBModels::type('integer'),
+    'printer_type_id'      => DBModels::type('integer'),
+    'printer_model_id'     => DBModels::type('integer'),
     'init_pages_counter'  => DBModels::type('integer'),
     'last_pages_counter'  => DBModels::type('integer'),
 );

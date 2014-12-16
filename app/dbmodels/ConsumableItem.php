@@ -15,9 +15,6 @@ $table['fields'] = array(
                                               array('visible' => false)),
     'name'                  => DBModels::type('string'),
     'ref'                   => DBModels::type('string'),
-    'entity_id'             => DBModels::type('integer'),
-    'is_recursive'          => DBModels::type('boolean',
-                                              array('visible' => false)),
     'is_deleted'            => DBModels::type('boolean',
                                               array('visible' => false)),
     'manufacturer_id'       => DBModels::type('integer'),
@@ -25,14 +22,14 @@ $table['fields'] = array(
     'location_id'           => DBModels::type('integer'),
     'user_tech_id'          => DBModels::type('integer'),
     'group_tech_id'         => DBModels::type('integer'),
-    'consumableitemtype_id' => DBModels::type('integer'),
+    'consumable_item_type_id' => DBModels::type('integer'),
     'alarm_threshold'       => DBModels::type('integer', array('defaut'=>10)),
 );
 
 
 
 $table['relationships'] = array(
-    'consumableitemtype' => array(
+    'consumable_item_type' => array(
         'type' => 'belongsTo',
         'item' => 'ConsumableItemType'),
     'consumables'   => array(
@@ -62,7 +59,7 @@ $table['relationships'] = array(
     'user_tech' => array(
         'type'  => 'belongsTo',
         'item'  => 'User'),
-    'entity' => array(
-        'type'  => 'belongsTo',
-        'item'  => 'Entity'),
 );
+
+include "_commonentitylink.php";
+include "_commonrecursiveentitylink.php";

@@ -14,9 +14,8 @@ $table = array(
 $table['fields'] = array(
     'id'          => DBModels::type('increments', 
                                     array('visible' => false)),
-    'cartridgeitem_id' => DBModels::type('integer'),
-    'printermodel_id'     => DBModels::type('integer', 
-                                    array('visible' => false)),
+    'cartridge_item_id' => DBModels::type('integer'),
+    'printer_model_id'     => DBModels::type('integer'),
 );
 
 

@@ -14,9 +14,6 @@ $table['fields'] = array(
     'id'                    => DBModels::type('increments',
                                               array('visible' => false)),
     'name'                  => DBModels::type('string'),
-    'entity_id'             => DBModels::type('integer'),
-    'is_recursive'          => DBModels::type('boolean',
-                                              array('visible' => false)),
     'is_deleted'            => DBModels::type('boolean',
                                               array('visible' => false)),
     'manufacturer_id'       => DBModels::type('integer'),
@@ -24,12 +21,12 @@ $table['fields'] = array(
     'location_id'           => DBModels::type('integer'),
     'user_tech_id'          => DBModels::type('integer'),
     'group_tech_id'         => DBModels::type('integer'),
-    'cartridgeitemtype_id' => DBModels::type('integer'),
+    'cartridge_item_type_id' => DBModels::type('integer'),
     'alarm_threshold'       => DBModels::type('integer', array('defaut'=>10)),
 );
 
 $table['relationships'] = array(
-    'cartridgeitemtype' => array(
+    'cartridge_item_type' => array(
         'type' => 'belongsTo',
         'item' => 'CartridgeItemType'),
     'cartridges'   => array(
@@ -58,13 +55,11 @@ $table['relationships'] = array(
     'printermodels' => array(
         'type'      => 'belongsToMany',
         'item'      => 'PrinterModel',
-        'linktable' => 'cartridge_compatibilities',
-        'field1'    => 'cartridgeitem_id',
-        'field2'    => 'printermodel_id'),
+        'linktable' => 'cartridge_compatibilities'),
     'user_tech' => array(
         'type'  => 'belongsTo',
         'item'  => 'User'),
-    'entity' => array(
-        'type'  => 'belongsTo',
-        'item'  => 'Entity'),
 );
+
+include "_commonentitylink.php";
+include "_commonrecursiveentitylink.php";

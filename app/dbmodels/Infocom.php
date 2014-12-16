@@ -18,9 +18,6 @@ $table['fields'] = array(
                                                   'size'    => 100)),
     'item_id'             => DBModels::type('integer',
                                             array('visible' => false)),
-    'entity_id'           => DBModels::type('integer'),
-    'is_recursive'        => DBModels::type('boolean',
-                                            array('visible' => false)),
     'comment'             => DBModels::type('text'),
     'buy_date'            => DBModels::type('date'),
     'use_date'            => DBModels::type('date'),
@@ -55,7 +52,7 @@ $table['relationships'] = array(
         'item' => 'Supplier'),
     'infocom' => array(
         'type' => 'morphTo'),
-    'entity' => array(
-        'type'  => 'belongsTo',
-        'item'  => 'Entity'),
 );
+
+include "_commonentitylink.php";
+include "_commonrecursiveentitylink.php";

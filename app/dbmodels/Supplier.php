@@ -15,12 +15,9 @@ $table['fields'] = array(
                                            array('visible' => false)),
     'name'               => DBModels::type('string'),
     'comment'            => DBModels::type('text'),
-    'entity_id'          => DBModels::type('integer'),
-    'is_recursive'       => DBModels::type('boolean',
-                                           array('visible' => false)),
     'is_deleted'         => DBModels::type('boolean',
                                            array('visible' => false)),
-    'suppliertype_id'    => DBModels::type('integer'),
+    'supplier_type_id'    => DBModels::type('integer'),
     'address'            => DBModels::type('text'),
     'postcode'           => DBModels::type('string'),
     'town'               => DBModels::type('string'),
@@ -34,10 +31,12 @@ $table['fields'] = array(
 );
 
 $table['relationships'] = array(
-    'suppliertype_id' => array(
+    'supplier_type_id' => array(
         'type' => 'belongsTo',
         'item' => 'SupplierType'),
     'entity' => array(
         'type'  => 'belongsTo',
         'item'  => 'Entity'),
 );
+include "_commonentitylink.php";
+include "_commonrecursiveentitylink.php";
