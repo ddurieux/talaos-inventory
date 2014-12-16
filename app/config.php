@@ -43,13 +43,13 @@ $capsule->getEventDispatcher()->listen('illuminate.query', function($sql, $bindi
 // set timezone for timestamps etc
 date_default_timezone_set('UTC');
 
-// Manage statsd
+// Setup statsd
 global $statsd;
 if ($statsd_host == '') {
     $connection = new Domnikl\Statsd\Connection\Blackhole();
     $statsd = new \Domnikl\Statsd\Client($connection, "test.namespace");
 } else {
-    $connection = new \Domnikl\Statsd\Connection\Socket($statsd_host, $statsd_port);
+    $connection = new \Domnikl\Statsd\Connection\UdpSocket($statsd_host, $statsd_port);
     $statsd = new \Domnikl\Statsd\Client($connection, "test.namespace");
 }
 $statsd->setNamespace($statsd_namespace);
