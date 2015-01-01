@@ -26,7 +26,7 @@ class Seed {
         }
 
         // Location
-        $this->createLocation(1, 'loc', new Location());
+//        $this->createLocation(1, 'loc', new Location());
 
         // Entity
         $root = Entity::create(['name' => 'root']);
@@ -42,7 +42,7 @@ class Seed {
             $state = mt_rand(0, (count($states) - 1));
             $entity = mt_rand(1, 3);
             $asset->name = $assettypes[$type].$i;
-            $asset->assettype_id = $type;
+            $asset->asset_type_id = $type;
             $asset->state_id = $state;
             $asset->entity_id = $entity;
             $asset->save();
