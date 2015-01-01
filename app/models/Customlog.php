@@ -28,6 +28,7 @@ class Customlog {
 
         $resource = fopen(__DIR__.'/../log/glpi_'.$logConstants[$level].'.log', 'a');
 
+        http_response_code(404);
         fwrite($resource, print_r($a, true) . PHP_EOL);
         echo json_encode($a, JSON_PRETTY_PRINT);
         $statsd->increment("error");
