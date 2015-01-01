@@ -32,6 +32,7 @@ class Customlog {
         fwrite($resource, print_r($a, true) . PHP_EOL);
         echo json_encode($a, JSON_PRETTY_PRINT);
         $statsd->increment("error");
+        $statsd->increment("page");
         exit;
     }
 
