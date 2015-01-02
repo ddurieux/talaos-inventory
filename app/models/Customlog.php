@@ -62,6 +62,12 @@ class Customlog {
                     if (isset($split2[1])) {
                         $a['error']['stacktrace'] = $this->stackTrace($split2[1]);
                     }
+                } else {
+                    $split2 = explode("Stack trace:", $message);
+                    $a['error']['type'] = 'UNKNOWN';
+                    $a['error']['number'] = '0';
+                    $a['error']['message'] = trim($split2[0]);
+                    $a['error']['stacktrace'] = $this->stackTrace($split2[1]);
                 }
                 break;
 
@@ -74,7 +80,9 @@ class Customlog {
                     $a['error']['type'] = $matches[1];
                     $a['error']['number'] = $matches[2];
                     $a['error']['message'] = trim($split2[0]);
-                    $a['error']['stacktrace'] = $this->stackTrace($split2[1]);
+                    if (isset($split2[1])) {
+                        $a['error']['stacktrace'] = $this->stackTrace($split2[1]);
+                    }
                 }
                 break;
 
