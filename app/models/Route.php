@@ -106,7 +106,7 @@ class Route {
                     if (!(strpos($table['model'], "Asset") === 0)
                             || $table['model'] == 'AssetType') {
                         $a[] = array(
-                            'item' => $table['model'],
+                            'item' => str_plural(snake_case($table['model'])),
                             'name' => $table['model'],
                             'menu' => $table['menu']
                         );
@@ -116,7 +116,7 @@ class Route {
             $assettypes = AssetType::get();
             foreach ($assettypes as $data) {
                 $a[] = array(
-                    'item' => 'Asset__'.$data['id'],
+                    'item' => 'assets__'.$data['id'],
                     'name' => $data['name'],
                     'menu' => 'Asset'
                 );
@@ -159,7 +159,7 @@ class Route {
         if (strstr($item, '__')) {
             $split = explode('__', $item);
             $assettype_id = $split[1];
-            $itemname = $split[0];
+            $itemname = studly_case(str_singular($split[0]));
             if (!class_exists($itemname)) {
                 $app->log->error("LOADCLASS[50002]: The class ".$itemname." not exist");
             }
@@ -175,6 +175,7 @@ class Route {
             }
             $total = $tot->count();
         } else {
+            $item = studly_case(str_singular($item));
             if (!class_exists($item)) {
                 $app->log->error("LOADCLASS[50003]: The class ".$item." not exist");
             }
@@ -248,7 +249,9 @@ class Route {
 
         if (strstr($item, '__')) {
            $split = explode('__', $item);
-           $item = $split[0];
+           $item = studly_case(str_singular($split[0]));
+        } else {
+            $item = studly_case(str_singular($item));
         }
         if (!class_exists($item)) {
             $app->log->error("LOADCLASS[50004]: The class ".$item." not exist");
@@ -307,7 +310,9 @@ class Route {
         if (strstr($itemtype, '__')) {
             $split = explode('__', $itemtype);
             $input['assettype_id'] = $split[1];
-            $itemtype = $split[0];
+            $itemtype = studly_case(str_singular($split[0]));
+        } else {
+            $itemtype = studly_case(str_singular($itemtype));
         }
         if (!class_exists($itemtype)) {
             $app->log->error("LOADCLASS[50006]: The class ".$itemtype." not exist");
@@ -331,7 +336,9 @@ class Route {
         if (strstr($itemtype, '__')) {
             $split = explode('__', $itemtype);
             $input['assettype_id'] = $split[1];
-            $itemtype = $split[0];
+            $itemtype = studly_case(str_singular($split[0]));
+        } else {
+            $itemtype = studly_case(str_singular($itemtype));
         }
         if (!class_exists($itemtype)) {
             $app->log->error("LOADCLASS[50007]: The class ".$itemtype." not exist");
@@ -348,7 +355,9 @@ class Route {
     function deleteResource($app, $item, $id) {
         if (strstr($item, '__')) {
             $split = explode('__', $item);
-            $item = $split[0];
+            $item = studly_case(str_singular($split[0]));
+        } else {
+            $item = studly_case(str_singular($item));
         }
         if (!class_exists($item)) {
             $app->log->error("LOADCLASS[50008]: The class ".$item." not exist");
