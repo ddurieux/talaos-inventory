@@ -166,7 +166,7 @@ class Route {
             // Verify if AssetType exist
             $a = AssetType::find($assettype_id);
             if (empty($a)) {
-                $app->log->error("GETITEM[50009]: The Asset type with id ".$assettype_id." not exist in database");
+                $app->log->error("LOADCLASS[50009]: The Asset class with asset type id ".$assettype_id." not exist in database");
             }
 
             $i = new $itemname;
