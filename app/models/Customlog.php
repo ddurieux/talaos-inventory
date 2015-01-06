@@ -25,13 +25,13 @@ class Customlog {
         $a['error']['date']   = date("Ymd H:i:s");
         $a['error']['url']    = $_SERVER['REQUEST_URI'];
         $a['error']['method'] = $_SERVER['REQUEST_METHOD'];
+        $a['error']['message'] = explode("\n", $message);
 
-        $resource = fopen(__DIR__.'/../log/glpi_'.$logConstants[$level].'.log', 'a');
+        //$resource = fopen(__DIR__.'/../log/glpi_'.$logConstants[$level].'.log', 'a');
 
-        fwrite($resource, print_r($a, true) . PHP_EOL);
+        //fwrite($resource, print_r($a, true) . PHP_EOL);
         echo json_encode($a, JSON_PRETTY_PRINT);
-        $statsd->increment("error");
-        exit;
+        //$statsd->increment("error");
     }
 
 
