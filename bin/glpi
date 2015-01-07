@@ -7,14 +7,27 @@ define("MIGRATIONS_PATH", __DIR__."/app/database/migrations");
 define("SEEDS_PATH", __DIR__."/app/database/seeds");
 define("INSTALL_PATH", __DIR__."/app/install");
 
+$__doc__ = <<<DOC
+GLPI Setup
+
+Usage: glpi <command>
+
+Commands available:
+    install     Create database and some additionnal directories.
+    migrate     Check for new code version and migrate database accordingly.
+    seed        Seed the database with fake data.
+
+DOC;
+
 /**
  * Script for creating, destroying, and seeding the app's database
  */
 class Glpi {
 
-    function __construct($args)
+    function __construct($doc)
     {
-        $this->args = $args;
+        $docopt = new Docopt\Handler();
+        $this->args = $docopt->handle($doc);
     }
 
     function help()
@@ -24,34 +37,24 @@ class Glpi {
 
     function run()
     {
-        if (count($this->args) <= 1) {
-            $this->help();
-        } else {
-            switch ($this->args[1]) {
-                case "migrate":
-                    $this->runMigrations();
-                    if (!isset($this->args[2]) || $this->args[2] != '--seed')
-                        break;
-                case "seed":
-                    $this->runSeed();
-                    break;
-                case "install":
-                    $this->runInstall();
-                    break;
-                case "help":
-                case "--help":
-                    $this->help();
-                    break;
-            }
+        switch ($this->args['<command>']) {
+            case "migrate":
+                $this->migrate();
+            case "seed":
+                $this->seed();
+                break;
+            case "install":
+                $this->install();
+                break;
         }
     }
 
-    function runMigrations()
+    function migrate()
     {
         $files = glob(MIGRATIONS_PATH.'/*.php');
 
         foreach ($files as $file) {
-            require_once($file);
+            require_once $file;
 
             $name = basename($file, '.php');
 
@@ -61,23 +64,43 @@ class Glpi {
         }
     }
 
-    function runSeed()
+    function seed()
     {
-        include __DIR__."/app/seed.php";
+        require_once APP_PATH."/install/seed.php";
         $seed = new Seed();
         $seed->run();
     }
 
 
-    function runInstall() {
+    function install() {
+        // Make sure some directories are created (cf. /app/bootstrap/paths.php)
+        $directories = [
+            VAR_PATH,
+            LOG_PATH,
+        ];
+        foreach( $directories as $directory ) {
+            if (!file_exists($directory)) {
+                mkdir($directory, 0777, true);
+            }
+        }
 
-        require_once(INSTALL_PATH.'/install.php');
+        // Create SQLITE database file if it doesn't exists
+        global $configs;
+        if (
+            $configs['db']['driver'] === 'sqlite'
+            and !file_exists($configs['db']['database'])
+        ) {
+            touch($configs['db']['database']);
+        }
+
+        require_once APP_PATH.'/install/install.php';
 
         $item = new GLPIInstall();
         $item->run();
+
     }
 
 }
 
-$glpi = new Glpi($argv);
+$glpi = new Glpi($__doc__);
 $glpi->run();

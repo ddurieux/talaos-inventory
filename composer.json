@@ -3,7 +3,8 @@
         "slim/slim": "2.*",
         "illuminate/database": "*",
         "domnikl/statsd": "*",
-        "baum/baum": "~1.0"
+        "baum/baum": "~1.0",
+        "docopt/docopt": "1.0.0-rc1"
     },
     "autoload": {
         "classmap": [ "app/models" ]

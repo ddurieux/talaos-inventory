@@ -1,10 +1,5 @@
 <?php
 
-// Autoload our dependencies with Composer
-require 'vendor/autoload.php';
-require 'app/dbmodels.php';
-
-
 class Seed {
 
     function run() {
