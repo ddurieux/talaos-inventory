@@ -1,0 +1,24 @@
+<?php
+
+//SQLite sample configuration
+/*
+return [
+   'driver'    => 'sqlite',
+   'database'  => VAR_PATH . '/glping.sqlite',
+   'prefix'    => 'glpi_'
+];
+*/
+
+//MySQL sample configuration
+/*
+return [
+   'driver'    => 'mysql',
+   'host'      => '127.0.0.1',
+   'database'  => 'glping',
+   'username'  => 'glping',
+   'password'  => 'glping',
+   'charset'   => 'utf8',
+   'collation' => 'utf8_general_ci',
+   'prefix'    => 'glpi_'
+];
+*/

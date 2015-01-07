@@ -25,15 +25,15 @@ class Customlog {
         $a['error']['date']   = date("Ymd H:i:s");
         $a['error']['url']    = $_SERVER['REQUEST_URI'];
         $a['error']['method'] = $_SERVER['REQUEST_METHOD'];
+        $a['error']['message'] = explode("\n", $message);
 
-        $resource = fopen(__DIR__.'/../log/glpi_'.$logConstants[$level].'.log', 'a');
+        //$resource = fopen(__DIR__.'/../log/glpi_'.$logConstants[$level].'.log', 'a');
 
         http_response_code(404);
         fwrite($resource, print_r($a, true) . PHP_EOL);
         echo json_encode($a, JSON_PRETTY_PRINT);
-        $statsd->increment("error");
-        $statsd->increment("page");
-        exit;
+        //$statsd->increment("error");
+        //$statsd->increment("page");
     }
 
 
@@ -59,6 +59,14 @@ class Customlog {
                     $a['error']['type'] = $matches[1];
                     $a['error']['number'] = $matches[2];
                     $a['error']['message'] = trim($split2[0]);
+                    if (isset($split2[1])) {
+                        $a['error']['stacktrace'] = $this->stackTrace($split2[1]);
+                    }
+                } else {
+                    $split2 = explode("Stack trace:", $message);
+                    $a['error']['type'] = 'UNKNOWN';
+                    $a['error']['number'] = '0';
+                    $a['error']['message'] = trim($split2[0]);
                     $a['error']['stacktrace'] = $this->stackTrace($split2[1]);
                 }
                 break;
@@ -72,7 +80,9 @@ class Customlog {
                     $a['error']['type'] = $matches[1];
                     $a['error']['number'] = $matches[2];
                     $a['error']['message'] = trim($split2[0]);
-                    $a['error']['stacktrace'] = $this->stackTrace($split2[1]);
+                    if (isset($split2[1])) {
+                        $a['error']['stacktrace'] = $this->stackTrace($split2[1]);
+                    }
                 }
                 break;
 

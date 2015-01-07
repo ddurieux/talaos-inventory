@@ -163,6 +163,12 @@ class Route {
             if (!class_exists($itemname)) {
                 $app->log->error("LOADCLASS[50002]: The class ".$itemname." not exist");
             }
+            // Verify if AssetType exist
+            $a = AssetType::find($assettype_id);
+            if (empty($a)) {
+                $app->log->error("LOADCLASS[50009]: The Asset class with asset type id ".$assettype_id." not exist in database");
+            }
+
             $i = new $itemname;
             $query = $i->take($limit)->offset($offset)->with($param);
             $query->where('asset_type_id', '=', $assettype_id);
