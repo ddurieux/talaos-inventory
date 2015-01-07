@@ -5,93 +5,92 @@ class Route {
 
     function routes($app) {
 
+        // API group
+        $app->group('/v1', function () use ($app) {
 
-        /**
-         * Get all resources available / fields available
-         *
-         * @apirest
-         * @HTTPmethod GET
-         *
-         * @uses /item will get all items you can see
-         * @uses /item/itemname will get all fields of item 'Itemname' use can see
-         * @uses /item/itemname/restrict restrictget fields 'visible' (default) or 'all'
-         */
-        $app->get('/v1/item(/:param?)(/:restrict?)', function ($param='', $restrict='visible') use ($app) {
-            $this->getResources($param, $restrict, $app);
+            /**
+             * Get all resources available / fields available
+             *
+             * @apirest
+             * @HTTPmethod GET
+             *
+             * @uses /item will get all items you can see
+             * @uses /item/itemname will get all fields of item 'Itemname' use can see
+             * @uses /item/itemname/restrict restrictget fields 'visible' (default) or 'all'
+             */
+            $app->get('/item(/:param?)(/:restrict?)', function ($param='', $restrict='visible') use ($app) {
+                $this->getResources($param, $restrict, $app);
+                $app->stop();
+            });
+
+            /**
+             * Get a resource
+             *
+             * @apirest
+             * @HTTPmethod GET
+             *
+             * @uses /Itemname/idnum will get the row of item 'Itemname' have id=idnum (idnum is integer)
+             * @uses /Itemname/idnum/relat will get the row of item 'Itemname' + relationship 'relat' have id=idnum (idnum is integer)
+             */
+            $app->get('/:item/:id(/:param+)', function ($item, $id, $param = array()) use ($app) {
+                $this->getOneResource($app, $item, $id, $param);
+                $app->stop();
+            })->conditions(array('id' => '\d+'));
+
+            /**
+             * Get list of resources
+             *
+             * @apirest
+             * @HTTPmethod GET
+             *
+             * @uses /Itemname will get all rows of item 'Itemname'
+             * @uses /Itemname/relat will get all rows of item 'Itemname' + relationship 'relat'
+             */
+            $app->get('/:item(/:param+)', function ($item, $param=array()) use ($app) {
+                $this->getAllResources($item, $param, $app);
+                $app->stop();
+            });
+
+            /**
+             * Add a new resource
+             *
+             * @apirest
+             * @HTTPmethod POST
+             *
+             * @uses /Itemname will add new row of item 'Itemname' with array in $_POST variable
+             */
+            $app->post('/:itemtype', function ($itemtype) use($app) {
+                $this->addResource($itemtype, $app);
+                $app->stop();
+            });
+
+            /**
+             * update a resource
+             *
+             * @apirest
+             * @HTTPmethod PUT
+             *
+             * @uses /Itemname/idnum will update the row of item 'Itemname' with id=idnum (idnum is integer)
+             */
+            $app->put('/:itemtype/:id', function ($itemtype, $id) use ($app) {
+                $this->updateResource($itemtype, $id, $app);
+                $app->stop();
+            })->conditions(array('id' => '\d+'));
+
+            /**
+             * delete a resource
+             *
+             * @apirest
+             * @HTTPmethod DELETE
+             *
+             * @uses /Itemname/idnum will delete the row of item 'Itemname' with id=idnum (idnum is integer)
+             */
+            $app->delete('/:item/:id', function ($item, $id) use($app) {
+                $this->deleteResource($app, $item, $id);
+                $app->stop();
+            })->conditions(array('id' => '\d+'));
+
         });
-
-
-        /**
-         * Get a resource
-         *
-         * @apirest
-         * @HTTPmethod GET
-         *
-         * @uses /Itemname/idnum will get the row of item 'Itemname' have id=idnum (idnum is integer)
-         * @uses /Itemname/idnum/relat will get the row of item 'Itemname' + relationship 'relat' have id=idnum (idnum is integer)
-         */
-        $app->get('/v1/:item/:id(/:param+)', function ($item, $id, $param = array()) use ($app) {
-            $this->getOneResource($app, $item, $id, $param);
-        })->conditions(array('id' => '\d+'));
-
-        /**
-         * Get list of resources
-         *
-         * @apirest
-         * @HTTPmethod GET
-         *
-         * @uses /Itemname will get all rows of item 'Itemname'
-         * @uses /Itemname/relat will get all rows of item 'Itemname' + relationship 'relat'
-         */
-        $app->get('/v1/:item(/:param+)', function ($item, $param=array()) use ($app) {
-            $this->getAllResources($item, $param, $app);
-        });
-
-
-
-
-
-
-        /**
-         * Add a new resource
-         *
-         * @apirest
-         * @HTTPmethod POST
-         *
-         * @uses /Itemname will add new row of item 'Itemname' with array in $_POST variable
-         */
-        $app->post('/v1/:itemtype', function ($itemtype) use($app) {
-            $this->addResource($itemtype, $app);
-        });
-
-
-
-        /**
-         * update a resource
-         *
-         * @apirest
-         * @HTTPmethod PUT
-         *
-         * @uses /Itemname/idnum will update the row of item 'Itemname' with id=idnum (idnum is integer)
-         */
-        $app->put('/v1/:itemtype/:id', function ($itemtype, $id) use ($app) {
-            $this->updateResource($itemtype, $id, $app);
-        })->conditions(array('id' => '\d+'));
-
-
-
-        /**
-         * delete a resource
-         *
-         * @apirest
-         * @HTTPmethod DELETE
-         *
-         * @uses /Itemname/idnum will delete the row of item 'Itemname' with id=idnum (idnum is integer)
-         */
-        $app->delete('/v1/:item/:id', function ($item, $id) use($app) {
-            $this->deleteResource($app, $item, $id);
-        })->conditions(array('id' => '\d+'));
-
     }
 
 
