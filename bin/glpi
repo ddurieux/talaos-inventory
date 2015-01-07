@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-require_once __DIR__.'/app/main.php';
+require_once __DIR__.'/../app/main.php';
 
 define("MIGRATIONS_PATH", __DIR__."/app/database/migrations");
 define("SEEDS_PATH", __DIR__."/app/database/seeds");
