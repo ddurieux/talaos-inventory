@@ -1,9 +1,15 @@
 <?php
 
 use \Slim\Slim as Slim;
+use Slim\Environment as Environment;
 
 // set timezone for timestamps etc
 date_default_timezone_set('UTC');
+
+// Check whether we are running in cli mode in order to mock the SLIM environment
+if (php_sapi_name() === 'cli') {
+   Environment::mock();
+}
 
 $app = new Slim();
 
