@@ -126,7 +126,7 @@ class Route {
                $split = explode('__', $param);
                $param = $split[0];
             }
-
+            $param = studly_case(str_singular($param));
             if (!class_exists($param)) {
                 $app->log->error("LOADCLASS[50001]: The class ".$param." not exist");
             }
