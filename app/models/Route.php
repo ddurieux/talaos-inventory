@@ -188,7 +188,8 @@ class Route {
             $query = $i->take($limit)->offset($offset)->with($param);
             $i_fields = $i->getFields();
             $tot = $i;
-            if (isset($i_fields['data']['entity_id'])) {
+            if (isset($i_fields['data']['entity_id'])
+                    && $item != 'Entity') {
                 $entity = Entity::find(1); // get first entity
                 $query->restrictentity($entity);
                 $tot->restrictentity($entity);
