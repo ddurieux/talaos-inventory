@@ -4,6 +4,11 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class CommonModel extends Eloquent {
 
+    // Used for put in cache data for regenerate tree
+    protected $treeAll = array();
+    protected $treeAllA = array();
+    protected $treeAllD = array();
+
     static function getFkForModel($model) {
         return snake_case($model).'_id';
     }
@@ -208,10 +213,10 @@ class CommonModel extends Eloquent {
                             && json_decode($item->original['ancestors_cache']) != null) {
                         $ancestors = array_merge($ancestors, json_decode($item->original['ancestors_cache']));
                     }
+                    $itemName = get_class($item);
                     foreach ($ancestors as $key=>$value) {
                         if ($value != $item->attributes['id']
                                 && $value > 0) {
-                            $itemName = get_class($item);
                             $new_item = $itemName::find($value);
                             $new_item->updateTreeOfItem($value);
                         }
@@ -223,7 +228,6 @@ class CommonModel extends Eloquent {
                     }
                     foreach ($descendants as $key=>$value) {
                         if ($value != $item->attributes['id']) {
-                            $itemName = get_class($item);
                             $new_item = $itemName::find($value);
                             $new_item->updateTreeOfItem($value);
                         }
@@ -250,13 +254,16 @@ class CommonModel extends Eloquent {
      * @return string json with ancestors id
      */
     function generateAncestors($id) {
-        $itemName = get_class($this);
-        $data = $itemName::all(array('id', $this->parentColumn))->toArray();
-        $dataWork = array();
-        foreach ($data as $dat) {
-            $dataWork[$dat['id']] = $dat[$this->parentColumn];
+        if (empty($this->treeAllA)) {
+            if (empty($this->treeAll)) {
+                $itemName = get_class($this);
+                $this->treeAll = $itemName::all(array('id', $this->parentColumn))->toArray();
+            }
+            foreach ($this->treeAll as $dat) {
+                $this->treeAllA[$dat['id']] = $dat[$this->parentColumn];
+            }
         }
-        $ancestors = $this->getAncestors($dataWork, $id);
+        $ancestors = $this->getAncestors($this->treeAllA, $id);
         return json_encode($ancestors);
     }
 
@@ -273,13 +280,16 @@ class CommonModel extends Eloquent {
 
 
     function generateDescendants($id) {
-        $itemName = get_class($this);
-        $data = $itemName::all(array('id', $this->parentColumn))->toArray();
-        $dataWork = array();
-        foreach ($data as $dat) {
-            $dataWork[$dat[$this->parentColumn]][] = $dat['id'];
+        if (empty($this->treeAllD)) {
+            if (empty($this->treeAll)) {
+                $itemName = get_class($this);
+                $this->treeAll = $itemName::all(array('id', $this->parentColumn))->toArray();
+            }
+            foreach ($this->treeAll as $dat) {
+                $this->treeAllD[$dat[$this->parentColumn]][] = $dat['id'];
+            }
         }
-        $descendants = $this->getDescendants($dataWork, $id);
+        $descendants = $this->getDescendants($this->treeAllD, $id);
         return json_encode($descendants);
     }
 
