@@ -6,22 +6,16 @@ $fk = $link.'_id';
 
 
 $table['fields'][$fk] = DBModels::type('integer');
-$table['fields']['completename']    = DBModels::type('text', 
-                                                     array('visible' => false));
-$table['fields']['level']           = DBModels::type('integer', 
-                                                     array('visible' => false));
-$table['fields']['ancestors_cache'] = DBModels::type('longtext', 
-                                                  array('visible' => false));
-$table['fields']['sons_cache']      = DBModels::type('longtext', 
-                                                     array('visible' => false));
-$table['fields']['lft']             = DBModels::type('integer', 
-                                                     array('visible' => false));
-$table['fields']['rgt']             = DBModels::type('integer', 
-                                                     array('visible' => false));
-$table['fields']['depth']           = DBModels::type('integer', 
-                                                     array('visible' => false));
+$table['fields']['completename']      = DBModels::type('text',
+                                                       array('visible' => false));
+$table['fields']['level']             = DBModels::type('integer',
+                                                       array('visible' => false));
+$table['fields']['ancestors_cache']   = DBModels::type('longtext',
+                                                       array('visible' => false));
+$table['fields']['descendants_cache'] = DBModels::type('longtext',
+                                                       array('visible' => false));
 
-                                                     
+
 $table['relationships'][$link] =  array(
         'type'  => 'belongsTo',
         'item'  => $table['model']);

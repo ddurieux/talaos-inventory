@@ -11,6 +11,11 @@ class CommonModel extends Eloquent {
     protected $DELETE = 8;
     protected $PURGE  = 16;
 
+    // Used for put in cache data for regenerate tree
+    protected $treeAll = array();
+    protected $treeAllA = array();
+    protected $treeAllD = array();
+
     static function getFkForModel($model) {
         return snake_case($model).'_id';
     }
@@ -85,7 +90,14 @@ class CommonModel extends Eloquent {
         if (is_null($entity)) {
             return $query->with('entity');
         }
-        $entityIds = $entity->getDescendantsAndSelf()->lists('id');
+        if (json_decode($entity->attributes['ancestors_cache']) == null) {
+            // regenerate descendants
+            $new_item = Entity::find($entity->attributes['id']);
+            $new_item->updateTreeOfItem($entity->attributes['id']);
+            $entityIds = json_decode($new_item->descendants_cache);
+        } else {
+            $entityIds = json_decode($entity->attributes['descendants_cache']);
+        }
         return $query->whereIn('entity_id', $entityIds);
     }
 
@@ -179,4 +191,133 @@ class CommonModel extends Eloquent {
         }
     }
 
+
+
+    /**
+     * Manage events.
+     * List of events: http://laravel.com/docs/4.2/eloquent#model-events
+     */
+    public static function boot() {
+        parent::boot();
+
+        static::updating(function($item) {
+            if (isset($item->tree)) {
+                if (isset($item->original[$item->parentColumn])
+                        && $item->attributes[$item->parentColumn] != $item->original[$item->parentColumn]) {
+                    $item->attributes['ancestors_cache'] = $item->generateAncestors($item->attributes['id']);
+                    $item->attributes['descendants_cache'] = $item->generateDescendants($item->attributes['id']);
+                }
+            }
+        });
+
+        static::updated(function($item) {
+            if (isset($item->tree)) {
+                // regenerate ancestors and descendants
+                if (!isset($item->original[$item->parentColumn])
+                        || $item->attributes[$item->parentColumn] != $item->original[$item->parentColumn]) {
+                    $ancestors = json_decode($item->attributes['ancestors_cache']);
+                    if (isset($item->original['ancestors_cache'])
+                            && json_decode($item->original['ancestors_cache']) != null) {
+                        $ancestors = array_merge($ancestors, json_decode($item->original['ancestors_cache']));
+                    }
+                    $itemName = get_class($item);
+                    foreach ($ancestors as $key=>$value) {
+                        if ($value != $item->attributes['id']
+                                && $value > 0) {
+                            $new_item = $itemName::find($value);
+                            $new_item->updateTreeOfItem($value);
+                        }
+                    }
+                    $descendants = json_decode($item->attributes['descendants_cache']);
+                    if (isset($item->original['descendants_cache'])
+                            && json_decode($item->original['descendants_cache'])  != null) {
+                        $descendants = array_merge($descendants, json_decode($item->original['descendants_cache']));
+                    }
+                    foreach ($descendants as $key=>$value) {
+                        if ($value != $item->attributes['id']) {
+                            $new_item = $itemName::find($value);
+                            $new_item->updateTreeOfItem($value);
+                        }
+                    }
+                }
+            }
+        });
+
+        static::created(function($item) {
+            if (isset($item->tree)) {
+                // Manage the generation of ancestors
+                $item->updateTreeOfItem($item->attributes['id']);
+            }
+        });
+    }
+
+
+
+    /**
+     * function used to generate the ancestor cache
+     *
+     * @param integer $id id of the item
+     *
+     * @return string json with ancestors id
+     */
+    function generateAncestors($id) {
+        if (empty($this->treeAllA)) {
+            if (empty($this->treeAll)) {
+                $itemName = get_class($this);
+                $this->treeAll = $itemName::all(array('id', $this->parentColumn))->toArray();
+            }
+            foreach ($this->treeAll as $dat) {
+                $this->treeAllA[$dat['id']] = $dat[$this->parentColumn];
+            }
+        }
+        $ancestors = $this->getAncestors($this->treeAllA, $id);
+        return json_encode($ancestors);
+    }
+
+
+
+    function getAncestors($dataWork, $id, $ancestors=array()) {
+        $ancestors[] = $id;
+        if (isset($dataWork[$id])) {
+            $ancestors = $this->getAncestors($dataWork, $dataWork[$id], $ancestors);
+        }
+        return $ancestors;
+    }
+
+
+
+    function generateDescendants($id) {
+        if (empty($this->treeAllD)) {
+            if (empty($this->treeAll)) {
+                $itemName = get_class($this);
+                $this->treeAll = $itemName::all(array('id', $this->parentColumn))->toArray();
+            }
+            foreach ($this->treeAll as $dat) {
+                $this->treeAllD[$dat[$this->parentColumn]][] = $dat['id'];
+            }
+        }
+        $descendants = $this->getDescendants($this->treeAllD, $id);
+        return json_encode($descendants);
+    }
+
+
+
+
+    function getDescendants($dataWork, $id, $descendants=array()) {
+        $descendants[] = $id;
+        if (isset($dataWork[$id])) {
+            foreach ($dataWork[$id] as $id_d) {
+                $descendants = $this->getDescendants($dataWork, $id_d, $descendants);
+            }
+        }
+        return $descendants;
+    }
+
+
+
+    function updateTreeOfItem($id) {
+        $this->ancestors_cache = $this->generateAncestors($id);
+        $this->descendants_cache = $this->generateDescendants($id);
+        $this->save();
+    }
 }

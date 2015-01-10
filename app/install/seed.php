@@ -21,14 +21,22 @@ class Seed {
         }
 
         // Location
-//        $this->createLocation(1, 'loc', new Location());
+        $this->createLocation(1, 'loc', new Location());
 
         // Entity
-        $root = Entity::create(['name' => 'root']);
-        $entA = Entity::create(['name' => 'ent_A']);
-        $entA->makeChildOf($root);
-        $entA1 = Entity::create(['name' => 'ent_A1']);
-        $entA1->makeChildOf($entA);
+        $entity = new Entity;
+        $entity->name = 'root';
+        $entity->save();
+
+        $entity = new Entity;
+        $entity->name = 'ent_A';
+        $entity->entity_id = 1;
+        $entity->save();
+
+        $entity = new Entity;
+        $entity->name = 'ent_A1';
+        $entity->entity_id = 2;
+        $entity->save();
 
         // Asset
         for ($i=1; $i < 2000; $i++) {
@@ -54,14 +62,17 @@ class Seed {
      * @return type
      */
     function createLocation($depth, $name, $item) {
-        if ($depth > 5) {
+        if ($depth > 4) {
             return;
         }
         for ($i=0;$i< ($depth * 2); $i++) {
-            $loc = Location::create(['name' => $name.'.'.$depth.$i]);
+            $loc = new Location;
+            $loc->name = $name.'.'.$depth.$i;
+            $loc->entity_id = 1;
             if ($depth > 1) {
-                $loc->makeChildOf($item);
+                $loc->location_id = $item->id;
             }
+            $loc->save();
             $this->createLocation(($depth + 1), $name.'.'.$depth.$i, $loc);
         }
    }
