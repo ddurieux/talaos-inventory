@@ -4,6 +4,13 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class CommonModel extends Eloquent {
 
+    // Default rights
+    protected $READ   = 1;
+    protected $UPDATE = 2;
+    protected $CREATE = 4;
+    protected $DELETE = 8;
+    protected $PURGE  = 16;
+
     static function getFkForModel($model) {
         return snake_case($model).'_id';
     }
