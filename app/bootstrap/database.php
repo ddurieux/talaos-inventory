@@ -28,7 +28,7 @@ $capsule->bootEloquent();
 $sqllog = '';
 $capsule->getEventDispatcher()->listen('illuminate.query', function ($sql, $bindings, $time) use (&$sqllog) {
    global $sqllog;
-   $sqllog .= '<pre>'. $sql .' ('.print_r($bindings, true).')</pre>';
+   $sqllog .= '<pre>'. $sql .' ('.print_r($bindings, true).') in '.$time.'ms</pre>';
 });
 
 
