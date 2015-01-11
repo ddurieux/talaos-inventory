@@ -139,7 +139,6 @@ class Route {
 
 
     function getAllResources($item, $param, $app) {
-        global $sqllog;
         $offset = 0;
         $limit = 10;
         $fields = array();
@@ -174,7 +173,7 @@ class Route {
             $query->where('asset_type_id', '=', $assettype_id);
             $i_fields = $i->getFields();
             if (isset($i_fields['data']['entity_id'])) {
-                $entities = ProfileRight::entitiesWithRight($itemname, $i->READ);
+                $entities = ProfileRight::entitiesWithRight($itemname."__".$assettype_id, $i->READ);
                 $query->restrictentity($entities);
             }
             $total = $query->count();
@@ -321,8 +320,8 @@ class Route {
         if (!class_exists($itemtype)) {
             $app->log->error("LOADCLASS[50006]: The class ".$itemtype." not exist");
         }
-
         $item = new $itemtype();
+//        ProfileRight::haveRight($itemtype, $item->CREATE, $input['entity_id']);
         foreach($input as $key=>$value) {
             $item->$key = $value;
         }

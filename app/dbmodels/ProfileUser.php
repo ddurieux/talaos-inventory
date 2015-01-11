@@ -27,7 +27,12 @@ $table['relationships'] = array(
         'item'  => 'Profile'),
     'user'    => array(
         'type'  => 'belongsTo',
-        'item'  => 'User')
+        'item'  => 'User'),
+    'profile_right'   => array(
+        'type'  => 'hasOne',
+        'item'  => 'ProfileRight',
+        'field' => 'profile_id',
+        'key'   => 'profile_id')
 );
 
 include "_commonentitylink.php";

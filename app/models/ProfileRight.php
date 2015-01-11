@@ -7,25 +7,18 @@ class ProfileRight extends CommonModel {
     /**
      * Check if have right in this entity
      */
-    function haveRight($module, $entity, $right) {
-        // check if user avec profile with right in the entity
-
-        //Step 1 : get list of rights available for different profiles AND
-        // entities = $entity
-        // OR entities = any AND recursive = 1
-
-
-
-        //Step 2 : in case recursive = 1, get descendants_cache of these entities and see
-        // if we found our entity in it
-
-
-
-        // if not autorized
-        /*
+    static function haveRight($module, $right, $entity=null) {
+        $entities = $this->entitiesWithRight($module, $right);
+        if (is_null($entity)
+                && !empty($entities)) {
+            return true;
+        } else if (!is_null($entity)
+                && in_array($entity, $entities)) {
+            return true;
+        }
+        // Else
         header('HTTP/1.1 401 Unauthorized', true, 401);
-        die('HTTP/1.1 401 Unauthorized');
-         */
+        die();
     }
 
 
@@ -34,23 +27,29 @@ class ProfileRight extends CommonModel {
      * Get entities array your profiles can have the right for the item
      */
     static function entitiesWithRight($module, $right) {
-        $a = ProfileRight::where('name', '=', $module)->with(array('profile_user' => function($query) {
-            $query->where('user_id', '=', 1);
-            $query->with(array('entity' => function($query) { $query->select('id', 'descendants_cache');}));
-         }))->get()->toArray();
+
+        $a = ProfileUser::where('user_id', '=', 1)->with(array('profile_right' => function($query) use($module) {
+            $query->where('name', '=', $module);
+         }))->with(array('entity' => function($query) { $query->select('id', 'descendants_cache');}))->get()->toArray();
 
         $entities = array();
         foreach ($a as $data) {
-            if (intval($data['rights']) & $right) {
-                foreach ($data['profile_user'] as $datae) {
-                    if ($datae['is_recursive'] == 0) {
-                        $entities[] = $datae['entity_id'];
+            foreach ($data['profile_right'] as $datar) {
+                if (intval($datar['rights']) & $right) {
+                    if ($data['is_recursive'] == 0) {
+                        $entities[] = $data['entity_id'];
                     } else {
-                        $entities = array_merge($entities, json_decode($datae['entity']['descendants_cache']));
+                        $entities = array_merge($entities, json_decode($data['entity']['descendants_cache']));
                     }
                 }
             }
         }
-        return array_unique($entities);
+        $entities_unique = array_unique($entities);
+
+        if (count($entities_unique) > 0) {
+            return $entities_unique;
+        }
+        header('HTTP/1.1 401 Unauthorized', true, 401);
+        die();
     }
 }
