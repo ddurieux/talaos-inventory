@@ -150,10 +150,14 @@ class CommonModel extends Eloquent {
                     if (isset($table['relationships'][$name]['field'])) {
                         $field = $table['relationships'][$name]['field'];
                     }
+                    $key = 'id';
+                    if (isset($table['relationships'][$name]['key'])) {
+                        $key = $table['relationships'][$name]['key'];
+                    }
 
                     return($item->hasMany($table['relationships'][$name]['item'],
                                           $field,
-                                          'id',
+                                          $key,
                                           $name));
                     break;
 
@@ -162,10 +166,14 @@ class CommonModel extends Eloquent {
                     if (isset($table['relationships'][$name]['field'])) {
                         $field = $table['relationships'][$name]['field'];
                     }
+                    $key = 'id';
+                    if (isset($table['relationships'][$name]['key'])) {
+                        $key = $table['relationships'][$name]['key'];
+                    }
 
                     return($item->hasMany($table['relationships'][$name]['item'],
                                           $field,
-                                          'id'));
+                                          $key));
                     break;
 
             }
