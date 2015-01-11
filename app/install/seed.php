@@ -20,30 +20,18 @@ class Seed {
             $state->save();
         }
 
+        // Entity
+        $this->createEntity(1, 'ent', new Entity());
+
         // Location
         $this->createLocation(1, 'loc', new Location());
-
-        // Entity
-        $entity = new Entity;
-        $entity->name = 'root';
-        $entity->save();
-
-        $entity = new Entity;
-        $entity->name = 'ent_A';
-        $entity->entity_id = 1;
-        $entity->save();
-
-        $entity = new Entity;
-        $entity->name = 'ent_A1';
-        $entity->entity_id = 2;
-        $entity->save();
 
         // Asset
         for ($i=1; $i < 2000; $i++) {
             $asset = new Asset;
             $type = mt_rand(0, (count($assettypes) - 1));
             $state = mt_rand(0, (count($states) - 1));
-            $entity = mt_rand(1, 3);
+            $entity = mt_rand(1, 300);
             $asset->name = $assettypes[$type].$i;
             $asset->asset_type_id = $type;
             $asset->state_id = $state;
@@ -76,4 +64,22 @@ class Seed {
             $this->createLocation(($depth + 1), $name.'.'.$depth.$i, $loc);
         }
    }
+
+
+
+    function createEntity($depth, $name, $item) {
+        if ($depth > 4) {
+            return;
+        }
+        for ($i=0;$i< ($depth * 2); $i++) {
+            $ent = new Entity;
+            $ent->name = $name.'.'.$depth.$i;
+            if ($depth > 1) {
+                $ent->entity_id = $item->id;
+            }
+            $ent->save();
+            $this->createEntity(($depth + 1), $name.'.'.$depth.$i, $ent);
+        }
+   }
+
 }

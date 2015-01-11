@@ -22,5 +22,10 @@ $table['fields'] = array(
 $table['relationships'] = array(
     'profile'    => array(
         'type'  => 'belongsTo',
-        'item'  => 'Profile')
+        'item'  => 'Profile'),
+    'profile_user'   => array(
+        'type'  => 'hasMany',
+        'item'  => 'ProfileUser',
+        'field' => 'profile_id'),
+
 );

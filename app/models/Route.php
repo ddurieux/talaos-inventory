@@ -139,6 +139,7 @@ class Route {
 
 
     function getAllResources($item, $param, $app) {
+        global $sqllog;
         $offset = 0;
         $limit = 10;
         $fields = array();
@@ -169,33 +170,30 @@ class Route {
             }
 
             $i = new $itemname;
-            $query = $i->take($limit)->offset($offset)->with($param);
+            $query = $i->with($param);
             $query->where('asset_type_id', '=', $assettype_id);
             $i_fields = $i->getFields();
-            $tot = $itemname::where('asset_type_id', '=', $assettype_id);
             if (isset($i_fields['data']['entity_id'])) {
-                $entity = Entity::find(1); // get first entity
-                $query->restrictentity($entity);
-                $tot->restrictentity($entity);
+                $entities = ProfileRight::entitiesWithRight($itemname, $i->READ);
+                $query->restrictentity($entities);
             }
-            $total = $tot->count();
+            $total = $query->count();
         } else {
             $item = studly_case(str_singular($item));
             if (!class_exists($item)) {
                 $app->log->error("LOADCLASS[50003]: The class ".$item." not exist");
             }
             $i = new $item;
-            $query = $i->take($limit)->offset($offset)->with($param);
+            $query = $i->with($param);
             $i_fields = $i->getFields();
-            $tot = $i;
             if (isset($i_fields['data']['entity_id'])
                     && $item != 'Entity') {
-                $entity = Entity::find(1); // get first entity
-                $query->restrictentity($entity);
-                $tot->restrictentity($entity);
+                $entities = ProfileRight::entitiesWithRight($item, $i->READ);
+                $query->restrictentity($entities);
             }
-            $total = $tot->count();
+            $total = $query->count();
         }
+        $query->take($limit)->offset($offset);
         if (isset($_GET['sort'])) {
             $sorts = explode(',', $_GET['sort']);
             foreach ($sorts as $sort) {

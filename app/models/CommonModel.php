@@ -5,11 +5,11 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 class CommonModel extends Eloquent {
 
     // Default rights
-    protected $READ   = 1;
-    protected $UPDATE = 2;
-    protected $CREATE = 4;
-    protected $DELETE = 8;
-    protected $PURGE  = 16;
+    public $READ   = 1;
+    public $UPDATE = 2;
+    public $CREATE = 4;
+    public $DELETE = 8;
+    public $PURGE  = 16;
 
     // Used for put in cache data for regenerate tree
     protected $treeAll = array();
@@ -86,19 +86,11 @@ class CommonModel extends Eloquent {
 
 
 
-    public function scopeRestrictentity($query, Entity $entity=null) {
-        if (is_null($entity)) {
-            return $query->with('entity');
+    public function scopeRestrictentity($query, $entities=array()) {
+        if (empty($entities)) {
+            return $query;
         }
-        if (json_decode($entity->attributes['ancestors_cache']) == null) {
-            // regenerate descendants
-            $new_item = Entity::find($entity->attributes['id']);
-            $new_item->updateTreeOfItem($entity->attributes['id']);
-            $entityIds = json_decode($new_item->descendants_cache);
-        } else {
-            $entityIds = json_decode($entity->attributes['descendants_cache']);
-        }
-        return $query->whereIn('entity_id', $entityIds);
+        return $query->whereIn('entity_id', $entities);
     }
 
 
