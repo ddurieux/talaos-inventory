@@ -17,7 +17,7 @@ class ProfileRight extends CommonModel {
             return true;
         }
         // Else
-        header('HTTP/1.1 401 Unauthorized', true, 401);
+        header('HTTP/1.1 403 Forbidden', true, 403);
         die();
     }
 
@@ -49,7 +49,7 @@ class ProfileRight extends CommonModel {
         if (count($entities_unique) > 0) {
             return $entities_unique;
         }
-        header('HTTP/1.1 401 Unauthorized', true, 401);
+        header('HTTP/1.1 403 Forbidden', true, 403);
         die();
     }
 }
