@@ -8,7 +8,7 @@ class ProfileRight extends CommonModel {
      * Check if have right in this entity
      */
     static function haveRight($module, $right, $entity=null) {
-        $entities = $this->entitiesWithRight($module, $right);
+        $entities = ProfileRight::entitiesWithRight($module, $right);
         if (is_null($entity)
                 && !empty($entities)) {
             return true;

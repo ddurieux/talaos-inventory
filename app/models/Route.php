@@ -321,7 +321,7 @@ class Route {
             $app->log->error("LOADCLASS[50006]: The class ".$itemtype." not exist");
         }
         $item = new $itemtype();
-//        ProfileRight::haveRight($itemtype, $item->CREATE, $input['entity_id']);
+        ProfileRight::haveRight($itemtype, $item->CREATE, $input['entity_id']);
         foreach($input as $key=>$value) {
             $item->$key = $value;
         }
@@ -340,8 +340,12 @@ class Route {
             $split = explode('__', $itemtype);
             $input['assettype_id'] = $split[1];
             $itemtype = studly_case(str_singular($split[0]));
+            $i = new $itemtype;
+            ProfileRight::haveRight($itemtype."__".$split[1], $i->UPDATE, $input['entity_id']);
         } else {
             $itemtype = studly_case(str_singular($itemtype));
+            $i = new $itemtype;
+            ProfileRight::haveRight($itemtype, $i->UPDATE, $input['entity_id']);
         }
         if (!class_exists($itemtype)) {
             $app->log->error("LOADCLASS[50007]: The class ".$itemtype." not exist");
@@ -359,8 +363,14 @@ class Route {
         if (strstr($item, '__')) {
             $split = explode('__', $item);
             $item = studly_case(str_singular($split[0]));
+            $i = new $item;
+            $i::find($id);
+            ProfileRight::haveRight($item."__".$split[1], $i->DELETE, $i->entity_id);
         } else {
             $item = studly_case(str_singular($item));
+            $i = new $item;
+            $i::find($id);
+            ProfileRight::haveRight($item, $i->DELETE, $i->entity_id);
         }
         if (!class_exists($item)) {
             $app->log->error("LOADCLASS[50008]: The class ".$item." not exist");
