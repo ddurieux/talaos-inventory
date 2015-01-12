@@ -38,6 +38,37 @@ class Seed {
             $asset->entity_id = $entity;
             $asset->save();
         }
+
+        // User
+        $user = new User;
+        $user->name = 'admin';
+        $user->save();
+
+        // Profile
+        $profile = new Profile;
+        $profile->name = 'inventory';
+        $profile->save();
+
+        // Profile_user
+        $profileUser = new ProfileUser;
+        $profileUser->user_id = 1;
+        $profileUser->profile_id = 1;
+        $profileUser->entity_id = 1;
+        $profileUser->is_recursive = 1;
+        $profileUser->save();
+
+        // Profile_right
+        $profileRight = new ProfileRight;
+        $profileRight->profile_id = 1;
+        $profileRight->name = 'Location';
+        $profileRight->rights = 31;
+        $profileRight->save();
+
+        $profileRight = new ProfileRight;
+        $profileRight->profile_id = 1;
+        $profileRight->name = 'Asset__1';
+        $profileRight->rights = 31;
+        $profileRight->save();
     }
 
 
