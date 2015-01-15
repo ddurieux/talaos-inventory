@@ -6,6 +6,7 @@ pip install flask
 pip install Flask-SQLAlchemy
 pip install Flask-Restless
 pip install simplejson
+pip install sqlalchemy-migrate
 
 == Configuration of webserser ==
 With nginx + uwsgi 
