@@ -1,0 +1,7 @@
+flask
+SQLAlchemy
+alembic
+Flask-SQLAlchemy
+Flask-Restless
+simplejson
+docopt

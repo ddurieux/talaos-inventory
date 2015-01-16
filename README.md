@@ -1,22 +1,38 @@
-# POC in python 3 (not work on python 2.x)
+# FusionGLPI
 
-# install python modules
+
+# Install
+
+*NOTE*: This project is Python 3 only.
+
+*TOBEDONE* You can install it directly from Pypi:
 
 ```
-pip install flask
-pip install Flask-SQLAlchemy
-pip install Flask-Restless
-pip install simplejson
-pip install sqlalchemy-migrate
+pip install fusionglpi
+```
+
+You can install it from source once you cloned successfully the
+repository:
+
+```
+pip install .
+```
+
+
+If you want to hack into the codebase (e.g for future contribution),
+just install like this:
+
+```
+pip install -e .
 ```
 
 # Configuration of webserser
 
-## Nginx and uwsgi 
+## Nginx and uwsgi
 
 For example, my folder is in /www
 
-### nginx 
+### nginx
 
 - add in config:
 
@@ -34,10 +50,10 @@ For example, my folder is in /www
     }
 ```
 
-### uwsgi 
+### uwsgi
 
 - update the chdir if not use /www in uwsgi.ini file
-- run uwsgi with: 
+- run uwsgi with:
 
 ```
 uwsgi /www/uwsgi.ini
