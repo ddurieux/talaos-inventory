@@ -1,21 +1,26 @@
-POC in python 3 (not work on python 2.x)
+# POC in python 3 (not work on python 2.x)
 
-== install python modules ==
+# install python modules
 
+```
 pip install flask
 pip install Flask-SQLAlchemy
 pip install Flask-Restless
 pip install simplejson
 pip install sqlalchemy-migrate
+```
 
-== Configuration of webserser ==
-With nginx + uwsgi 
+# Configuration of webserser
+
+## Nginx and uwsgi 
 
 For example, my folder is in /www
 
-=== nginx ===
-add in config:
+### nginx 
 
+- add in config:
+
+```
     server {
         listen       80;
 
@@ -27,18 +32,20 @@ add in config:
             uwsgi_read_timeout 500;
         }
     }
+```
 
+### uwsgi 
 
-==== uwsgi ====
+- update the chdir if not use /www in uwsgi.ini file
+- run uwsgi with: 
 
-update the chdir if not use /www in uwsgi.ini file
-
-run uwsgi with: 
+```
 uwsgi /www/uwsgi.ini
+```
 
-=== Apache ===
-With mod_wsgi
+## Apache and mod_wsgi
 
+```
 <VirtualHost *>
 
     WSGIDaemonProcess glpingpy user=www group=www threads=5
@@ -51,4 +58,4 @@ With mod_wsgi
         Allow from all
     </Directory>
 </VirtualHost>
-
+```
