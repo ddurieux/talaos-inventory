@@ -1,4 +1,4 @@
-from app import db
+from fusionglpi import db
 
 class DBAsset(db.Model):
     __tablename__ = 'glpi_assets'
