@@ -3,7 +3,7 @@
 
 # Install
 
-*NOTE*: This project is Python 3 only.
+*NOTE*: This project is Python > 3.2 only.
 
 *TOBEDONE* You can install it directly from Pypi:
 
