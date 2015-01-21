@@ -1,10 +1,8 @@
 from fusionglpi import db
 
-class DBAsset_Type(db.Model):
-    __tablename__ = 'glpi_asset_types'
-    __table_args__ = { 'mysql_charset': 'utf8', 'mysql_collate': 'utf8_general_ci' }
+class DisplayType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255, None, True))
     comment = db.Column(db.Text)
     
-    
+    asset_displays = db.relationship('AssetDisplay', backref='display_type')
