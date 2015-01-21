@@ -18,12 +18,38 @@ repository:
 pip install .
 ```
 
-
 If you want to hack into the codebase (e.g for future contribution),
 just install like this:
 
 ```
 pip install -e .
+```
+
+## DEBIAN Jessie
+
+* prerequisites
+
+```
+apt-get -y install python3 python3-dev python3-pip git
+```
+
+* get the project sources
+
+```
+git clone https://github.com/fusionglpi/fusionglpi
+```
+
+* python prerequisites
+
+```
+pip3 install -r fusionglpi/requirements.txt
+```
+
+* install 
+
+```
+cd fusionglpi
+python3 setup.py install
 ```
 
 # Configuration of webserser
