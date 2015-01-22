@@ -55,7 +55,7 @@ class Entity(db.Model):
     autofill_delivery_date = db.Column(db.String(255, None, True))
     autofill_order_date = db.Column(db.String(255, None, True))
     #ticket_template_id = db.Column(db.Integer, nullable=False, server_default="0")
-    entities_id_software = db.Column(db.Integer, nullable=False, server_default="0")
+    entity_id_software = db.Column(db.Integer, nullable=False, server_default="0")
     default_contract_alert = db.Column(db.Integer, nullable=False, server_default="0")
     default_infocom_alert = db.Column(db.Integer, nullable=False, server_default="0")
     default_cartridges_alarm_threshold = db.Column(db.Integer, nullable=False, server_default="0")
