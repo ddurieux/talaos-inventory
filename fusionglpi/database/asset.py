@@ -14,13 +14,11 @@ class Asset(db.Model):
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
     state_id = db.Column(db.Integer, db.ForeignKey('state.id'))
     comment = db.Column(db.Text)
-    asset_id = db.Column(db.Integer, db.ForeignKey('asset.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user_tech_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'))
     group_tech_id = db.Column(db.Integer, db.ForeignKey('group.id'))
     
-    assets = db.relationship('Asset', backref='asset')
     asset_disks = db.relationship('AssetDisk', backref='asset')
     asset_displays = db.relationship('AssetDisplay', backref='asset')
     asset_powers = db.relationship('AssetPower', backref='asset')
