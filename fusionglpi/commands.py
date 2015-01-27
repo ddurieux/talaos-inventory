@@ -2,16 +2,23 @@
 
 import os
 import sys
-from pprint import pprint
+from pprint import pprint, pformat
 from docopt import docopt
 
+from fusionglpi.main import Application
+
 import logging
-logging.basicConfig()
+logging.basicConfig(logLevel=logging.DEBUG)
 log = logging.getLogger()
 
 __doc__ = """FusionGLPI
 Usage:
-    fusionglpi <command>
+    fusionglpi [ -d | -v | -q ] <command>
+
+Options:
+    -q, --quiet     Quiet mode
+    -v, --verbose   Verbose mode
+    -d, --debug     Debug mode
 
 Commands:
     install     Perfom basic setup of application.
@@ -22,4 +29,12 @@ Commands:
 
 def main():
     args = docopt(__doc__)
-    log.debug(args)
+    if args["--quiet"]:
+        log.setLevel(logging.CRITICAL)
+    elif args["--verbose"]:
+        log.setLevel(logging.INFO)
+    elif args["--debug"]:
+        log.setLevel(logging.DEBUG)
+    log.debug("command's arguments => {}".format(pformat(args)))
+    app = Application()
+    return app.process_command(args['<command>'])
