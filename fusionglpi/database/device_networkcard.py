@@ -7,5 +7,5 @@ class DeviceNetworkcard(db.Model):
     busID = db.Column(db.String(255, None, True))
     mac = db.Column(db.String(255, None, True))
     
-    networkport_ethernets = db.relationship('NetworkportEthernat', backref='device_networkcard')
+    networkport_ethernets = db.relationship('NetworkportEthernet', backref='device_networkcard')
     networkport_wifis = db.relationship('NetworkportWifi', backref='device_networkcard')

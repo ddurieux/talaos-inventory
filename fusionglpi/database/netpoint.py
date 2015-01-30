@@ -7,4 +7,4 @@ class Netpoint(db.Model):
     name = db.Column(db.String(255, None, True))
     comment = db.Column(db.Text)
 
-    networkport_ethernets = db.relationship('NetworkportEthernat', backref='netpoint')
+    networkport_ethernets = db.relationship('NetworkportEthernet', backref='netpoint')

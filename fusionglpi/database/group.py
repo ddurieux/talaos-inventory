@@ -23,5 +23,5 @@ class Group(db.Model):
 
     assets = db.relationship('Asset', backref='group')
     consumable_items = db.relationship('ConsumableItem', backref='group')
-    groups = db.relationship('Group', backref='group')
+    #groups = db.relationship('Group', backref='group')
     softwares = db.relationship('Software', backref='group')

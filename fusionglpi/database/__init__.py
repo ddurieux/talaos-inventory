@@ -9,5 +9,7 @@ def register_models(manager):
           __import__(modname)
 
     for model in db.Model.__subclasses__():
-        manager.create_api(model)
-
+        try:
+            manager.create_api(model, include_columns=model.include_columns)
+        except:
+            manager.create_api(model)

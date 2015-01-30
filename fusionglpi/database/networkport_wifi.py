@@ -8,5 +8,3 @@ class NetworkportWifi(db.Model):
     networkport_wifi_id = db.Column(db.Integer, db.ForeignKey('networkport_wifi.id'))
     version = db.Column(db.String(255, None, True))
     mode = db.Column(db.String(255, None, True))
-
-    networkport_wifis = db.relationship('NetworkportWifi', backref='networkport_wifi')

@@ -15,9 +15,9 @@ class Asset(db.Model):
     state_id = db.Column(db.Integer, db.ForeignKey('state.id'))
     comment = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user_tech_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_tech_id = db.Column(db.Integer, nullable=False, server_default="0")
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'))
-    group_tech_id = db.Column(db.Integer, db.ForeignKey('group.id'))
+    group_tech_id = db.Column(db.Integer, nullable=False, server_default="0")
     
     asset_disks = db.relationship('AssetDisk', backref='asset')
     asset_displays = db.relationship('AssetDisplay', backref='asset')
@@ -28,3 +28,5 @@ class Asset(db.Model):
     installed_software_versions = db.relationship('InstalledSoftwareVersion', backref='asset')
     used_software_licenses = db.relationship('UsedSoftwareLicense', backref='asset')
     networkports = db.relationship('Networkport', backref='asset')
+    
+    include_columns = ['id', 'name', 'serial']

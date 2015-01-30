@@ -14,11 +14,11 @@ class Networkport(db.Model):
     instantiation_type = db.Column(db.String(255, None, True))
     mac = db.Column(db.String(255, None, True))
 
-    networkports = db.relationship('Networkport', backref='networkport')
+    #networkports = db.relationship('Networkport', backref='networkport')
     networkport_aggregates = db.relationship('NetworkportAggregate', backref='networkport')
     networkport_alias = db.relationship('NetworkportAlias', backref='networkport')
     networkport_dialups = db.relationship('NetworkportDialup', backref='networkport')
-    networkport_ethernets = db.relationship('NetworkportEthernat', backref='networkport')
+    networkport_ethernets = db.relationship('NetworkportEthernet', backref='networkport')
     networkport_locals = db.relationship('NetworkportLocal', backref='networkport')
     networkport_vlans = db.relationship('NetworkportVlan', backref='networkport')
     networkport_wifis = db.relationship('NetworkportWifi', backref='networkport')

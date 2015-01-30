@@ -82,7 +82,7 @@ class Entity(db.Model):
     device_soundcard_items = db.relationship('DeviceSoundcardItem', backref='entity')
     documents = db.relationship('Document', backref='entity')
     domains = db.relationship('Domain', backref='entity')
-    entities = db.relationship('Entity', backref='entity')
+    #entities = db.relationship('Entity', backref='entity')
     filesystems = db.relationship('Filesystem', backref='entity')
     fqdns = db.relationship('Fqdn', backref='entity')
     groups = db.relationship('Group', backref='entity')
@@ -101,4 +101,6 @@ class Entity(db.Model):
     users = db.relationship('User', backref='entity')
     vlans = db.relationship('Vlan', backref='entity')
     wifinetworks = db.relationship('Wifinetwork', backref='entity')
+    
+    include_columns = ['id', 'name']
     
