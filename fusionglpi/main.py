@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 
 from flask.ext.restless import APIManager
 
@@ -27,6 +27,15 @@ class Application(Log):
         self.log.debug("database : {}".format(self.db))
         self.manager = APIManager(self.app, flask_sqlalchemy_db=db)
         register_models(self.manager)
+        
+        @self.app.route('/api/item_list')
+        @self.app.route('/api/v1.0/item_list')
+        def item_list():
+            items = [];
+            for model in db.Model.__subclasses__():
+                attributes = {'name': model.__name__.lower(), 'fields': []}
+                items.append(attributes)
+            return jsonify(num_results=len(items), objects=items)
 
     def list_routes(self):
         for route in self.app.url_map.iter_rules():
