@@ -11,6 +11,9 @@ def register_models(manager):
     for model in db.Model.__subclasses__():
         try:
             manager.create_api(model, include_columns=model.include_columns,
-            methods=['GET', 'PUT','POST', 'DELETE'])
+            methods=['GET', 'PUT','POST', 'DELETE'], url_prefix='/api/v1.0')
+            manager.create_api(model, include_columns=model.include_columns,
+            methods=['GET', 'PUT','POST', 'DELETE'], url_prefix='/api')
         except:
-            manager.create_api(model)
+            manager.create_api(model, url_prefix='/api/v1.0')
+            manager.create_api(model, url_prefix='/api')
