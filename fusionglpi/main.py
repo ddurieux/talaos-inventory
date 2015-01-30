@@ -19,12 +19,13 @@ class Application(Log):
         # TODO: load configuration files here
         self.app.config['DEBUG'] = True
         self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+        self.app.config['SQLALCHEMY_ECHO'] = False
 
         self.db = db
         self.db.init_app(self.app)
 
         self.log.debug("database : {}".format(self.db))
-        self.manager = APIManager(self.app, self.db)
+        self.manager = APIManager(self.app, flask_sqlalchemy_db=db)
         register_models(self.manager)
 
     def list_routes(self):
