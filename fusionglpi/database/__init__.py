@@ -10,6 +10,7 @@ def register_models(manager):
 
     for model in db.Model.__subclasses__():
         try:
-            manager.create_api(model, include_columns=model.include_columns)
+            manager.create_api(model, include_columns=model.include_columns,
+            methods=['GET', 'PUT','POST', 'DELETE'])
         except:
             manager.create_api(model)
