@@ -28,6 +28,13 @@ class Application(Log):
         self.manager = APIManager(self.app, flask_sqlalchemy_db=db)
         register_models(self.manager)
         
+        def add_cors_headers(response):
+            response.headers['Access-Control-Allow-Origin'] = '*'
+            response.headers['Access-Control-Allow-Credentials'] = 'true'
+            return response
+        
+        self.app.after_request(add_cors_headers)
+        
         @self.app.route('/api/item_list')
         @self.app.route('/api/v1.0/item_list')
         def item_list():
