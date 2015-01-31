@@ -7,7 +7,6 @@ from fusionglpi.database import register_models
 
 from fusionglpi import db
 
-
 class Application(Log):
 
     def __init__(self):
@@ -20,6 +19,10 @@ class Application(Log):
         self.app.config['DEBUG'] = True
         self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
         self.app.config['SQLALCHEMY_ECHO'] = False
+        self.app.config['PROFILE'] = False
+        if self.app.config['PROFILE']: 
+            from werkzeug.contrib.profiler import ProfilerMiddleware
+            self.app.wsgi_app = ProfilerMiddleware(self.app.wsgi_app, restrictions=[30])
 
         self.db = db
         self.db.init_app(self.app)
