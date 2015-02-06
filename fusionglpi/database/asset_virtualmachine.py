@@ -13,5 +13,3 @@ class AssetVirtualmachine(db.Model):
     is_deleted = db.Column(db.Boolean, nullable=False, server_default="0")
     is_dynamic = db.Column(db.Boolean, nullable=False, server_default="0")
     ram = db.Column(db.String(255, None, True))
-   
-    

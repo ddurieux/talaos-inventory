@@ -20,7 +20,7 @@ class Application(Log):
         self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
         self.app.config['SQLALCHEMY_ECHO'] = False
         self.app.config['PROFILE'] = False
-        if self.app.config['PROFILE']: 
+        if self.app.config['PROFILE']:
             from werkzeug.contrib.profiler import ProfilerMiddleware
             self.app.wsgi_app = ProfilerMiddleware(self.app.wsgi_app, restrictions=[30])
 
@@ -30,14 +30,14 @@ class Application(Log):
         self.log.debug("database : {}".format(self.db))
         self.manager = APIManager(self.app, flask_sqlalchemy_db=db)
         register_models(self.manager)
-        
+
         def add_cors_headers(response):
             response.headers['Access-Control-Allow-Origin'] = '*'
             response.headers['Access-Control-Allow-Credentials'] = 'true'
             return response
-        
+
         self.app.after_request(add_cors_headers)
-        
+
         @self.app.route('/api/item_list')
         @self.app.route('/api/v1.0/item_list')
         def item_list():

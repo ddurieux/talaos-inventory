@@ -4,7 +4,7 @@ class Manufacturer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255, None, True))
     comment = db.Column(db.Text)
-    
+
     assets = db.relationship('Asset', backref='manufacturer')
     consumable_items = db.relationship('ConsumableItem', backref='manufacturer')
     device_case_items = db.relationship('DeviceCaseItem', backref='manufacturer')
@@ -20,4 +20,3 @@ class Manufacturer(db.Model):
     device_processor_items = db.relationship('DeviceProcessorItem', backref='manufacturer')
     device_soundcard_items = db.relationship('DeviceSoundcardItem', backref='manufacturer')
     softwares = db.relationship('Software', backref='manufacturer')
-    

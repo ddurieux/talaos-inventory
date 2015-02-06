@@ -6,4 +6,3 @@ class Domain(db.Model):
     is_recursive = db.Column(db.Boolean, nullable=False, server_default="0")
     name = db.Column(db.String(255, None, True))
     comment = db.Column(db.Text)
-    

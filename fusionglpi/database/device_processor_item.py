@@ -11,4 +11,3 @@ class DeviceProcessorItem(db.Model):
     frequency_default = db.Column(db.Integer, nullable=False, server_default="0")
     nbcores_default = db.Column(db.Integer, nullable=False, server_default="0")
     nbthreads_default = db.Column(db.Integer, nullable=False, server_default="0")
-    

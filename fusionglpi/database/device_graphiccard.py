@@ -6,4 +6,3 @@ class DeviceGraphiccard(db.Model):
     comment = db.Column(db.Text)
     busID = db.Column(db.String(255, None, True))
     memory = db.Column(db.Integer, nullable=False, server_default="0")
-    

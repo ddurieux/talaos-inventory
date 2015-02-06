@@ -8,4 +8,3 @@ class DeviceProcessor(db.Model):
     frequency = db.Column(db.Integer, nullable=False, server_default="0")
     nbcores = db.Column(db.Integer, nullable=False, server_default="0")
     nbthreads = db.Column(db.Integer, nullable=False, server_default="0")
-    

@@ -11,5 +11,3 @@ class AssetDisplay(db.Model):
     have_vga = db.Column(db.Boolean, nullable=False, server_default="0")
     have_dvi = db.Column(db.Boolean, nullable=False, server_default="0")
     have_displayport = db.Column(db.Boolean, nullable=False, server_default="0")
-    
-    

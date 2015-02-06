@@ -11,5 +11,3 @@ class AssetDisk(db.Model):
     freesize = db.Column(db.Integer, nullable=False, server_default="0")
     is_deleted = db.Column(db.Boolean, nullable=False, server_default="0")
     is_dynamic = db.Column(db.Boolean, nullable=False, server_default="0")
-    
-    

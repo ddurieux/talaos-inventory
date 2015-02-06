@@ -6,4 +6,3 @@ class Blacklist(db.Model):
     comment = db.Column(db.Text)
     type = db.Column(db.Integer, nullable=False, server_default="0")
     value = db.Column(db.String(255, None, True))
-    

@@ -7,5 +7,3 @@ class AssetPrinter(db.Model):
     printer_model_id = db.Column(db.Integer, db.ForeignKey('printer_model.id'))
     init_pages_counter = db.Column(db.Integer, nullable=False, server_default="0")
     last_pages_counter = db.Column(db.Integer, nullable=False, server_default="0")
-    
-    

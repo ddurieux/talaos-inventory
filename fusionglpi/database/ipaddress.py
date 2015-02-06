@@ -16,4 +16,3 @@ class Ipaddress(db.Model):
     binary_1 = db.Column(db.Integer, nullable=False, server_default="0")
     binary_2 = db.Column(db.Integer, nullable=False, server_default="0")
     binary_3 = db.Column(db.Integer, nullable=False, server_default="0")
-    

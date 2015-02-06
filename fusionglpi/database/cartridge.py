@@ -10,4 +10,3 @@ class Cartridge(db.Model):
     date_use = db.Column(db.Date)
     date_out = db.Column(db.Date)
     pages = db.Column(db.Integer, nullable=False, server_default="0")
-    

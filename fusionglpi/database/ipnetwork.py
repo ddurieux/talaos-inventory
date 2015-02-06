@@ -27,4 +27,3 @@ class Ipnetwork(db.Model):
     gateway_1 = db.Column(db.Integer, nullable=False, server_default="0")
     gateway_2 = db.Column(db.Integer, nullable=False, server_default="0")
     gateway_3 = db.Column(db.Integer, nullable=False, server_default="0")
-    

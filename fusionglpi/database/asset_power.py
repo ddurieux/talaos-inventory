@@ -6,5 +6,3 @@ class AssetPower(db.Model):
     power_type_id = db.Column(db.Integer, db.ForeignKey('power_type.id'))
     energy_type_id = db.Column(db.Integer, db.ForeignKey('energy_type.id'))
     is_redondant = db.Column(db.Boolean, nullable=False, server_default="0")
-    
-    

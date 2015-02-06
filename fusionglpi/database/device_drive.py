@@ -5,4 +5,3 @@ class DeviceDrive(db.Model):
     name = db.Column(db.String(255, None, True))
     comment = db.Column(db.Text)
     busID = db.Column(db.String(255, None, True))
-    

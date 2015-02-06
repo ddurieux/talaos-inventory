@@ -101,6 +101,5 @@ class Entity(db.Model):
     users = db.relationship('User', backref='entity')
     vlans = db.relationship('Vlan', backref='entity')
     wifinetworks = db.relationship('Wifinetwork', backref='entity')
-    
+
     include_columns = ['id', 'name']
-    

@@ -10,4 +10,3 @@ class DeviceMemoryItem(db.Model):
     device_memory_type_id = db.Column(db.Integer, db.ForeignKey('device_memory_type.id'))
     size_default = db.Column(db.Integer, nullable=False, server_default="0")
     frequence = db.Column(db.String(255, None, True))
-    
