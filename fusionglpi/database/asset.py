@@ -29,4 +29,5 @@ class Asset(db.Model):
     used_software_licenses = db.relationship('UsedSoftwareLicense', backref='asset')
     networkports = db.relationship('Networkport', backref='asset')
 
-    include_columns = ['id', 'name', 'serial']
+    include_columns = ['id', 'name', 'serial', 'inventory_number', 'comment',
+    'entity', 'entity.id', 'entity.name']

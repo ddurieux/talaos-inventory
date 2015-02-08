@@ -29,7 +29,7 @@ class Application(Log):
 
         self.log.debug("database : {}".format(self.db))
         self.manager = APIManager(self.app, flask_sqlalchemy_db=db)
-        register_models(self.manager)
+        register_models(self.manager, self.app)
 
         def add_cors_headers(response):
             response.headers['Access-Control-Allow-Origin'] = '*'
