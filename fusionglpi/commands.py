@@ -27,6 +27,7 @@ Commands:
     seed        Fill up the database with some random values.
 """
 
+
 def main():
     args = docopt(__doc__)
     if args["--quiet"]:

@@ -1,5 +1,6 @@
 from fusionglpi import db
 
+
 class LinkedDocument(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     document_id = db.Column(db.Integer, nullable=False, server_default="0")

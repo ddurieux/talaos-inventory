@@ -1,5 +1,6 @@
 from fusionglpi import db
 
+
 class AssetDisk(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     asset_id = db.Column(db.Integer, db.ForeignKey('asset.id'))

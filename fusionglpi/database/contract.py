@@ -1,5 +1,6 @@
 from fusionglpi import db
 
+
 class Contract(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     entity_id = db.Column(db.Integer, db.ForeignKey('entity.id'))
@@ -10,7 +11,8 @@ class Contract(db.Model):
     name = db.Column(db.String(255, None, True))
     num = db.Column(db.String(255, None, True))
     comment = db.Column(db.Text)
-    contract_type_id = db.Column(db.Integer, db.ForeignKey('contract_type.id'))
+    contract_type_id = db.Column(db.Integer,
+                                 db.ForeignKey('contract_type.id'))
     begin_date = db.Column(db.Date)
     duration = db.Column(db.Integer, nullable=False, server_default="0")
     notice = db.Column(db.Integer, nullable=False, server_default="0")
@@ -25,6 +27,7 @@ class Contract(db.Model):
     monday_begin_hour = db.Column(db.Time)
     monday_end_hour = db.Column(db.Time)
     use_monday = db.Column(db.Boolean, nullable=False, server_default="0")
-    max_links_allowed = db.Column(db.Integer, nullable=False, server_default="0")
+    max_links_allowed = db.Column(db.Integer, nullable=False,
+                                  server_default="0")
     alert = db.Column(db.Integer, nullable=False, server_default="0")
     renewal = db.Column(db.Integer, nullable=False, server_default="0")

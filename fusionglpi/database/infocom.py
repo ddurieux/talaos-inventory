@@ -1,5 +1,6 @@
 from fusionglpi import db
 
+
 class Infocom(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     entity_id = db.Column(db.Integer, db.ForeignKey('entity.id'))
@@ -13,7 +14,8 @@ class Infocom(db.Model):
     delivery_date = db.Column(db.Date)
     inventory_date = db.Column(db.Date)
     warranty_date = db.Column(db.Date)
-    warranty_duration = db.Column(db.Integer, nullable=False, server_default="0")
+    warranty_duration = db.Column(db.Integer, nullable=False,
+                                  server_default="0")
     warranty_info = db.Column(db.String(255, None, True))
     supplier_id = db.Column(db.Integer, db.ForeignKey('supplier.id'))
     order_number = db.Column(db.String(255, None, True))

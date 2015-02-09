@@ -1,11 +1,9 @@
 from flask import Flask, jsonify
-
 from flask.ext.restless import APIManager
-
 from fusionglpi.log import Log
 from fusionglpi.database import register_models
-
 from fusionglpi import db
+
 
 class Application(Log):
 
@@ -22,7 +20,8 @@ class Application(Log):
         self.app.config['PROFILE'] = False
         if self.app.config['PROFILE']:
             from werkzeug.contrib.profiler import ProfilerMiddleware
-            self.app.wsgi_app = ProfilerMiddleware(self.app.wsgi_app, restrictions=[30])
+            self.app.wsgi_app = ProfilerMiddleware(self.app.wsgi_app,
+                                                   restrictions=[30])
 
         self.db = db
         self.db.init_app(self.app)
@@ -41,7 +40,7 @@ class Application(Log):
         @self.app.route('/api/item_list')
         @self.app.route('/api/v1.0/item_list')
         def item_list():
-            items = [];
+            items = []
             for model in db.Model.__subclasses__():
                 attributes = {'name': model.__name__.lower(), 'fields': []}
                 items.append(attributes)
