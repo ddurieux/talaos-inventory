@@ -1,5 +1,6 @@
 from fusionglpi import db
 
+
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     entity_id = db.Column(db.Integer, db.ForeignKey('entity.id'))
@@ -23,5 +24,5 @@ class Group(db.Model):
 
     assets = db.relationship('Asset', backref='group')
     consumable_items = db.relationship('ConsumableItem', backref='group')
-    #groups = db.relationship('Group', backref='group')
+    # groups = db.relationship('Group', backref='group')
     softwares = db.relationship('Software', backref='group')

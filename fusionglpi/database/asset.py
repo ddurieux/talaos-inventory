@@ -1,5 +1,6 @@
 from fusionglpi import db
 
+
 class Asset(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     entity_id = db.Column(db.Integer, db.ForeignKey('entity.id'))
@@ -23,11 +24,14 @@ class Asset(db.Model):
     asset_displays = db.relationship('AssetDisplay', backref='asset')
     asset_powers = db.relationship('AssetPower', backref='asset')
     asset_printers = db.relationship('AssetPrinter', backref='asset')
-    asset_virtualmachines = db.relationship('AssetVirtualmachine', backref='asset')
+    asset_virtualmachines = db.relationship('AssetVirtualmachine',
+                                            backref='asset')
     cartridges = db.relationship('Cartridge', backref='asset')
-    installed_software_versions = db.relationship('InstalledSoftwareVersion', backref='asset')
-    used_software_licenses = db.relationship('UsedSoftwareLicense', backref='asset')
+    installed_software_versions = db.relationship('InstalledSoftwareVersion',
+                                                  backref='asset')
+    used_software_licenses = db.relationship('UsedSoftwareLicense',
+                                             backref='asset')
     networkports = db.relationship('Networkport', backref='asset')
 
     include_columns = ['id', 'name', 'serial', 'inventory_number', 'comment',
-    'entity', 'entity.id', 'entity.name']
+                       'entity', 'entity.id', 'entity.name']

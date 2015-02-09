@@ -1,5 +1,6 @@
 from fusionglpi import db
 
+
 class SoftwareVersion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     entity_id = db.Column(db.Integer, db.ForeignKey('entity.id'))
@@ -8,6 +9,8 @@ class SoftwareVersion(db.Model):
     comment = db.Column(db.Text)
     software_id = db.Column(db.Integer, db.ForeignKey('software.id'))
     state_id = db.Column(db.Integer, db.ForeignKey('state.id'))
-    operatingsystem_id = db.Column(db.Integer, db.ForeignKey('operatingsystem.id'))
+    operatingsystem_id = db.Column(db.Integer,
+                                   db.ForeignKey('operatingsystem.id'))
 
-    installed_software_versions = db.relationship('InstalledSoftwareVersion', backref='software_version')
+    installed_software_versions = db.relationship('InstalledSoftwareVersion',
+                                                  backref='software_version')

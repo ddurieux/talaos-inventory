@@ -1,5 +1,6 @@
 from fusionglpi import db
 
+
 class LinkedContract(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     contract_id = db.Column(db.Integer, nullable=False, server_default="0")

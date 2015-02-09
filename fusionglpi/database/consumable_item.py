@@ -1,5 +1,6 @@
 from fusionglpi import db
 
+
 class ConsumableItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     entity_id = db.Column(db.Integer, db.ForeignKey('entity.id'))
@@ -12,7 +13,10 @@ class ConsumableItem(db.Model):
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
     user_tech_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     group_tech_id = db.Column(db.Integer, db.ForeignKey('group.id'))
-    consumable_itemtype_id = db.Column(db.Integer, db.ForeignKey('consumable_itemtype.id'))
-    alarm_threshold = db.Column(db.Integer, nullable=False, server_default="10")
+    consumable_itemtype_id = db.Column(db.Integer,
+                                       db.ForeignKey('consumable_itemtype.id')
+                                       )
+    alarm_threshold = db.Column(db.Integer, nullable=False,
+                                server_default="10")
 
     consumables = db.relationship('Consumable', backref='consumable_item')
