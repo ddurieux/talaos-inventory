@@ -1,17 +1,17 @@
 import pkgutil
 from fusionglpi import db
-from flask import request
+# from flask import request
 from fusionglpi.database.asset_type import AssetType
 __path__ = pkgutil.extend_path(__path__, __name__)
 
 
 def define_cols(search_params=None):
-    requested_columns = request.args.get('cols')
-    if requested_columns is not None:
-        columns = requested_columns.split(',')
-        include_columns = columns
-        pass
-    return True
+    # requested_columns = request.args.get('cols')
+    # if requested_columns is not None:
+        # columns = requested_columns.split(',')
+        # include_columns = columns
+        # pass
+    pass
 
 
 def asset_type_filter(search_params=None):

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import os
-import sys
-from pprint import pprint, pformat
+from pprint import pformat
 from docopt import docopt
 
 from fusionglpi.main import Application
