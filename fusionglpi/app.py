@@ -55,6 +55,7 @@ class Application(Log):
         self.settings['RESOURCE_METHODS'] = ['GET', 'POST', 'DELETE']
         self.settings['ITEM_METHODS'] = ['GET', 'PATCH', 'PUT', 'DELETE']
         self.settings['XML'] = False
+        self.settings['X_DOMAINS'] = '*'
         if debug:
             logging.getLogger('sqlalchemy.engine').setLevel(logging.DEBUG)
         self.app = Eve(
