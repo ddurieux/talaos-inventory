@@ -1,4 +1,4 @@
-from fusionglpi.app import Application
+from talaos_inventory.app import Application
 
 
 def main():

@@ -1,4 +1,4 @@
-from fusionglpi.models import common
+from talaos_inventory.models import common
 from sqlalchemy import (  # noqa
     Column,
     String,

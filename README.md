@@ -1,4 +1,4 @@
-# FusionGLPI
+# Talaos-inventory
 
 
 # Install
@@ -8,7 +8,7 @@
 *TOBEDONE* You can install it directly from Pypi:
 
 ```
-pip install fusionglpi
+pip install talaos_inventory
 ```
 
 You can install it from source once you cloned successfully the
@@ -36,19 +36,19 @@ apt-get -y install python3 python3-dev python3-pip git
 * get the project sources
 
 ```
-git clone https://github.com/fusionglpi/fusionglpi
+git clone https://github.com/talaos/talaos-inventory
 ```
 
 * python prerequisites
 
 ```
-pip3 install -r fusionglpi/requirements.txt
+pip3 install -r talaos-inventory/requirements.txt
 ```
 
 * install 
 
 ```
-cd fusionglpi
+cd talaos-inventory
 python3 setup.py install
 ```
 

@@ -1,5 +1,5 @@
 
-from fusionglpi.app import Application
+from talaos_inventory.app import Application
 from pprint import pprint  # noqa
 
 

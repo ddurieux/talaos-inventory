@@ -3,7 +3,7 @@ from behave import *
 from nose.tools import ok_, eq_, assert_equals, assert_not_equals
 from pprint import pprint
 import json
-from fusionglpi.app import Application
+from talaos_inventory.app import Application
 
 
 @given(u'the api backend is available')

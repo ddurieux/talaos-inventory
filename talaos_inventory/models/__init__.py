@@ -6,7 +6,7 @@ from pprint import pformat  # noqa
 from sqlalchemy import inspect
 from eve_sqlalchemy.decorators import registerSchema
 
-from fusionglpi.models import common
+from talaos_inventory.models import common
 
 
 log = logging.getLogger(__name__)

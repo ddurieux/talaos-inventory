@@ -11,10 +11,10 @@ from eve import Eve
 from eve_sqlalchemy import SQL
 from eve_sqlalchemy.validation import ValidatorSQL
 
-import fusionglpi.models
-from fusionglpi.models.common import Base
-from fusionglpi.models import register_models
-from fusionglpi.log import Log
+import talaos_inventory.models
+from talaos_inventory.models.common import Base
+from talaos_inventory.models import register_models
+from talaos_inventory.log import Log
 
 _subcommands = OrderedDict()
 
@@ -72,7 +72,7 @@ class Application(Log):
     def get_settings_from_ini(self):
         settings = {}
         settings_filenames = [
-            '/etc/fusionglpi/settings.ini',
+            '/etc/talaos_inventory/settings.ini',
             os.path.abspath('./settings.ini')
         ]
         self.log.debug(settings_filenames)
@@ -134,7 +134,7 @@ class Application(Log):
     @register_command("Populate database with random data")
     def populate(self):
         self.install()
-        fusionglpi.models.assets.populate_db(self.db)
+        talaos_inventory.models.assets.populate_db(self.db)
 
     @register_command("Start serving")
     def run(self):
