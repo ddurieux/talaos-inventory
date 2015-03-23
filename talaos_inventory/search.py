@@ -7,63 +7,8 @@ import itertools
 def pre_asset_get_callback(request, lookup):
     '''
     manage search
-    example:
-    {
-        "group": {
-            "operator": "AND",
-            "rules": [ {
-                "group": {
-                    "type": "assetlink",
-                    "operator": "AND",
-                    "rules": [ {
-                        "condition": "=",
-                        "field": "Asset link (child)",
-                        "data": "level 1",
-                        "$$hashKey": "00G"
-                    }, {
-                        "condition": "=",
-                        "field": "Type",
-                        "data": "8",
-                        "$$hashKey": "00H"
-                    }, {
-                        "group": {
-                            "operator": "AND",
-                            "rules": [ {
-                                "group": {
-                                    "type": "property",
-                                    "operator": "AND",
-                                    "rules": [ {
-                                        "condition": "=",
-                                        "field": "Property",
-                                        "data": "63",
-                                        "$$hashKey": "014"
-                                    }, {
-                                        "condition": "=",
-                                        "field": "Property value",
-                                        "data": "512",
-                                        "$$hashKey": "015"
-                                    } ]
-                                },
-                                "$$hashKey": "010"
-                            } ]
-                        },
-                        "$$hashKey": "00O"
-                    } ]
-                },
-                "$$hashKey": "009"
-            }, {
-                "condition": "=",
-                "field": "Type",
-                "data": "1",
-                "$$hashKey": "00W"
-            } ]
-        }
-    }
-
     curl -u d.durieux@siprossii.com:xxx -i 'http://10.0.20.9:5000/asset' -X POST -H "X-HTTP-Method-Override:GET" -d '{"where": {"name": "toto"}}'
-
     '''
-    # where = json.loads('{ "group": { "operator": "AND", "rules": [ { "group": { "type": "assetlink", "operator": "AND", "rules": [ { "condition": "=", "field": "Asset link (child)", "data": "level 1", "$$hashKey": "00G" }, { "condition": "=", "field": "Type", "data": "8", "$$hashKey": "00H" }, { "group": { "operator": "AND", "rules": [ { "group": { "type": "property", "operator": "AND", "rules": [ { "condition": "=", "field": "Property", "data": "63", "$$hashKey": "014" }, { "condition": "=", "field": "Property value", "data": "512", "$$hashKey": "015" } ] }, "$$hashKey": "010" } ] }, "$$hashKey": "00O" } ] }, "$$hashKey": "009" }, { "condition": "=", "field": "Type", "data": "1", "$$hashKey": "00W" } ] } }')
     if request.data.decode("utf-8") == '':
         lookup["id"] = 529
         return
@@ -162,7 +107,7 @@ def getUnion(s):
     '''
     Union of 2 lists + deduplicate items
     '''
-    return list(set(s[0]) + set(s[1]))
+    return list(set.union(set(s[0]), set(s[1])))
 
 def getIntersection(s):
     '''
