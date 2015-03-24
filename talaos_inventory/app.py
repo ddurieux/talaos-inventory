@@ -57,7 +57,8 @@ class Application(Log):
         self.settings['ITEM_METHODS'] = ['GET', 'PATCH', 'PUT', 'DELETE']
         self.settings['XML'] = False
         self.settings['X_DOMAINS'] = '*'
-        self.settings['X_HEADERS'] = 'Authorization, If-Match, X-HTTP-Method-Override, Content-Type'
+        self.settings['X_HEADERS'] = 'Authorization, If-Match,' \
+                                     ' X-HTTP-Method-Override, Content-Type'
         if debug:
             logging.getLogger('sqlalchemy.engine').setLevel(logging.DEBUG)
         self.app = Eve(
@@ -65,7 +66,8 @@ class Application(Log):
             data=SQL,
             settings=self.settings
         )
-        self.app.on_pre_GET_asset += talaos_inventory.search.pre_asset_get_callback
+        self.app.on_pre_GET_asset += \
+            talaos_inventory.search.pre_asset_get_callback
         self.log.debug(pformat(self.app.settings))
         self.app.debug = debug
         self.db = self.app.data.driver

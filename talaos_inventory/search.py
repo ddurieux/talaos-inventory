@@ -2,12 +2,13 @@ import json
 import talaos_inventory.models.assets as assets
 from flask import current_app as app
 import time
-import itertools
+
 
 def pre_asset_get_callback(request, lookup):
     '''
     manage search
-    curl -u d.durieux@siprossii.com:xxx -i 'http://10.0.20.9:5000/asset' -X POST -H "X-HTTP-Method-Override:GET" -d '{"where": {"name": "toto"}}'
+    curl -u d.durieux@siprossii.com:xxx -i 'http://10.0.20.9:5000/asset' \
+    -X POST -H "X-HTTP-Method-Override:GET" -d '{"where": {"name": "toto"}}'
     '''
     if request.data.decode("utf-8") == '':
         lookup["id"] = 529
@@ -25,6 +26,7 @@ def pre_asset_get_callback(request, lookup):
     print("--- %s seconds ---" % (time.time() - start_time))
     lookup["id"] = idList
 
+
 def cleanWhere(where):
     if 'group' in where:
         where['group'] = cleanWhere(where['group'])
@@ -34,6 +36,7 @@ def cleanWhere(where):
                 if where['rules'][k]['data'] == '':
                     del where['rules'][k]
     return where
+
 
 def manageGroup(group):
     idList = []
@@ -55,9 +58,8 @@ def manageGroup(group):
         i = i + 1
     return idList
 
+
 def getCondition(data):
-    asset_type_property_id = 0
-    operator = '__eq__'
     qfilter = ''
     if data['condition'] == '=':
         qfilter = getattr(assets.PropertyName, 'name') == data['data']
@@ -76,13 +78,19 @@ def getCondition(data):
 
     query = app.data.driver.session.query(assets.PropertyName)
     prepQuery = query.with_entities(assets.PropertyName.id).filter(
-        getattr(assets.PropertyName, 'asset_type_property_id') == data['field'],
+        getattr(
+            assets.PropertyName,
+            'asset_type_property_id'
+        ) == data['field'],
         qfilter)
     list = runQuery(prepQuery, 'PropertyName')
     idPropertyName = listTupleToList(list)
 
     list = []
-    ll = [idPropertyName[i:i + 2000] for i in range(0, len(idPropertyName), 2000)]
+    ll = [
+        idPropertyName[i:i + 2000]
+        for i in range(0, len(idPropertyName), 2000)
+    ]
     for l in ll:
         query = app.data.driver.session.query(assets.AssetProperty)
         prepQuery = query.with_entities(assets.AssetProperty.asset_id).filter(
@@ -96,12 +104,14 @@ def getCondition(data):
         lid = []
         ll = [idList[i:i + 2000] for i in range(0, len(idList), 2000)]
         for l in ll:
-            prepQuery = query.with_entities(assets.AssetAsset.asset_left).filter(
-                getattr(assets.AssetAsset, 'asset_right')
-                    .in_(l)).distinct(assets.AssetAsset.asset_left)
+            prepQuery = query.with_entities(assets.AssetAsset.asset_left) \
+                .filter(
+                    getattr(assets.AssetAsset, 'asset_right').in_(l)) \
+                .distinct(assets.AssetAsset.asset_left)
             lid.extend(runQuery(prepQuery, 'AssetAsset'))
         idList = listTupleToList(lid)
         return idList
+
 
 def getUnion(s):
     '''
@@ -109,11 +119,13 @@ def getUnion(s):
     '''
     return list(set.union(set(s[0]), set(s[1])))
 
+
 def getIntersection(s):
     '''
     Intersection of 2 lists + deduplicate items
     '''
     return list(set(s[0]) & set(s[1]))
+
 
 def getDifference(s):
     '''
@@ -121,16 +133,16 @@ def getDifference(s):
     '''
     return list(set(s[0]) - set(s[1]))
 
+
 def runQuery(query, name):
     start_time = time.time()
     list = query.all()
     print(name + " === %s seconds ===" % (time.time() - start_time))
     return list
 
+
 def listTupleToList(tuplist):
     idList = []
     for var in tuplist:
         idList.append(var[0])
     return idList
-
-
