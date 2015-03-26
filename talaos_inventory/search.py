@@ -65,46 +65,37 @@ class Search():
             db_values = self.runQuery(prepQuery, 'Asset')
             return self.listTupleToList(db_values)
 
-        else :
+        else:
             qfilter = self.get_filter_for_condition(data)
-            query = app.data.driver.session.query(assets.PropertyName)
-            prepQuery = query.with_entities(assets.PropertyName.id).filter(
+
+            if data['assetchild'] == 'nochild':
+                assetproperty = app.data.driver.session.query(
+                    assets.AssetProperty
+                )
+                prepQuery = assetproperty.distinct(
+                    assets.AssetProperty.asset_id
+                ).with_entities(assets.AssetProperty.asset_id)
+            elif data['assetchild'] == 'firstlevel':
+                assetasset = app.data.driver.session.query(assets.AssetAsset)
+                prepQuery = assetasset.distinct(
+                    assets.AssetAsset.asset_left
+                ).with_entities(assets.AssetAsset.asset_left).join(
+                    assets.AssetProperty,
+                    assets.AssetAsset.asset_right ==
+                    assets.AssetProperty.asset_id
+                )
+            prepQuery = prepQuery.join(
+                assets.PropertyName
+            ).filter(
                 getattr(
                     assets.PropertyName,
                     'asset_type_property_id'
                 ) == data['field'],
-                qfilter)
-            db_values = self.runQuery(prepQuery, 'PropertyName')
-            idPropertyName = self.listTupleToList(db_values)
-
-            db_values = []
-            ll = [
-                idPropertyName[i:i + 2000]
-                for i in range(0, len(idPropertyName), 2000)
-            ]
-            for l in ll:
-                query = app.data.driver.session.query(assets.AssetProperty)
-                prepQuery = query.with_entities(
-                    assets.AssetProperty.asset_id
-                ).filter(
-                    getattr(assets.AssetProperty, 'property_name_id').in_(l))
-                db_values.extend(self.runQuery(prepQuery, 'AssetProperty'))
+                qfilter
+            )
+            db_values = self.runQuery(prepQuery, '')
             idList = self.listTupleToList(db_values)
-
-            if data['assetchild'] == 'nochild':
-                return idList
-            elif data['assetchild'] == 'firstlevel':
-                lid = []
-                ll = [idList[i:i + 2000] for i in range(0, len(idList), 2000)]
-                for l in ll:
-                    prepQuery = query.with_entities(
-                        assets.AssetAsset.asset_left
-                    ).filter(
-                        getattr(assets.AssetAsset, 'asset_right').in_(l)
-                    ).distinct(assets.AssetAsset.asset_left)
-                    lid.extend(self.runQuery(prepQuery, 'AssetAsset'))
-                idList = self.listTupleToList(lid)
-                return idList
+            return idList
 
     def get_filter_for_condition(self, data):
         qfilter = ''
@@ -139,7 +130,9 @@ class Search():
     def runQuery(self, query, dbname):
         start_time = time.time()
         db_values = query.all()
-        self.log.debug(dbname, "=== %s seconds ===" % (time.time() - start_time))
+        self.log.debug(
+            dbname,
+            "=== %s seconds ===" % (time.time() - start_time))
         return db_values
 
     def listTupleToList(self, tuplist):
