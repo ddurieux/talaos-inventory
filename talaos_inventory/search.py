@@ -30,7 +30,7 @@ class Search():
             lookup["asset_type_id"] = where['group']['rules'][0]['data']
             return
         start_time = time.time()
-        idList = self.manageGroup(where['group'])
+        idList = self.manage_group(where['group'])
         self.log.debug('Number of elements: ', len(idList))
         self.log.debug("--- %s seconds ---" % (time.time() - start_time))
         if len(idList) == 0:
@@ -42,41 +42,41 @@ class Search():
         ''' TODO chech search json validator '''
         return where
 
-    def manageGroup(self, group):
+    def manage_group(self, group):
         idList = []
         i = 0
         for r in group['rules']:
             if 'group' in r:
-                condition_list = self.manageGroup(r['group'])
+                condition_list = self.manage_group(r['group'])
             else:
-                condition_list = self.getCondition(r)
+                condition_list = self.fetch_list(r)
             idList = self.lists_operations(
                 i, group['operator'], idList, condition_list)
             i = i + 1
         return idList
 
-    def getCondition(self, data):
-        if data['field'] == 'assettype':
+    def fetch_list(self, condition):
+        if condition['field'] == 'assettype':
             query = app.data.driver.session.query(assets.Asset)
             prepQuery = query.with_entities(assets.Asset.id).filter(
                 getattr(
                     assets.Asset,
                     'asset_type_id'
-                ) == data['data'])
-            db_values = self.runQuery(prepQuery, 'Asset')
-            return self.listTupleToList(db_values)
+                ) == condition['data'])
+            db_values = self.run_query(prepQuery, 'Asset')
+            return [r[0] for r in db_values]
 
         else:
-            qfilter = self.get_filter_for_condition(data)
+            query_filter = self.get_filter_for_condition(condition)
 
-            if data['assetchild'] == 'nochild':
+            if condition['assetchild'] == 'nochild':
                 assetproperty = app.data.driver.session.query(
                     assets.AssetProperty
                 )
                 prepQuery = assetproperty.distinct(
                     assets.AssetProperty.asset_id
                 ).with_entities(assets.AssetProperty.asset_id)
-            elif data['assetchild'] == 'firstlevel':
+            elif condition['assetchild'] == 'firstlevel':
                 assetasset = app.data.driver.session.query(assets.AssetAsset)
                 prepQuery = assetasset.distinct(
                     assets.AssetAsset.asset_left
@@ -91,30 +91,30 @@ class Search():
                 getattr(
                     assets.PropertyName,
                     'asset_type_property_id'
-                ) == data['field'],
-                qfilter
+                ) == condition['field'],
+                query_filter
             )
-            db_values = self.runQuery(prepQuery, '')
-            idList = self.listTupleToList(db_values)
+            db_values = self.run_query(prepQuery, '')
+            idList = [r[0] for r in db_values]
             return idList
 
     def get_filter_for_condition(self, data):
-        qfilter = ''
+        query_filter = ''
         if data['condition'] == '=':
-            qfilter = getattr(assets.PropertyName, 'name') == data['data']
+            query_filter = getattr(assets.PropertyName, 'name') == data['data']
         elif data['condition'] == '<':
-            qfilter = getattr(assets.PropertyName, 'name') < data['data']
+            query_filter = getattr(assets.PropertyName, 'name') < data['data']
         elif data['condition'] == '<=':
-            qfilter = getattr(assets.PropertyName, 'name') <= data['data']
+            query_filter = getattr(assets.PropertyName, 'name') <= data['data']
         elif data['condition'] == '>':
-            qfilter = getattr(assets.PropertyName, 'name') > data['data']
+            query_filter = getattr(assets.PropertyName, 'name') > data['data']
         elif data['condition'] == '>=':
-            qfilter = getattr(assets.PropertyName, 'name') >= data['data']
+            query_filter = getattr(assets.PropertyName, 'name') >= data['data']
         elif data['condition'] == '<>':
-            qfilter = getattr(assets.PropertyName, 'name') != data['data']
+            query_filter = getattr(assets.PropertyName, 'name') != data['data']
         elif data['condition'] == 'like':
-            qfilter = getattr(assets.PropertyName, 'name').like(data['data'])
-        return qfilter
+            query_filter = getattr(assets.PropertyName, 'name').like(data['data'])
+        return query_filter
 
     def lists_operations(self, i, operator, s, t):
         if i == 0:
@@ -130,16 +130,10 @@ class Search():
                 s = list(set(s).intersection(set(t)))
         return s
 
-    def runQuery(self, query, dbname):
+    def run_query(self, query, dbname):
         start_time = time.time()
         db_values = query.all()
         self.log.debug(
             dbname,
             "=== %s seconds ===" % (time.time() - start_time))
         return db_values
-
-    def listTupleToList(self, tuplist):
-        idList = []
-        for var in tuplist:
-            idList.append(var[0])
-        return idList
