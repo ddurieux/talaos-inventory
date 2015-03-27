@@ -25,11 +25,18 @@ class Search():
         where = self.cleanWhere(json.loads(jsondata['where']))
         self.log.debug(where)
 
+        if (len(where['group']['rules']) == 1) and \
+            (where['group']['rules'][0]['field'] == 'assettype'):
+            lookup["asset_type_id"] = where['group']['rules'][0]['data']
+            return
         start_time = time.time()
         idList = self.manageGroup(where['group'])
         self.log.debug('Number of elements: ', len(idList))
         self.log.debug("--- %s seconds ---" % (time.time() - start_time))
-        lookup["id"] = idList
+        if len(idList) == 0:
+            lookup["id"] = 0
+        else:
+            lookup["id"] = idList
 
     def cleanWhere(self, where):
         if 'group' in where:
@@ -124,6 +131,8 @@ class Search():
             elif operator == 'Difference':
                 s = list(set(s).symmetric_difference(set(t)))
             elif operator == 'Intersection':
+                if (len(s) == 0) or (len(t) == 0):
+                    return []
                 s = list(set(s).intersection(set(t)))
         return s
 
