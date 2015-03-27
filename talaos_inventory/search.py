@@ -50,7 +50,7 @@ class Search():
                 condition_list = self.manage_group(r['group'])
             else:
                 condition_list = self.fetch_list(r)
-            idList = self.lists_operations(
+            idList = self.handle_manage(
                 i, group['operator'], idList, condition_list)
             i = i + 1
         return idList
@@ -116,7 +116,7 @@ class Search():
             query_filter = getattr(assets.PropertyName, 'name').like(data['data'])
         return query_filter
 
-    def lists_operations(self, i, operator, s, t):
+    def handle_manage(self, i, operator, s, t):
         if i == 0:
             s = t
         else:
