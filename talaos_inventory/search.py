@@ -22,7 +22,7 @@ class Search():
         if 'where' not in jsondata:
             lookup["id"] = 0
             return
-        where = self.cleanWhere(json.loads(jsondata['where']))
+        where = self.check_where(json.loads(jsondata['where']))
         self.log.debug(where)
 
         if (len(where['group']['rules']) == 1) and \
@@ -38,14 +38,8 @@ class Search():
         else:
             lookup["id"] = idList
 
-    def cleanWhere(self, where):
-        if 'group' in where:
-            where['group'] = self.cleanWhere(where['group'])
-        elif 'rules' in where:
-            for k, v in enumerate(where['rules']):
-                if 'group' not in where['rules'][k]:
-                    if where['rules'][k]['data'] == '':
-                        del where['rules'][k]
+    def check_where(self, where):
+        ''' TODO chech search json validator '''
         return where
 
     def manageGroup(self, group):
