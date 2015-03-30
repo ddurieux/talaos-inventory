@@ -16,7 +16,7 @@ class Search():
             -H "X-HTTP-Method-Override:GET" -d '{"where": {"name": "toto"}}'
         '''
         if request.data.decode("utf-8") == '':
-            lookup["id"] = 0
+            # lookup["id"] = 0
             return
         jsondata = json.loads(request.data.decode("utf-8"))
         if 'where' not in jsondata:
@@ -36,23 +36,26 @@ class Search():
         if len(idList) == 0:
             lookup["id"] = 0
         else:
-            lookup["id"] = idList
+            lookup["id"] = list(idList)
 
     def check_where(self, where):
         ''' TODO chech search json validator '''
         return where
 
     def manage_group(self, group):
-        idList = []
+        idList = set()
         i = 0
         for r in group['rules']:
             if 'group' in r:
-                condition_list = self.manage_group(r['group'])
+                condition_ids = self.manage_group(r['group'])
             else:
-                condition_list = self.fetch_list(r)
-            idList = self.handle_manage(
-                i, group['operator'], idList, condition_list)
-            i = i + 1
+                condition_ids = self.fetch_list(r)
+            if i == 0:
+                idList = condition_ids
+                i = 1
+            else:
+                idList = self.handle_manage(
+                    group['operator'], idList, condition_ids)
         return idList
 
     def fetch_list(self, condition):
@@ -64,7 +67,7 @@ class Search():
                     'asset_type_id'
                 ) == condition['data'])
             db_values = self.run_query(prepQuery, 'Asset')
-            return [r[0] for r in db_values]
+            return set([r[0] for r in db_values])
 
         else:
             query_filter = self.get_filter_for_condition(condition)
@@ -95,39 +98,34 @@ class Search():
                 query_filter
             )
             db_values = self.run_query(prepQuery, '')
-            idList = [r[0] for r in db_values]
-            return idList
+            return set([r[0] for r in db_values])
 
     def get_filter_for_condition(self, data):
         query_filter = ''
+        col_name = getattr(assets.PropertyName, 'name')
         if data['condition'] == '=':
-            query_filter = getattr(assets.PropertyName, 'name') == data['data']
+            query_filter = col_name.__eq__(data['data'])
         elif data['condition'] == '<':
-            query_filter = getattr(assets.PropertyName, 'name') < data['data']
+            query_filter = col_name.__lt__(data['data'])
         elif data['condition'] == '<=':
-            query_filter = getattr(assets.PropertyName, 'name') <= data['data']
+            query_filter = col_name.__le__(data['data'])
         elif data['condition'] == '>':
-            query_filter = getattr(assets.PropertyName, 'name') > data['data']
+            query_filter = col_name.__gt__(data['data'])
         elif data['condition'] == '>=':
-            query_filter = getattr(assets.PropertyName, 'name') >= data['data']
+            query_filter = col_name.__ge__(data['data'])
         elif data['condition'] == '<>':
-            query_filter = getattr(assets.PropertyName, 'name') != data['data']
+            query_filter = col_name.__ne__(data['data'])
         elif data['condition'] == 'like':
-            query_filter = getattr(assets.PropertyName, 'name').like(data['data'])
+            query_filter = col_name.like(data['data'])
         return query_filter
 
-    def handle_manage(self, i, operator, s, t):
-        if i == 0:
-            s = t
-        else:
-            if operator == 'Union':
-                s = list(set(s).union(set(t)))
-            elif operator == 'Difference':
-                s = list(set(s).symmetric_difference(set(t)))
-            elif operator == 'Intersection':
-                if (len(s) == 0) or (len(t) == 0):
-                    return []
-                s = list(set(s).intersection(set(t)))
+    def handle_manage(self, operator, s, t):
+        if operator == 'Union':
+            s = s.union(t)
+        elif operator == 'Difference':
+            s = s.symmetric_difference(t)
+        elif operator == 'Intersection':
+            s = s.intersection(t)
         return s
 
     def run_query(self, query, dbname):
