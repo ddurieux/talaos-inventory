@@ -1,7 +1,8 @@
 import json
 import talaos_inventory.models.assets as assets
-from flask import current_app as app
+from flask import current_app as app, make_response, abort
 import time
+import jsonschema
 
 
 class Search():
@@ -16,7 +17,6 @@ class Search():
             -H "X-HTTP-Method-Override:GET" -d '{"where": {"name": "toto"}}'
         '''
         if request.data.decode("utf-8") == '':
-            # lookup["id"] = 0
             return
         jsondata = json.loads(request.data.decode("utf-8"))
         if 'where' not in jsondata:
@@ -24,9 +24,9 @@ class Search():
             return
         where = self.check_where(json.loads(jsondata['where']))
         self.log.debug(where)
-
+        
         if (len(where['group']['rules']) == 1) and \
-            (where['group']['rules'][0]['field'] == 'assettype'):
+                (where['group']['rules'][0]['field'] == '0'):
             lookup["asset_type_id"] = where['group']['rules'][0]['data']
             return
         start_time = time.time()
@@ -40,7 +40,74 @@ class Search():
 
     def check_where(self, where):
         ''' TODO chech search json validator '''
-        return where
+        schema = self.json_schema()
+        v = jsonschema.Draft4Validator(schema)
+        errors = sorted(v.iter_errors(where), key=lambda e: e.path)
+        if len(errors) == 0:
+            return where
+        else:
+            self.log.debug('Search json error: ', errors)
+            abort(make_response("Integrity Error", 400))
+
+    def json_schema(self):
+        return {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "definitions": {
+                "group": {
+                    "type": "object",
+                    "properties": {
+                        "operator": {
+                            "type": "string"
+                        },
+                        "rules": {
+                            "type": "array",
+                            "items": {
+                                "anyOf": [{
+                                    "type": "object",
+                                    "properties": {
+                                        "condition": {
+                                            "type": "string"
+                                        },
+                                        "field": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": ["string", "integer"]
+                                        },
+                                        "assetchild": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": ["condition", "field", "data"],
+                                    "additionalProperties": False
+                                }, {
+                                    "type": "object",
+                                    "properties": {
+                                        "group": {
+                                            "$ref": "#/definitions/group"
+                                        }
+                                    },
+                                    "additionalProperties": False
+                                }]
+                            }
+                        }
+                    },
+                    "required": ["operator", "rules"],
+                    "additionalProperties": False
+                }
+            },
+            "type": "object",
+            "properties": {
+                "group": {
+                    "$ref": "#/definitions/group"
+                }
+            },
+            "additionalProperties": False
+        }
+
+    def check_schema(self):
+        t = jsonschema.Draft4Validator.check_schema(self.json_schema)
+        print(t)
 
     def manage_group(self, group):
         idList = set()
@@ -59,7 +126,7 @@ class Search():
         return idList
 
     def fetch_list(self, condition):
-        if condition['field'] == 'assettype':
+        if condition['field'] == 0:
             query = app.data.driver.session.query(assets.Asset)
             prepQuery = query.with_entities(assets.Asset.id).filter(
                 getattr(
