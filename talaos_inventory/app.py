@@ -15,6 +15,7 @@ import talaos_inventory.models
 from talaos_inventory.models.common import Base
 from talaos_inventory.models import register_models
 from talaos_inventory.log import Log
+from talaos_inventory.search import Search
 
 _subcommands = OrderedDict()
 
@@ -56,6 +57,10 @@ class Application(Log):
         self.settings['ITEM_METHODS'] = ['GET', 'PATCH', 'PUT', 'DELETE']
         self.settings['XML'] = False
         self.settings['X_DOMAINS'] = '*'
+        self.settings['X_HEADERS'] = (
+            'Authorization, If-Match,'
+            ' X-HTTP-Method-Override, Content-Type'
+        )
         if debug:
             logging.getLogger('sqlalchemy.engine').setLevel(logging.DEBUG)
         self.app = Eve(
@@ -63,6 +68,8 @@ class Application(Log):
             data=SQL,
             settings=self.settings
         )
+        search = Search(self.log)
+        self.app.on_pre_GET_asset += search.pre_asset_get_callback
         self.log.debug(pformat(self.app.settings))
         self.app.debug = debug
         self.db = self.app.data.driver
