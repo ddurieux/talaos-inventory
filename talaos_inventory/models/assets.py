@@ -18,12 +18,13 @@ class Asset(common.CommonColumns):
 
 class AssetType(common.CommonColumns):
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(120))
+    name = Column(String(120), index=True)
 
 
 class AssetAsset(common.CommonColumns):
-    asset_left = Column(Integer, ForeignKey('asset.id'), primary_key=True)
-    asset_right = Column(Integer, ForeignKey('asset.id'), primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    asset_left = Column(Integer, ForeignKey('asset.id'))
+    asset_right = Column(Integer, ForeignKey('asset.id'))
 
 
 class AssetTypeProperty(common.CommonColumns):
@@ -32,6 +33,7 @@ class AssetTypeProperty(common.CommonColumns):
     name = Column(String(255))
 
     asset_type = relationship('AssetType', backref='asset_type_property')
+    # __table_args__ = (Index('name', "name", "asset_type_id"), )
 
 
 class PropertyName(common.CommonColumns):
@@ -42,6 +44,7 @@ class PropertyName(common.CommonColumns):
 
     asset_type_property = relationship('AssetTypeProperty',
                                        backref='property_name')
+    # __table_args__ = (Index('name', "name", "asset_type_property"), )
 
 
 class AssetProperty(common.CommonColumns):

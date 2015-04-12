@@ -6,6 +6,7 @@ import logging
 from pprint import pprint, pformat  # noqa
 from textwrap import dedent
 from configparser import ConfigParser
+import importlib
 
 from eve import Eve
 from eve_sqlalchemy import SQL
@@ -49,7 +50,7 @@ class Application(Log):
             subcommands=self.format_subcommands()
         )
 
-    def initialize(self, debug=False):
+    def initialize(self, debug=False, subcommand='run'):
         self.log.setLevel(debug)
         self.get_settings_from_ini()
         self.settings['DOMAIN'] = register_models()
@@ -61,6 +62,7 @@ class Application(Log):
             'Authorization, If-Match,'
             ' X-HTTP-Method-Override, Content-Type'
         )
+        self.settings['PAGINATION_LIMIT'] = 200
         if debug:
             logging.getLogger('sqlalchemy.engine').setLevel(logging.DEBUG)
         self.app = Eve(
@@ -75,6 +77,18 @@ class Application(Log):
         self.db = self.app.data.driver
         Base.metadata.bind = self.db.engine
         self.db.Model = Base
+        # Load drivers
+        if subcommand == 'run':
+            settings = talaos_inventory.app.Application.settings
+            if ('DRIVERS' in settings):
+                drivers = settings['DRIVERS'].split(',')
+                for driver in drivers:
+                    driver = "talaos_driver_" + driver
+                    if importlib.find_loader(driver):
+                        print("load", driver)
+                        new_driver = __import__(driver, globals(), locals(),
+                                                ['driver'], 0)
+                        new_driver.driver.load(self.app, self.db)
 
     def get_settings_from_ini(self):
         settings = {}
@@ -123,7 +137,7 @@ class Application(Log):
             rootlog.setLevel(logging.INFO)
             self.app.debug = False
         self.log.debug(args)
-        self.initialize(args['--debug'])
+        self.initialize(args['--debug'], args['<subcommand>'])
         self.log.debug("\n" + pformat(self.settings))
         try:
             _subcommands[args['<subcommand>']][1](self)
@@ -145,4 +159,4 @@ class Application(Log):
 
     @register_command("Start serving")
     def run(self):
-        self.app.run(use_reloader=False)
+        self.app.run(use_reloader=False, threaded=True)
