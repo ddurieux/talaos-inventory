@@ -24,7 +24,7 @@ class Search():
             return
         where = self.check_where(json.loads(jsondata['where']))
         self.log.debug(where)
-        
+
         if (len(where['group']['rules']) == 1) and \
                 (where['group']['rules'][0]['field'] == '0'):
             lookup["asset_type_id"] = where['group']['rules'][0]['data']
