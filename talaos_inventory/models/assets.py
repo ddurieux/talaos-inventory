@@ -5,6 +5,9 @@ from sqlalchemy import (  # noqa
     Integer,
     ForeignKey,
     DateTime,
+    Index,
+    UniqueConstraint,
+    text,
 )
 from sqlalchemy.orm import relationship, backref  # noqa
 
@@ -33,7 +36,7 @@ class AssetTypeProperty(common.CommonColumns):
     name = Column(String(255))
 
     asset_type = relationship('AssetType', backref='asset_type_property')
-    # __table_args__ = (Index('name', "name", "asset_type_id"), )
+    __table_args__ = (Index('idx1', text("name"), text("asset_type_id")), )
 
 
 class PropertyName(common.CommonColumns):
@@ -44,7 +47,7 @@ class PropertyName(common.CommonColumns):
 
     asset_type_property = relationship('AssetTypeProperty',
                                        backref='property_name')
-    # __table_args__ = (Index('name', "name", "asset_type_property"), )
+    __table_args__ = (Index('idx1', text("name"), text("asset_type_property_id")), )
 
 
 class AssetProperty(common.CommonColumns):
