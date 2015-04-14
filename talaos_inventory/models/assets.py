@@ -47,7 +47,10 @@ class PropertyName(common.CommonColumns):
 
     asset_type_property = relationship('AssetTypeProperty',
                                        backref='property_name')
-    __table_args__ = (Index('idx1', text("name"), text("asset_type_property_id")), )
+    __table_args__ = (Index(
+        'idx1',
+        text("name"),
+        text("asset_type_property_id")), )
 
 
 class AssetProperty(common.CommonColumns):
